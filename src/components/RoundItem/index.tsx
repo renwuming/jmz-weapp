@@ -17,7 +17,7 @@ interface IProps {
 export default class Index extends Component<IProps, any> {
 
   static defaultProps = {
-    text: '',
+    data: {},
     index: 0,
   }
 
