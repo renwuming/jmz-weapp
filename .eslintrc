@@ -1,0 +1,54 @@
+{
+  "extends": ["taro"],
+  "rules": {
+    "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    // 结尾分号
+    "semi": [
+      2,
+      "never"
+    ],
+    // 缩进
+    "indent": [
+      2,
+      2,
+      {
+        // 强制 switch 语句中的 case 子句的缩进级别
+        "SwitchCase": 1,
+        // 要求三元表达式内的三元表达式不能有缩进
+        "flatTernaryExpressions": true,
+        // 对于 JSX 属性对其不进行约束，在下面的 react/jsx-indent-props 进行约束
+        "ignoredNodes": [
+          "JSXAttribute",
+          "JSXSpreadAttribute"
+        ]
+      }
+    ],
+    // 一行长度不应该超过120个字符
+    "max-len": [
+      2,
+      {
+        "code": 120,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "array-bracket-spacing": [
+      2,
+      "never"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ]
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "useJSXTextNode": true,
+    "project": "./tsconfig.json"
+  }
+}
+
