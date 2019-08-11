@@ -1,21 +1,28 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtButton, AtCard } from 'taro-ui'
+import { View } from '@tarojs/components'
+import { AtCard } from 'taro-ui'
+import RoundItem from '../../components/RoundItem'
+import Word from '../../components/Word'
 import './index.scss'
 
-export default class Index extends Component {
+interface BattleRow {
+  question: string,
+  answer: number,
+  code: number,
+}
+
+interface IState {
+  history: Array<Array<BattleRow>>,
+  table: Array<Array<string>>,
+}
+
+export default class Index extends Component<any, IState> {
+
   state = {
     history: [],
     table: [],
   }
 
-  /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
   config: Config = {
     navigationBarTitleText: '首页'
   }
@@ -25,21 +32,57 @@ export default class Index extends Component {
   componentDidMount () {
     this.setState({
       history: [
-        {
-          questions: ['墨西哥', '昆虫', '儿童'],
-          answer: [4, 2, 1],
-          code: [4, 2, 1],
-        },
-        {
-          questions: ['墨西哥', '昆虫', '儿童'],
-          answer: [4, 2, 1],
-          code: [4, 2, 1],
-        },
-        {
-          questions: ['墨西哥', '昆虫', '儿童'],
-          answer: [4, 2, 1],
-          code: [4, 2, 1],
-        },
+        [
+          {
+            question: '墨西哥',
+            answer: 4,
+            code: 2,
+          },
+          {
+            question: '昆虫',
+            answer: 3,
+            code: 1,
+          },
+          {
+            question: '儿童',
+            answer: 1,
+            code: 4,
+          },
+        ],
+        [
+          {
+            question: '墨西哥',
+            answer: 4,
+            code: 2,
+          },
+          {
+            question: '昆虫',
+            answer: 3,
+            code: 1,
+          },
+          {
+            question: '儿童',
+            answer: 1,
+            code: 4,
+          },
+        ],
+        [
+          {
+            question: '墨西哥',
+            answer: 4,
+            code: 2,
+          },
+          {
+            question: '昆虫',
+            answer: 3,
+            code: 1,
+          },
+          {
+            question: '儿童',
+            answer: 1,
+            code: 4,
+          },
+        ],
       ],
       table: [
         ['恐怖'],
@@ -64,12 +107,16 @@ export default class Index extends Component {
           {
             history.map((item, index) => 
               <AtCard
-                className={['table-item', index % 2 === 1 ? 'table-item-grey' : '']}
-                title={`round ${index+1}`}
+                className='round-item'
+                title={`回合 ${index+1}`}
                 thumb=''
               >
-                {((item as Object).questions as Array<String>).map(text =>
-                  <Text className='word'>{text}</Text>
+                {(item as Array<BattleRow>).map((data, wordIndex) =>
+                  <RoundItem
+                    key={data.question}
+                    data={data}
+                    index={wordIndex}
+                  ></RoundItem>
                 )}
               </AtCard>
             )
@@ -79,12 +126,15 @@ export default class Index extends Component {
           {
             table.map((item, index) => 
               <AtCard
-                className={['table-item', index % 2 === 1 ? 'table-item-grey' : '']}
-                title={String(index+1)}
+                className={`table-item ${index % 2 === 1 ? 'grey' : ''}`}
+                title={`${index + 1}`}
                 thumb=''
               >
-                {(item as Array<String>).map(text =>
-                  <Text className='word'>{text}</Text>
+                {(item as Array<string>).map(text =>
+                  <Word
+                    key={text}
+                    text={text}
+                  ></Word>
                 )}
               </AtCard>
             )

@@ -1,0 +1,19 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  padding-right: 20px;
+}
+.grey {
+  background-color: #ddd;
+}
+.code {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 5px 5px 5px #aaa;
+}
