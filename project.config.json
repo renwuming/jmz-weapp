@@ -4,13 +4,59 @@
 	"description": "截码战小程序",
 	"appid": "wxfe74b714bde12b3f",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
-		"minified": false
+		"minified": false,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"condition": {}
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/room/index",
+					"pathName": "pages/room/index",
+					"query": "id=5d542a4cefa2718bf95f51fb",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/game/index",
+					"pathName": "pages/game/index",
+					"query": "id=5d543f6926ef83976520e7ba",
+					"scene": null
+				}
+			]
+		}
+	}
 }

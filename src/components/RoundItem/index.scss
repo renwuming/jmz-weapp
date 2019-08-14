@@ -10,10 +10,33 @@
   background-color: #ddd;
 }
 .code {
+  display: block;
   width: 40px;
   height: 40px;
   line-height: 40px;
   text-align: center;
-  background-color: #fff;
+  background-color: #000;
+  color: #fff;
   box-shadow: 5px 5px 5px #aaa;
+}
+.code.battle {
+  width: 80px;
+}
+.code.edit {
+  background-color: #fff;
+  color: #000;
+}
+.hidden {
+  visibility: hidden;
+}
+.word {
+  flex: 1;
+  color: #003366;
+  margin-left: 24px;
+  margin-right: 24px;
+  padding: 10px;
+  margin-bottom: 0;
+  line-height: 44px;
+  height: 44px;
+  background-color: #fff;
 }

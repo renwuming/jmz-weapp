@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import Index from './pages/index'
+import Index from './pages/game/index'
 import 'taro-ui/dist/style/index.scss'
 import './app.scss'
 
@@ -20,23 +20,21 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/home/index',
+      'pages/room/index',
+      'pages/game/index',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTitleText: '截码战',
+      navigationBarTextStyle: 'black',
     }
   }
 
-  componentDidMount () {}
 
-  componentDidShow () {}
+  componentDidShow () { }
 
-  componentDidHide () {}
-
-  componentDidCatchError () {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数

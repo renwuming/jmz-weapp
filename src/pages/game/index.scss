@@ -1,9 +1,21 @@
 .container {
   box-sizing: border-box;
-  padding: 0 15px;
-  padding-top: 20px;
+  padding: 20px 15px;
+  padding-bottom: 40px;
   background-color: #f2f2f2;
   min-height: 100%;
+}
+.rotate-container {
+  animation: rotate 1s linear 1;
+}
+// 旋转动画
+@keyframes rotate {
+  form {
+    transform: rotateY(0deg)
+  }
+  to {
+    transform: rotateY(180deg)
+  }
 }
 // 卡片
 .at-card {
@@ -35,11 +47,16 @@
   margin: 0;
   margin-bottom: 15px;
 }
+.battle-item {
+  width: 100%;
+  background-color: #FFCC99;
+}
 // 结果表格
 .result-talbe {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: 20px;
 }
 .table-item {
   width: 178px;
@@ -47,4 +64,19 @@
   margin-right: 2px;
   height: 100%;
   border-radius: 10px;
+}
+// 提交按钮
+.submit-btn {
+  height: 70px;
+  line-height: 70px;
+  margin: 10px 40px;
+  margin-bottom: 0;
+  background-color: #CC9933;
+  border: 1px #CC9933 solid;
+}
+// 浮动按钮
+.at-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
 }

@@ -4,7 +4,13 @@
   color: #003366;
   margin-left: 24px;
   margin-right: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
 }
 .long {
   width: 180px;
+}
+.llong {
+  width: 580px;
 }
