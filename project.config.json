@@ -50,10 +50,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5d543f6926ef83976520e7ba",
+					"query": "id=5d54457026ef83976520e7bc",
 					"scene": null
 				}
 			]

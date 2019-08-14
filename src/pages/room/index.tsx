@@ -176,7 +176,7 @@ export default class Index extends Component<any, IState> {
               </AtButton>
           }
           {
-            inRoom && !inGame && 
+            inRoom && !(inGame && activeGame) &&
               <AtButton
                 className='menu-btn error-btn'
                 circle
