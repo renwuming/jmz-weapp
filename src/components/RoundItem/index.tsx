@@ -12,7 +12,7 @@ interface BattleRow {
 interface IProps {
   data: BattleRow,
   index: number,
-  battle: string,
+  type: string,
   onAnswerChange: Function,
   onQuestionChange: Function,
 }
@@ -22,7 +22,7 @@ export default class Index extends Component<IProps, any> {
   static defaultProps = {
     data: {},
     index: 0,
-    battle: '',
+    type: '',
     onAnswerChange: () => {},
     onQuestionChange: () => {},
   }
@@ -32,7 +32,7 @@ export default class Index extends Component<IProps, any> {
   }
 
   onAnswerChange(e) {
-    const answer = +e.detail.value + 1
+    const answer = +e.detail.value
     const { index, onAnswerChange } = this.props
     onAnswerChange(index, answer)
   }
@@ -44,31 +44,35 @@ export default class Index extends Component<IProps, any> {
   }
 
   render () {
-    const { data, index, battle } = this.props
+    const { data, index, type } = this.props
     const { question, answer, code } = data
+    const showQuestion = question || '?????????'
     let roundItem
-    if (!battle) {
+    if (!type) {
       roundItem = 
         <View className={index % 2 === 1 ? 'row grey' : 'row'}>
           <Word
             long={true}
             text={question}
           ></Word>
-          <Text className='code'>{answer}</Text>
-          <Text className='code'>{code}</Text>
+          <Text className='code'>{answer + 1}</Text>
+          <Text className='code'>{code + 1}</Text>
         </View>
-    } else if (battle === '解密' || '拦截') {
+    } else if (type === '解密' || type === '拦截') {
       roundItem = 
         <View className='row'>
           <Word
             llong={true}
             text={question}
           ></Word>
-          <Picker mode='selector' value={0} range={this.getCodeRange()} onChange={this.onAnswerChange}>
-            <Text className='code battle edit'>{answer > 0 ? answer : ''}</Text>
-          </Picker>
+          {
+            question && 
+              <Picker mode='selector' value={0} range={this.getCodeRange()} onChange={this.onAnswerChange}>
+                <Text className='code battle edit'>{answer >= 0 ? answer + 1 : ''}</Text>
+              </Picker>
+          }
         </View>
-    } else if (battle === '加密') {
+    } else if (type === '加密') {
       roundItem = 
         <View className='row'>
           <Input 
@@ -76,9 +80,19 @@ export default class Index extends Component<IProps, any> {
             type='text'
             onInput={this.onQuestionChange}
           />
-          <Text className='code battle'>{answer > 0 ? answer : ''}</Text>
+          <Text className='code battle'>{code + 1}</Text>
+        </View>
+    } else if (type === '等待') {
+      roundItem = 
+        <View className='row'>
+          <Word
+            long={true}
+            text={showQuestion}
+          ></Word>
+          <Text className='code battle'>{ code >= 0 ? code + 1 : '?'}</Text>
         </View>
     }
+
     return (
       roundItem
     )

@@ -1,0 +1,15 @@
+.row {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+.short-nick {
+  width: 160px;
+  margin-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+.current {
+  color: #e6504b;
+}

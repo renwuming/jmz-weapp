@@ -22,6 +22,13 @@ export default class Index extends Component<IProps, any> {
     navigationBarTitleText: '首页'
   }
 
+  onShareAppMessage() {
+    return {
+        title: '截码战，等你来',
+        path: `/pages/home/index`,
+    }
+  }
+
   createRoom() {
     request({
       method: 'POST',

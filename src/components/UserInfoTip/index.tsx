@@ -20,24 +20,28 @@ export default class Index extends Component {
         this.setState({
           isOpened: true,
         })
+      } else {
+        Taro.setStorageSync('userInfo', data.userInfo)
       }
     })
   }
 
   getUserInfo(data) {
     const { detail } = data
+    const { userInfo } = detail
     // 若授权成功
-    if(detail.userInfo) {
+    if(userInfo) {
       request({
         method: 'POST',
         url: '/wx/userInfo',
         data: {
-          userInfo: detail.userInfo,
+          userInfo,
         },
       }).then(() => {
         this.setState({
           isOpened: false,
         })
+        Taro.setStorageSync('userInfo', userInfo)
         Taro.showToast({
           title: '登录成功',
           icon: 'success',

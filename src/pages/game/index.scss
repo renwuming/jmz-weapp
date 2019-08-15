@@ -14,7 +14,7 @@
     transform: rotateY(0deg)
   }
   to {
-    transform: rotateY(180deg)
+    transform: rotateY(360deg)
   }
 }
 // 卡片
@@ -23,10 +23,16 @@
   border: 0;
   box-shadow: 2px 5px 5px #aaa;
 }
+.over-card .at-card__header {
+  font-weight: bold;
+}
 .at-card__header {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   border-bottom: 1px #aaa solid;
+  text-align: center;
+}
+.at-card__header-title {
+  white-space: pre-wrap;
 }
 .at-card__content {
   padding-left: 0;
@@ -56,10 +62,11 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
+  min-height: 280px;
 }
 .table-item {
-  width: 178px;
+  width: 180px;
   margin: 0;
   margin-right: 2px;
   height: 100%;
@@ -79,4 +86,61 @@
   position: fixed;
   right: 20px;
   bottom: 100px;
+}
+// 回合状态
+.round-status {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 30px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px #aaa solid;
+}
+.round-status .row {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+.card-tip {
+  display: block;
+  font-weight: bold;
+  padding: 10px 30px;
+}
+.over-tip {
+  display: block;
+  font-weight: bold;
+  padding: 10px 30px;
+  text-align: center;
+  font-size: 34px;
+}
+// 队伍状态
+.team-status {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 10px;
+  padding-bottom: 10px;
+}
+.team-title {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  font-size: 30px;
+}
+.team-title .score {
+  width: 70px;
+}
+// 顶部标题
+.title-box {
+  margin: 20px 0;
+  padding: 10px;
+  background-color: rgba(255,255,208,.5);
+  text-align: center;
+  border-radius: 10px;
+  color: #003366;
+  font-weight: bold;
+  box-shadow: 2px 5px 5px #aaa;
 }

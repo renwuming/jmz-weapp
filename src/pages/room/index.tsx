@@ -5,6 +5,8 @@ import UserInfoTip from '../../components/UserInfoTip'
 import './index.scss'
 import { request } from '../../api'
 
+let updateTimer
+
 
 interface IState {
   userList: Array<Object>,
@@ -24,9 +26,32 @@ export default class Index extends Component<any, IState> {
     activeGame: '',
   }
 
+  onShareAppMessage() {
+    const { id } = this.$router.params
+    return {
+        title: '开好房间，就等你了~',
+        path: `/pages/room/index?id=${id}`,
+    }
+  }
+
+  componentDidHide() {
+    clearInterval(updateTimer)
+  }
+
   componentWillMount () {
     this.updateRoomData()
+    const { activeGame, inGame } = this.state
+    // 若房间游戏已开始，则跳转
+    if(inGame && activeGame) {
+      this.gotoGame()
+    }
+
+    clearInterval(updateTimer)
+    updateTimer = setInterval(() => {
+      this.updateRoomData()
+    }, 3000)
   }
+
 
   updateRoomData() {
     const { id } = this.$router.params
@@ -40,9 +65,10 @@ export default class Index extends Component<any, IState> {
   }
 
   gotoGame() {
+    const { id } = this.$router.params
     const { activeGame } = this.state
     Taro.navigateTo({
-      url: `/pages/game/index?id=${activeGame}`
+      url: `/pages/game/index?id=${activeGame}&roomID=${id}`
     })
   }
 
