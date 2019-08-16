@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -54,6 +54,20 @@
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
 					"query": "id=5d54457026ef83976520e7bc",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "线上-游戏",
+					"pathName": "pages/game/index",
+					"query": "id=5d55794e91663326d0f9a03b",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的游戏",
+					"pathName": "pages/gamelist/index",
+					"query": "",
 					"scene": null
 				}
 			]

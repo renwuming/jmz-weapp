@@ -26,18 +26,22 @@ export default class Index extends Component {
     })
   }
 
-  getUserInfo(data) {
-    const { detail } = data
-    const { userInfo } = detail
-    // 若授权成功
-    if(userInfo) {
-      request({
+  updateUserInfo(userInfo) {
+    return request({
         method: 'POST',
         url: '/wx/userInfo',
         data: {
           userInfo,
         },
-      }).then(() => {
+      })
+  }
+
+  getUserInfo(data) {
+    const { detail } = data
+    const { userInfo } = detail
+    // 若授权成功
+    if(userInfo) {
+      this.updateUserInfo(userInfo).then(() => {
         this.setState({
           isOpened: false,
         })

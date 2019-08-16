@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtCard, AtButton, AtMessage, AtFab, AtAvatar } from 'taro-ui'
+import { AtCard, AtButton, AtMessage, AtFab, AtIcon } from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
 import UserInfoTip from '../../components/UserInfoTip'
@@ -16,6 +16,12 @@ interface BattleRow {
   code: number,
 }
 
+interface HistoryItem {
+  list: Array<Object>,
+  black: boolean,
+  red: boolean,
+}
+
 interface UserInfo {
   nickName: string,
   avatarUrl: string,
@@ -24,8 +30,8 @@ interface UserInfo {
 interface IState {
   roundNumber: number,
   battle: Array<BattleRow>,
-  history: Array<Array<BattleRow>>,
-  historyEnemy: Array<Array<BattleRow>>,
+  history: Array<HistoryItem>,
+  historyEnemy: Array<HistoryItem>,
   table: Array<Array<string>>,
   tableEnemy: Array<Array<string>>,
   changePaper: boolean,
@@ -42,6 +48,10 @@ interface IState {
   gameOver: boolean,
   sumList: Array<number>,
   winner: number,
+  jiamiStatus: boolean,
+  jiemiStatus: boolean,
+  lanjieStatus: boolean,
+  observeMode: boolean,
   paperIndex: number, // 答题纸的哪一面
   actionPaperIndex: number, // 动作应该在哪一面执行
 
@@ -82,6 +92,10 @@ export default class Index extends Component<any, IState> {
     sumList: [],
     gameOver: false,
     winner: 0,
+    jiamiStatus: false,
+    jiemiStatus: false,
+    lanjieStatus: false,
+    observeMode: false,
     paperIndex: 0,
     actionPaperIndex: 0,
 
@@ -89,10 +103,10 @@ export default class Index extends Component<any, IState> {
   }
   
   onShareAppMessage() {
-    const { roomID } = this.$router.params
+    const { id, roomID } = this.$router.params
     return {
-        title: '开好房间，就等你了~',
-        path: `/pages/room/index?id=${roomID}`,
+        title: '截码战，火热进行中',
+        path: `/pages/game/index?id=${id}&roomID=${roomID}`,
         imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg',
     }
   }
@@ -210,63 +224,65 @@ export default class Index extends Component<any, IState> {
   render () {
     const { history, historyEnemy, table, tableEnemy, roundNumber, battle, changePaper,
       desUser, jiemiUser, lanjieUser, actionPaperIndex, paperIndex,
+      jiamiStatus, jiemiStatus, lanjieStatus, observeMode,
       teamNames, userList, gameOver, winner, sumList,
       teamWords, enemyWords, type } = this.state
     const { submitLoading } = this.state
     const showTable = paperIndex === 0 ? table : tableEnemy
     const showHistory = paperIndex === 0 ? history : historyEnemy
     const roundName = actionPaperIndex === 0 ? '我方回合' : '敌方回合'
+    const pageTitleMap = observeMode ? ['马里奥队截码卡', '酷霸王队截码卡'] : ['我方截码卡', '敌方截码卡']
+    const resultString = winner >= 0 ? `获胜者是【${teamNames[winner]}队】！` : '双方战成平局！'
     return (
       <View
         className='container'
       >
         <UserInfoTip />
         <AtMessage />
+        <View className='team-status'>
+          {
+            teamNames.map((team, index) => {
+              const baseIndex = index * 2
+              return (
+                <View className='team-title'>
+                  <Text style={{ marginRight: '10px' }}>{team}队</Text>
+                  <UserItem data={userList[baseIndex]}></UserItem>
+                  <UserItem data={userList[baseIndex+1]}></UserItem>
+                  <Text className='score'>{sumList[index]}分</Text>
+                </View>
+              )
+            })
+          }
+        </View>
         <View
           className={changePaper ? 'rotate-container' : ''}
         >
-          <View className='team-status'>
-            {
-              teamNames.map((team, index) => {
-                const baseIndex = index * 2
-                return (
-                  <View className='team-title'>
-                    <Text>{team}队</Text>
-                    <UserItem data={userList[baseIndex]}></UserItem>
-                    <UserItem data={userList[baseIndex+1]}></UserItem>
-                    <Text className='score'>{sumList[index]}分</Text>
-                  </View>
-                )
-              })
-            }
-          </View>
           {
             gameOver && (
               <View>
                 <AtCard
                   className='round-item battle-item over-card'
                   title='游戏结束'
-                  thumb=''
                 >
                   <View>
-                    <Text className='over-tip'>获胜者是【{teamNames[winner]}队】！</Text>
+                    <Text className='over-tip'>{resultString}</Text>
                   </View>
                 </AtCard>
               </View>
             )
           }
           <View className='title-box'>
-            <Text>{ paperIndex === 0 ? '我方截码卡' : '敌方截码卡'}</Text>
+            <Text>{ pageTitleMap[paperIndex] }</Text>
           </View>
           <View className='round-list'>
             {
-              showHistory.map((item, index) => 
+              showHistory.map((item: HistoryItem, index) => 
                 <AtCard
                   className='round-item'
                   title={`回合 ${paperIndex === 0 ? index * 2 + 1 : (index + 1 )* 2}`}
-                  thumb=''
+                  note={`${item.black ? '·解密失败' : ''} ${item.red ? '·被拦截' : ''}`}
                 >
-                  {(item as Array<BattleRow>).map((data, wordIndex) =>
+                  {(item.list as Array<BattleRow>).map((data, wordIndex) =>
                     <RoundItem
                       key={data.question}
                       data={data}
@@ -283,59 +299,69 @@ export default class Index extends Component<any, IState> {
                 <AtCard
                   className='round-item battle-item'
                   title={`当前回合 ${roundNumber + 1}`}
-                  thumb=''
                 >
                   <View className='round-status'>
                     <View className='row'>
-                      <Text>加密者</Text>
+                      <Text className='left'>加密者</Text>
                       <UserItem data={desUser}></UserItem>
+                      {
+                        jiamiStatus && <AtIcon value='check' size='20' color='#009966'></AtIcon>
+                      }
                     </View>
                     <View className='row'>
-                      <Text>解密者</Text>
+                      <Text className='left'>解密者</Text>
                       <UserItem data={jiemiUser}></UserItem>
+                      {
+                        jiemiStatus && <AtIcon value='check' size='20' color='#009966'></AtIcon>
+                      }
                     </View>
                     {
                       lanjieUser.nickName && (
                         <View className='row'>
-                          <Text className='short-nick'>拦截者</Text>
+                          <Text className='left'>拦截者</Text>
                           <UserItem data={lanjieUser}></UserItem>
+                          {
+                            lanjieStatus && <AtIcon value='check' size='20' color='#009966'></AtIcon>
+                          }
                         </View>
                       )
                     }
                   </View>
                   {
-                    actionPaperIndex === paperIndex ? (
-                      <View>
-                        <Text className='card-tip'>您处于【{type}】阶段，现在是【{roundName}】，请【{type}】</Text>
-                        <View style={{ marginTop: '6px' }}>
-                          {(battle as Array<BattleRow>).map((data, wordIndex) =>
-                            <RoundItem
-                              key={data.question}
-                              data={data}
-                              index={wordIndex}
-                              onAnswerChange={(...args) => {this.updateAnswer.apply(this, args)}}
-                              onQuestionChange={(...args) => {this.updateQuestion.apply(this, args)}}
-                              type={type}
-                            ></RoundItem>
-                          )}
-                          {
-                            type !== '等待' && (
-                              <AtButton
-                                onClick={() => {this.submit()}}
-                                loading={submitLoading}
-                                className='submit-btn'
-                                type='primary'
-                                size='normal'>
-                                  提交
-                              </AtButton>
-                            )
-                          }
+                    !observeMode && (
+                      actionPaperIndex === paperIndex ? (
+                        <View>
+                          <Text className='card-tip'>您处于【{type}】阶段，现在是【{roundName}】，请【{type}】</Text>
+                          <View style={{ marginTop: '6px' }}>
+                            {(battle as Array<BattleRow>).map((data, wordIndex) =>
+                              <RoundItem
+                                key={data.question}
+                                data={data}
+                                index={wordIndex}
+                                onAnswerChange={(...args) => {this.updateAnswer.apply(this, args)}}
+                                onQuestionChange={(...args) => {this.updateQuestion.apply(this, args)}}
+                                type={type}
+                              ></RoundItem>
+                            )}
+                            {
+                              type !== '等待' && (
+                                <AtButton
+                                  onClick={() => {this.submit()}}
+                                  loading={submitLoading}
+                                  className='submit-btn'
+                                  type='primary'
+                                  size='normal'>
+                                    提交
+                                </AtButton>
+                              )
+                            }
+                          </View>
                         </View>
-                      </View>
-                    ) : (
-                      <View>
-                        <Text className='card-tip'>您处于【{type}】阶段，现在是【{roundName}】，请将截码卡翻到背面</Text>
-                      </View>
+                      ) : (
+                        <View>
+                          <Text className='card-tip'>您处于【{type}】阶段，现在是【{roundName}】，请将截码卡翻到背面</Text>
+                        </View>
+                      )
                     )
                   }
                 </AtCard>
@@ -349,7 +375,6 @@ export default class Index extends Component<any, IState> {
                 <AtCard
                   className={`table-item ${index % 2 === 1 ? 'grey' : ''}`}
                   title={`${index + 1}\n${paperIndex === 0 ? teamWords[index] : enemyWords[index]}`}
-                  thumb=''
                 >
                   {(item as Array<string>).map(text =>
                     <Word

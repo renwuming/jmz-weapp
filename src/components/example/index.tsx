@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import './index.scss'
 
 
@@ -25,14 +25,8 @@ export default class Index extends Component<IProps, any> {
 
 
   render () {
-    const { text, index } = this.props
     return (
-      <View className={index % 2 === 1 ? 'grey' : ''}>
-        <Text 
-          className='word'
-        >
-          {text}
-        </Text>
+      <View>
       </View>
     )
   }

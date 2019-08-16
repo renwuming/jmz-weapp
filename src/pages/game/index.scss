@@ -1,6 +1,6 @@
 .container {
   box-sizing: border-box;
-  padding: 20px 15px;
+  padding: 0 15px;
   padding-bottom: 40px;
   background-color: #f2f2f2;
   min-height: 100%;
@@ -22,6 +22,12 @@
   background-color: rgba(255,255,208,.5);
   border: 0;
   box-shadow: 2px 5px 5px #aaa;
+}
+.at-card__content-note {
+  margin-left: 20px;
+  font-weight: bold;
+  color: #CC3333;
+  height: 26px;
 }
 .over-card .at-card__header {
   font-weight: bold;
@@ -90,8 +96,7 @@
 // 回合状态
 .round-status {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
   padding: 0 30px;
   padding-bottom: 20px;
@@ -102,6 +107,9 @@
   display: flex;
   align-items: center;
   height: 70px;
+}
+.round-status .row .left {
+  margin-right: 20px;
 }
 .card-tip {
   display: block;
@@ -121,8 +129,10 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 0 -10px;
   padding: 0 10px;
   padding-bottom: 10px;
+  background-color: rgba(204,204,204,.4);
 }
 .team-title {
   display: flex;

@@ -19,7 +19,7 @@ export default class Index extends Component<IProps, any> {
   }
 
   config: Config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '首页',
   }
 
   onShareAppMessage() {
@@ -38,6 +38,12 @@ export default class Index extends Component<IProps, any> {
       Taro.navigateTo({
         url: `/pages/room/index?id=${data.id}`
       })
+    })
+  }
+
+  gotoGameList() {
+    Taro.navigateTo({
+      url: '/pages/gamelist/index'
     })
   }
 
@@ -72,17 +78,18 @@ export default class Index extends Component<IProps, any> {
             circle
             type='primary'
             size='normal'
+            onClick={() => {this.gotoGameList()}}
           >
             我的游戏
           </AtButton>
-          <AtButton
+          {/* <AtButton
             className='menu-btn secondary'
             circle
             type='primary'
             size='normal'
           >
             关于
-          </AtButton>
+          </AtButton> */}
         </View>
       </View>
     )

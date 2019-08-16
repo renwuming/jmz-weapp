@@ -56,7 +56,7 @@ export default class Index extends Component<IProps, any> {
             text={question}
           ></Word>
           <Text className='code'>{answer + 1}</Text>
-          <Text className='code'>{code + 1}</Text>
+          <Text className='code key'>{code + 1}</Text>
         </View>
     } else if (type === '解密' || type === '拦截') {
       roundItem = 

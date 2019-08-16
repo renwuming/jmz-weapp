@@ -1,0 +1,36 @@
+.container {
+  box-sizing: border-box;
+  padding: 10px 50px;
+  padding-bottom: 40px;
+  background-color: #eef5ff;
+  min-height: 100%;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 20px;
+  border-bottom: 1px #ccc solid;
+}
+.index {
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 5px 5px 5px #aaa;
+}
+.avatar-box {
+  display: flex;
+  flex-direction: row;
+  margin-left: 60px;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin-left: -20px;
+  border: 1px #fff solid;
+}
+

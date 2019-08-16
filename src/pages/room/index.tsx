@@ -14,6 +14,7 @@ interface IState {
   inRoom: boolean,
   inGame: boolean,
   activeGame: string,
+  waitingGame: boolean,
 }
 
 export default class Index extends Component<any, IState> {
@@ -23,13 +24,14 @@ export default class Index extends Component<any, IState> {
     ownRoom: false,
     inRoom: false,
     inGame: false,
+    waitingGame: false,
     activeGame: '',
   }
 
   onShareAppMessage() {
     const { id } = this.$router.params
     return {
-        title: '开好房间，就等你了~',
+        title: '房间已开好，就等你了',
         path: `/pages/room/index?id=${id}`,
     }
   }
@@ -42,17 +44,19 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidShow() {
+    this.init()
     this.updateRoomData()
-    const { activeGame, inGame } = this.state
-    // 若房间游戏已开始，则跳转
-    if(inGame && activeGame) {
-      this.gotoGame()
-    }
 
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateRoomData()
     }, 3000)
+  }
+
+  init() {
+    this.setState({
+      waitingGame: false,
+    })
   }
 
 
@@ -64,6 +68,18 @@ export default class Index extends Component<any, IState> {
     }).then(res => {
       const { data } = res
       this.setState(data)
+      const { activeGame, inGame } = data
+      const { waitingGame } = this.state
+      // 如果游戏还没开始，则说明玩家在等待游戏开始
+      if(!activeGame) {
+        this.setState({
+          waitingGame: true,
+        })
+      }
+      // 若房间游戏已开始，则跳转
+      if(inGame && activeGame && waitingGame) {
+        this.gotoGame()
+      }
     })
   }
 
