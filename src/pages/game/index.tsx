@@ -54,7 +54,7 @@ export default class Index extends Component<any, IState> {
 
   state = {
     roundNumber: 0,
-    battle: [] as Array<BattleRow>,
+    battle: ([] as Array<BattleRow>),
     history: [],
     historyEnemy: [],
     table: [],
@@ -111,7 +111,7 @@ export default class Index extends Component<any, IState> {
 
       this.setState(otherData)
       // 若type起变化，则表示已进入下一个阶段，则更新battle
-      if(!lastType || type !== lastType) {
+      if(!lastType || type === '等待' || type !== lastType) {
         this.setState({
           battle,
           lastType: type,
@@ -123,8 +123,11 @@ export default class Index extends Component<any, IState> {
   componentDidHide() {
     clearInterval(updateTimer)
   }
+  componentWillUnmount() {
+    clearInterval(updateTimer)
+  }
 
-  componentDidMount () {
+  componentDidShow() {
     this.updateGameData()
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {

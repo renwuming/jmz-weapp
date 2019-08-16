@@ -15,16 +15,14 @@ export default class Index extends Component<IProps, any> {
     index: 0,
   }
 
-  componentWillMount () { }
 
-  componentDidMount () {
+  componentDidHide() {
+  }
+  componentWillUnmount() {
+  }
+  componentDidShow() {
   }
 
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
 
   render () {
     const { text, index } = this.props

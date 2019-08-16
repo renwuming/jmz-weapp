@@ -21,6 +21,9 @@ function _request(params, type) {
           updateSessionID(params)
           return Taro.request(params)
         })
+      } else if(data.code === 500) {
+        serverError()
+        return res
       } else {
         return res
       }
@@ -75,6 +78,14 @@ const getSessionID = () => {
 function warning() {
   Taro.showToast({
     title: '登录失败',
+    icon: 'none',
+    duration: 2000,
+  })
+}
+
+function serverError() {
+  Taro.showToast({
+    title: '服务器错误',
     icon: 'none',
     duration: 2000,
   })

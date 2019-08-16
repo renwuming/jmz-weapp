@@ -10,7 +10,7 @@ export default class Index extends Component {
     isOpened: false,
   }
 
-  componentDidMount () {
+  componentDidShow() {
     request({
       method: 'GET',
       url: '/users',

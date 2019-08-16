@@ -37,8 +37,11 @@ export default class Index extends Component<any, IState> {
   componentDidHide() {
     clearInterval(updateTimer)
   }
+  componentWillUnmount() {
+    clearInterval(updateTimer)
+  }
 
-  componentWillMount () {
+  componentDidShow() {
     this.updateRoomData()
     const { activeGame, inGame } = this.state
     // 若房间游戏已开始，则跳转
@@ -57,7 +60,7 @@ export default class Index extends Component<any, IState> {
     const { id } = this.$router.params
     request({
       method: 'GET',
-      url: `/rooms/${id}`,
+      url: `/rooms/wx/${id}`,
     }).then(res => {
       const { data } = res
       this.setState(data)
@@ -76,7 +79,7 @@ export default class Index extends Component<any, IState> {
     const { id } = this.$router.params
     request({
       method: 'POST',
-      url: `/rooms/${id}/start`,
+      url: `/rooms/wx/${id}/start`,
     }).then(res => {
       const { data } = res
       if(data.code) {
@@ -139,6 +142,12 @@ export default class Index extends Component<any, IState> {
         })
         this.updateRoomData()
       }
+    })
+  }
+
+  gotoHome() {
+    Taro.redirectTo({
+      url: '/pages/home/index'
     })
   }
 
@@ -213,6 +222,15 @@ export default class Index extends Component<any, IState> {
                 退出房间
               </AtButton>
           }
+          <AtButton
+            className='menu-btn secondary'
+            circle
+            type='primary'
+            size='normal'
+            onClick={() => {this.gotoHome()}}
+          >
+            回首页
+          </AtButton>
         </View>
 
       </View>
