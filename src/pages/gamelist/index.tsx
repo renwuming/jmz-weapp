@@ -50,11 +50,13 @@ export default class Index extends Component<IState, any> {
                 <View className='avatar-box'>
                   {
                     userList.map(user => (
-                      <AtAvatar
-                        className='avatar'
-                        circle
-                        image={user.userInfo.avatarUrl}
-                      ></AtAvatar>    
+                      user.userInfo ? (
+                        <AtAvatar
+                          className='avatar'
+                          circle
+                          image={user.userInfo.avatarUrl}
+                        ></AtAvatar> 
+                      ) : ''
                     ))
                   }
                 </View>

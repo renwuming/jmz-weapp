@@ -40,13 +40,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/room/index",
 					"pathName": "pages/room/index",
-					"query": "id=5d5565b391663326d0f9a036",
+					"query": "id=5d5680bb4e3345244b02309b",
 					"scene": null
 				},
 				{
