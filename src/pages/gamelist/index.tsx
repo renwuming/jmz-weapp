@@ -4,6 +4,15 @@ import { AtAvatar, AtButton } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 
+interface UserInfo {
+  nickName: string,
+  avatarUrl: string,
+}
+
+interface User {
+  userInfo: UserInfo,
+}
+
 
 interface IState {
   roomList: Array<Object>,
@@ -44,12 +53,13 @@ export default class Index extends Component<IState, any> {
         {
           roomList.map((room, index) => {
             const { userList } = room
+            const list = (userList as Array<User>).slice(0, 4)
             return (
               <View className='row'>
                 <Text className='index'>{index + 1}</Text>
                 <View className='avatar-box'>
                   {
-                    userList.map(user => (
+                    list.map(user => (
                       user.userInfo ? (
                         <AtAvatar
                           className='avatar'

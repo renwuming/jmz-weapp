@@ -80,7 +80,7 @@ export default class Index extends Component<IProps, any> {
             size='normal'
             onClick={() => {this.gotoGameList()}}
           >
-            我的游戏
+            我的房间
           </AtButton>
           {/* <AtButton
             className='menu-btn secondary'

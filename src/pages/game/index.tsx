@@ -254,23 +254,23 @@ export default class Index extends Component<any, IState> {
             })
           }
         </View>
+        {
+          gameOver && (
+            <View>
+              <AtCard
+                className='round-item battle-item over-card'
+                title='游戏结束'
+              >
+                <View>
+                  <Text className='over-tip'>{resultString}</Text>
+                </View>
+              </AtCard>
+            </View>
+          )
+        }
         <View
           className={changePaper ? 'rotate-container' : ''}
         >
-          {
-            gameOver && (
-              <View>
-                <AtCard
-                  className='round-item battle-item over-card'
-                  title='游戏结束'
-                >
-                  <View>
-                    <Text className='over-tip'>{resultString}</Text>
-                  </View>
-                </AtCard>
-              </View>
-            )
-          }
           <View className='title-box'>
             <Text>{ pageTitleMap[paperIndex] }</Text>
           </View>
