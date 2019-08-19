@@ -28,6 +28,7 @@ interface UserInfo {
 }
 
 interface IState {
+  mode: string,
   roundNumber: number,
   battle: Array<BattleRow>,
   history: Array<HistoryItem>,
@@ -63,6 +64,7 @@ let changePaperTimer
 export default class Index extends Component<any, IState> {
 
   state = {
+    mode: 'tool', // 模式
     roundNumber: 0,
     battle: ([] as Array<BattleRow>),
     history: [],
@@ -142,11 +144,19 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidShow() {
+    this.initMode()    
     this.updateGameData()
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateGameData()
     }, 3000)
+  }
+
+  initMode() {
+    const mode = Taro.getStorageSync('mode')
+    this.setState({
+      mode,
+    })
   }
 
   submit() {
@@ -226,13 +236,15 @@ export default class Index extends Component<any, IState> {
       desUser, jiemiUser, lanjieUser, actionPaperIndex, paperIndex,
       jiamiStatus, jiemiStatus, lanjieStatus, observeMode,
       teamNames, userList, gameOver, winner, sumList,
-      teamWords, enemyWords, type } = this.state
+      teamWords, enemyWords, type,
+      mode } = this.state
     const { submitLoading } = this.state
     const showTable = paperIndex === 0 ? table : tableEnemy
     const showHistory = paperIndex === 0 ? history : historyEnemy
     const roundName = actionPaperIndex === 0 ? '我方回合' : '敌方回合'
     const pageTitleMap = observeMode ? ['马里奥队截码卡', '酷霸王队截码卡'] : ['我方截码卡', '敌方截码卡']
     const resultString = winner >= 0 ? `获胜者是【${teamNames[winner]}队】！` : '双方战成平局！'
+    const gameMode = mode === 'game'
     return (
       <View
         className='container'
@@ -255,7 +267,7 @@ export default class Index extends Component<any, IState> {
           }
         </View>
         {
-          gameOver && (
+          gameMode && gameOver && (
             <View>
               <AtCard
                 className='round-item battle-item over-card'
@@ -274,27 +286,31 @@ export default class Index extends Component<any, IState> {
           <View className='title-box'>
             <Text>{ pageTitleMap[paperIndex] }</Text>
           </View>
-          <View className='round-list'>
-            {
-              showHistory.map((item: HistoryItem, index) => 
-                <AtCard
-                  className='round-item'
-                  title={`回合 ${paperIndex === 0 ? index * 2 + 1 : (index + 1 )* 2}`}
-                  note={`${item.black ? '·解密失败' : ''} ${item.red ? '·被拦截' : ''}`}
-                >
-                  {(item.list as Array<BattleRow>).map((data, wordIndex) =>
-                    <RoundItem
-                      key={data.question}
-                      data={data}
-                      index={wordIndex}
-                    ></RoundItem>
-                  )}
-                </AtCard>
-              )
-            }
-          </View>
           {
-            !gameOver && (
+            gameMode && (
+              <View className='round-list'>
+                {
+                  showHistory.map((item: HistoryItem, index) => 
+                    <AtCard
+                      className='round-item'
+                      title={`回合 ${paperIndex === 0 ? index * 2 + 1 : (index + 1 )* 2}`}
+                      note={`${item.black ? '·解密失败' : ''} ${item.red ? '·被拦截' : ''}`}
+                    >
+                      {(item.list as Array<BattleRow>).map((data, wordIndex) =>
+                        <RoundItem
+                          key={data.question}
+                          data={data}
+                          index={wordIndex}
+                        ></RoundItem>
+                      )}
+                    </AtCard>
+                  )
+                }
+              </View>
+            )
+          }
+          {
+            gameMode && !gameOver && (
               <View>
                 <AtCard
                   className='round-item battle-item'
@@ -376,12 +392,15 @@ export default class Index extends Component<any, IState> {
                   className={`table-item ${index % 2 === 1 ? 'grey' : ''}`}
                   title={`${index + 1}\n${paperIndex === 0 ? teamWords[index] : enemyWords[index]}`}
                 >
-                  {(item as Array<string>).map(text =>
-                    <Word
-                      key={text}
-                      text={text}
-                    ></Word>
-                  )}
+                  {
+                    gameMode &&
+                    (item as Array<string>).map(text =>
+                      <Word
+                        key={text}
+                        text={text}
+                      ></Word>
+                    )
+                  }
                 </AtCard>
               )
             }

@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import Index from './pages/game/index'
 import 'taro-ui/dist/style/index.scss'
 import './app.scss'
+import { request } from './api'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -34,7 +35,15 @@ class App extends Component {
   }
 
 
-  componentDidShow () { }
+  componentDidShow () {
+    request({
+      method: 'GET',
+      url: '/mode',
+    }).then(res => {
+      const { data } = res
+      Taro.setStorageSync('mode', data.mode)
+    })
+  }
 
 
   // 在 App 类中的 render() 函数没有实际作用
