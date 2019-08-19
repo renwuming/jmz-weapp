@@ -40,13 +40,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/room/index",
 					"pathName": "pages/room/index",
-					"query": "id=5d5680bb4e3345244b02309b",
+					"query": "id=5d542a4cefa2718bf95f51fb",
 					"scene": null
 				},
 				{
@@ -58,14 +58,14 @@
 				},
 				{
 					"id": 2,
-					"name": "线上-游戏",
+					"name": "线上",
 					"pathName": "pages/game/index",
 					"query": "id=5d578e103236d746bb5462e7",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "我的游戏",
+					"name": "我的房间",
 					"pathName": "pages/gamelist/index",
 					"query": "",
 					"scene": null

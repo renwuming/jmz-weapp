@@ -7,10 +7,10 @@ import { request } from '../../api'
 export default class Index extends Component {
 
   state = {
-    isOpened: false,
+    showLogin: false,
   }
 
-  componentDidShow() {
+  componentDidMount() {
     request({
       method: 'GET',
       url: '/users',
@@ -18,7 +18,7 @@ export default class Index extends Component {
       const { data } = res
       if(!data.userInfo) {
         this.setState({
-          isOpened: true,
+          showLogin: true,
         })
       } else {
         Taro.setStorageSync('userInfo', data.userInfo)
@@ -43,7 +43,7 @@ export default class Index extends Component {
     if(userInfo) {
       this.updateUserInfo(userInfo).then(() => {
         this.setState({
-          isOpened: false,
+          showLogin: false,
         })
         Taro.setStorageSync('userInfo', userInfo)
         Taro.showToast({
@@ -58,10 +58,10 @@ export default class Index extends Component {
   }
 
   render () {
-    const { isOpened } = this.state
+    const { showLogin } = this.state
     return (
       <AtModal
-        isOpened={isOpened}
+        isOpened={showLogin}
         closeOnClickOverlay={false}
       >
         <AtModalHeader>请您登录</AtModalHeader>

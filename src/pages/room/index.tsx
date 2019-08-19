@@ -70,13 +70,13 @@ export default class Index extends Component<any, IState> {
       this.setState(data)
       const { activeGame, inGame } = data
       const { waitingGame } = this.state
-      // 如果游戏还没开始，则说明玩家在等待游戏开始
+      // 如果还没开始，则说明玩家在等待开始
       if(!activeGame) {
         this.setState({
           waitingGame: true,
         })
       }
-      // 若房间游戏已开始，则跳转
+      // 若已开始，则跳转
       if(inGame && activeGame && waitingGame) {
         this.gotoGame()
       }
@@ -199,7 +199,7 @@ export default class Index extends Component<any, IState> {
                 size='normal'
                 onClick={() => {this.startGame()}}
               >
-                开始游戏
+                开始
               </AtButton>
           }
           {
@@ -211,7 +211,7 @@ export default class Index extends Component<any, IState> {
                 size='normal'
                 onClick={() => {this.gotoGame()}}
               >
-                { inGame ? '继续游戏' : '旁观游戏' }
+                { inGame ? '继续' : '旁观' }
               </AtButton>
           }
           {

@@ -259,7 +259,7 @@ export default class Index extends Component<any, IState> {
             <View>
               <AtCard
                 className='round-item battle-item over-card'
-                title='游戏结束'
+                title='结束'
               >
                 <View>
                   <Text className='over-tip'>{resultString}</Text>
