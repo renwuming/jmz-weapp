@@ -251,21 +251,25 @@ export default class Index extends Component<any, IState> {
       >
         <UserInfoTip />
         <AtMessage />
-        <View className='team-status'>
-          {
-            teamNames.map((team, index) => {
-              const baseIndex = index * 2
-              return (
-                <View className='team-title'>
-                  <Text style={{ marginRight: '10px' }}>{team}队</Text>
-                  <UserItem data={userList[baseIndex]}></UserItem>
-                  <UserItem data={userList[baseIndex+1]}></UserItem>
-                  <Text className='score'>{sumList[index]}分</Text>
-                </View>
-              )
-            })
-          }
-        </View>
+        {
+          gameMode && (
+            <View className='team-status'>
+              {
+                teamNames.map((team, index) => {
+                  const baseIndex = index * 2
+                  return (
+                    <View className='team-title'>
+                      <Text style={{ marginRight: '10px' }}>{team}队</Text>
+                      <UserItem data={userList[baseIndex]}></UserItem>
+                      <UserItem data={userList[baseIndex+1]}></UserItem>
+                      <Text className='score'>{sumList[index]}分</Text>
+                    </View>
+                  )
+                })
+              }
+            </View>
+          )
+        }
         {
           gameMode && gameOver && (
             <View>
