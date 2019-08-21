@@ -76,10 +76,10 @@ export default class Index extends Component<any, IState> {
           waitingGame: true,
         })
       }
-      // 若已开始，则跳转
-      if(inGame && activeGame && waitingGame) {
-        this.gotoGame()
-      }
+      // // 若已开始，则跳转
+      // if(inGame && activeGame && waitingGame) {
+      //   this.gotoGame()
+      // }
     })
   }
 
