@@ -230,6 +230,12 @@ export default class Index extends Component<any, IState> {
       })
     }, 1200)
   }
+  
+  gotoHome() {
+    Taro.reLaunch({
+      url: '/pages/home/index'
+    })
+  }
 
   render () {
     const { history, historyEnemy, table, tableEnemy, roundNumber, battle, changePaper,
@@ -410,13 +416,22 @@ export default class Index extends Component<any, IState> {
             }
           </View>
         </View>
-        <AtFab
-          onClick={() => {this.changePaper()}}
-          size='small'
-          className='fab-btn'
-        >
-          <Text className='at-fab__icon at-icon at-icon-repeat-play'></Text>
-        </AtFab>
+        <View className='rotate-btn'>
+          <AtFab
+            onClick={() => {this.changePaper()}}
+            size='small'
+          >
+            <Text className='at-fab__icon at-icon at-icon-repeat-play'></Text>
+          </AtFab>
+        </View>
+        <View className='home-btn'>
+          <AtFab
+            onClick={() => {this.gotoHome()}}
+            size='small'
+          >
+            <Text className='at-fab__icon at-icon at-icon-home'></Text>
+          </AtFab>
+        </View>
       </View>
     )
   }

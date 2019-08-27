@@ -86,7 +86,7 @@ export default class Index extends Component<any, IState> {
   gotoGame() {
     const { id } = this.$router.params
     const { activeGame } = this.state
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: `/pages/game/index?id=${activeGame}&roomID=${id}`
     })
   }
@@ -162,7 +162,7 @@ export default class Index extends Component<any, IState> {
   }
 
   gotoHome() {
-    Taro.redirectTo({
+    Taro.reLaunch({
       url: '/pages/home/index'
     })
   }
