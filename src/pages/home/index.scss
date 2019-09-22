@@ -4,6 +4,7 @@
   align-items: center;
   box-sizing: border-box;
   padding: 20px 0;
+  padding-bottom: 0;
   background-color: #eef5ff;
   min-height: 100%;
 }
@@ -13,6 +14,7 @@
 }
 .menu {
   margin-top: 50px;
+  min-height: 450px;
 }
 .user-info {
   display: flex;
@@ -44,7 +46,6 @@
 }
 // 广告
 .ad-box {
-  position: absolute;
-  bottom: 0;
+  margin-top: 100px;
   width: 100%;
 }

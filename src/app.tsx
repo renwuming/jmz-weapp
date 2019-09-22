@@ -25,6 +25,7 @@ class App extends Component {
       'pages/room/index',
       'pages/game/index',
       'pages/gamelist/index',
+      'pages/about/index',
     ],
     window: {
       backgroundTextStyle: 'light',

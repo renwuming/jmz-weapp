@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, OpenData } from '@tarojs/components'
 import LoginBtn from '../../components/loginBtn'
-import { AtAvatar } from 'taro-ui'
+import { AtAvatar, AtButton } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 
@@ -47,6 +47,12 @@ export default class Index extends Component<IProps, any> {
     })
   }
 
+  gotoAbout() {
+    Taro.navigateTo({
+      url: '/pages/about/index'
+    })
+  }
+
   render () {
     return (
       <View className='container'>
@@ -73,14 +79,15 @@ export default class Index extends Component<IProps, any> {
             className={'menu-btn'}
             callback={() => {this.gotoGameList()}}
           />
-          {/* <AtButton
+          <AtButton
             className='menu-btn secondary'
             circle
             type='primary'
             size='normal'
+            onClick={() => {this.gotoAbout()}}
           >
             关于
-          </AtButton> */}
+          </AtButton>
           
         </View>
         <View className='ad-box'>

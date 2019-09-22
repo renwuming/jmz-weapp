@@ -4,7 +4,7 @@
 	"description": "截码战小程序",
 	"appid": "wx78bc21b55d1cc0c5",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -67,6 +67,13 @@
 					"id": -1,
 					"name": "我的房间",
 					"pathName": "pages/gamelist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "关于",
+					"pathName": "pages/about/index",
 					"query": "",
 					"scene": null
 				}
