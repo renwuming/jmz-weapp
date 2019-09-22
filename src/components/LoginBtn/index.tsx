@@ -14,8 +14,13 @@ interface IProps {
 export default class Index extends Component<IProps, any> {
 
   static defaultProps = {
+    className: '',
+    text: '',
+    callback: () => {},
   }
 
+  state = {
+  }
 
   componentDidHide() {
   }
@@ -47,12 +52,17 @@ export default class Index extends Component<IProps, any> {
         this.props.callback()
       })
     } else {
+      const mode = Taro.getStorageSync('mode')
       // 若拒绝授权
-      Taro.showToast({
-        title: '授权登录后才能体验完整功能哦~',
-        icon: 'none',
-        duration: 2000,
-      })
+      if(mode === 'tool') {
+        this.props.callback()
+      } else {
+        Taro.showToast({
+          title: '授权登录后才能体验完整功能哦~',
+          icon: 'none',
+          duration: 2000,
+        })
+      }
     }
   }
 

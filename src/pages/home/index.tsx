@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, OpenData } from '@tarojs/components'
-import { AtAvatar, AtIcon } from 'taro-ui'
 import LoginBtn from '../../components/loginBtn'
+import { AtAvatar } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 
@@ -63,12 +63,12 @@ export default class Index extends Component<IProps, any> {
             ></AtAvatar>
             <OpenData className='nick' type='userNickName' lang='zh_CN'></OpenData> 
           </View>
-          <LoginBtn 
+          <LoginBtn
             text={'创建房间'}
             className={'menu-btn'}
             callback={() => {this.createRoom()}}
           />
-          <LoginBtn 
+          <LoginBtn
             text={'我的房间'}
             className={'menu-btn'}
             callback={() => {this.gotoGameList()}}
