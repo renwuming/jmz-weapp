@@ -1,9 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { AtAvatar, AtButton } from 'taro-ui'
-import UserInfoTip from '../../components/UserInfoTip'
 import './index.scss'
 import { request } from '../../api'
+import LoginBtn from '../../components/loginBtn'
 
 let updateTimer
 
@@ -171,7 +171,6 @@ export default class Index extends Component<any, IState> {
     const { userList, ownRoom, inRoom, inGame, activeGame } = this.state
     return (
       <View className='container'>
-        <UserInfoTip />
         {
           userList.map((user, index) => {
             const { userInfo } = user
@@ -216,15 +215,11 @@ export default class Index extends Component<any, IState> {
           }
           {
             !inRoom && 
-              <AtButton
-                className='menu-btn'
-                circle
-                type='primary'
-                size='normal'
-                onClick={() => {this.joinRoom()}}
-              >
-                加入房间
-              </AtButton>
+              <LoginBtn 
+                text={'加入房间'}
+                className={'menu-btn'}
+                callback={() => {this.joinRoom()}}
+              />
           }
           {
             inRoom && !(inGame && activeGame) &&

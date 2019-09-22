@@ -93,11 +93,13 @@
   position: fixed;
   right: 20px;
   bottom: 160px;
+  z-index: 1000;
 }
 .home-btn .at-fab {
   position: fixed;
   right: 20px;
   bottom: 60px;
+  z-index: 1000;
 }
 // 回合状态
 .round-status {
@@ -159,4 +161,10 @@
   color: #003366;
   font-weight: bold;
   box-shadow: 2px 5px 5px #aaa;
+}
+// 广告
+.ad-box {
+  margin-top: 20px;
+  width: 100%;
+  z-index: 100;
 }

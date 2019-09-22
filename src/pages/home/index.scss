@@ -21,6 +21,8 @@
   margin-bottom: 50px;
 }
 .nick {
+  width: 200px;
+  text-align: center;
   margin-left: 20px;
   color: #666;
 }
@@ -39,4 +41,10 @@
 .menu-btn.secondary {
   color: #e6504b;
   background-color: transparent;
+}
+// 广告
+.ad-box {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

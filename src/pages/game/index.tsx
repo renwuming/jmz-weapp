@@ -3,7 +3,6 @@ import { View, Text } from '@tarojs/components'
 import { AtCard, AtButton, AtMessage, AtFab, AtIcon } from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
-import UserInfoTip from '../../components/UserInfoTip'
 import UserItem from '../../components/UserItem'
 import './index.scss'
 import { request } from '../../api'
@@ -126,6 +125,8 @@ export default class Index extends Component<any, IState> {
       const { lastType } = this.state
 
       this.setState(otherData)
+      // 根据玩家人数，设置mode
+      this.initMode(data.userList.length)
       // 若type起变化，则表示已进入下一个阶段，则更新battle
       if(!lastType || type === '等待' || type !== lastType) {
         this.setState({
@@ -144,7 +145,6 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidShow() {
-    this.initMode()    
     this.updateGameData()
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
@@ -152,8 +152,8 @@ export default class Index extends Component<any, IState> {
     }, 3000)
   }
 
-  initMode() {
-    const mode = Taro.getStorageSync('mode')
+  initMode(length) {
+    const mode = length > 1 ? 'game' : 'tool';
     this.setState({
       mode,
     })
@@ -255,7 +255,6 @@ export default class Index extends Component<any, IState> {
       <View
         className='container'
       >
-        <UserInfoTip />
         <AtMessage />
         {
           gameMode && (
@@ -431,6 +430,10 @@ export default class Index extends Component<any, IState> {
           >
             <Text className='at-fab__icon at-icon at-icon-home'></Text>
           </AtFab>
+        </View>
+
+        <View className='ad-box'>
+          <ad unit-id='adunit-ba222e7895349b2d'></ad>
         </View>
       </View>
     )

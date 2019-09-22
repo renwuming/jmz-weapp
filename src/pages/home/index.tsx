@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, OpenData } from '@tarojs/components'
-import { AtAvatar, AtButton, AtIcon } from 'taro-ui'
-import UserInfoTip from '../../components/UserInfoTip'
+import { AtAvatar, AtIcon } from 'taro-ui'
+import LoginBtn from '../../components/loginBtn'
 import './index.scss'
 import { request } from '../../api'
 
@@ -50,7 +50,6 @@ export default class Index extends Component<IProps, any> {
   render () {
     return (
       <View className='container'>
-        <UserInfoTip />
         <Image
           className='logo'
           mode='scaleToFill'
@@ -64,24 +63,16 @@ export default class Index extends Component<IProps, any> {
             ></AtAvatar>
             <OpenData className='nick' type='userNickName' lang='zh_CN'></OpenData> 
           </View>
-          <AtButton
-            className='menu-btn'
-            circle
-            type='primary'
-            size='normal'
-            onClick={() => {this.createRoom()}}
-          >
-            <AtIcon className='icon' value='add' size='24' color='#fff'></AtIcon>创建房间
-          </AtButton>
-          <AtButton
-            className='menu-btn'
-            circle
-            type='primary'
-            size='normal'
-            onClick={() => {this.gotoGameList()}}
-          >
-            我的房间
-          </AtButton>
+          <LoginBtn 
+            text={'创建房间'}
+            className={'menu-btn'}
+            callback={() => {this.createRoom()}}
+          />
+          <LoginBtn 
+            text={'我的房间'}
+            className={'menu-btn'}
+            callback={() => {this.gotoGameList()}}
+          />
           {/* <AtButton
             className='menu-btn secondary'
             circle
@@ -90,6 +81,10 @@ export default class Index extends Component<IProps, any> {
           >
             关于
           </AtButton> */}
+          
+        </View>
+        <View className='ad-box'>
+          <ad unit-id='adunit-ba222e7895349b2d'></ad>
         </View>
       </View>
     )
