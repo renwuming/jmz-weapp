@@ -1,11 +1,25 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
   padding: 20px 0;
   min-height: 100%;
+  background-color: #eef5ff;
 }
 .group-img {
+  margin-top: 20px;
   height: 900px;
+}
+.menu-btn {
+  position: relative;
+  width: 450px;
+  margin-top: 30px;
+  background-color: #e6504b;
+  border: 2px #e6504b solid;
+}
+.menu-btn.secondary {
+  color: #e6504b;
+  background-color: transparent;
 }

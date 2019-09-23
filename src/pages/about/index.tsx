@@ -1,14 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import './index.scss'
+import { AtButton } from 'taro-ui'
 
 
 export default class Index extends Component {
-
-  state = {
-    groupUrl: 'http://cdn.renwuming.cn/static/jmz/group.jpg',
-  }
-
 
   componentDidHide() {
   }
@@ -17,17 +13,43 @@ export default class Index extends Component {
   componentDidShow() {
   }
 
+  gotoRule() {
+    Taro.navigateTo({
+      url: `/pages/imglist/index?type=rule`
+    })
+  }
+
+  gotoGroup() {
+    Taro.navigateTo({
+      url: `/pages/imglist/index?type=group`
+    })
+  }
 
   render () {
-    const { groupUrl } = this.state
+    const mode = Taro.getStorageSync('mode')
     return (
       <View className='container'>
-        <Image
-          className='group-img'
-          src={groupUrl}
-          mode='aspectFit'
-          show-menu-by-longpress={true}
-        />
+        <AtButton
+          className='menu-btn secondary'
+          circle
+          type='primary'
+          size='normal'
+          onClick={() => {this.gotoRule()}}
+        >
+          规则说明
+        </AtButton>
+        {
+          mode !== 'tool' && 
+            <AtButton
+              className='menu-btn secondary'
+              circle
+              type='primary'
+              size='normal'
+              onClick={() => {this.gotoGroup()}}
+            >
+              加群交流
+            </AtButton>
+        }
       </View>
     )
   }
