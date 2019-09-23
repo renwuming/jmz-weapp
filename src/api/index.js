@@ -28,6 +28,19 @@ function _request(params, type) {
         return res
       }
     })
+    // code非500的错误，toast提示
+    .then(res => {
+      const { data } = res
+      const { code, error } = data
+      if(code > 500) {
+        Taro.showToast({
+          title: error,
+          icon: 'none',
+          duration: 2000,
+        })
+      }
+      return res
+    })
   }
 }
 
