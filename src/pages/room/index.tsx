@@ -105,9 +105,9 @@ export default class Index extends Component<any, IState> {
           duration: 1000,
         })
       } else {
-        const { id } = data
-        Taro.navigateTo({
-          url: `/pages/game/index?id=${id}`
+        const gameID = data.id
+        Taro.reLaunch({
+          url: `/pages/game/index?id=${gameID}&roomID=${id}`
         })
       }
     })
