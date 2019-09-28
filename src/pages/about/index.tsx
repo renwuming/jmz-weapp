@@ -30,7 +30,7 @@ export default class Index extends Component {
     return (
       <View className='container'>
         <AtButton
-          className='menu-btn secondary'
+          className='menu-btn'
           circle
           type='primary'
           size='normal'

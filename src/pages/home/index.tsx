@@ -79,7 +79,7 @@ export default class Index extends Component<IProps, any> {
             className={'menu-btn'}
             callback={() => {this.gotoGameList()}}
           />
-          {/* <AtButton
+          <AtButton
             className='menu-btn secondary'
             circle
             type='primary'
@@ -87,7 +87,7 @@ export default class Index extends Component<IProps, any> {
             onClick={() => {this.gotoAbout()}}
           >
             关于
-          </AtButton> */}
+          </AtButton>
           
         </View>
         <View className='ad-box'>
