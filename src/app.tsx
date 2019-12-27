@@ -1,8 +1,9 @@
+import '@tarojs/async-await'
 import Taro, { Component, Config } from '@tarojs/taro'
 import Index from './pages/game/index'
 import 'taro-ui/dist/style/index.scss'
 import './app.scss'
-import { request } from './api'
+import { request, validate } from './api'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -11,7 +12,6 @@ import { request } from './api'
 // }
 
 class App extends Component {
-
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -26,34 +26,24 @@ class App extends Component {
       'pages/game/index',
       'pages/gamelist/index',
       'pages/about/index',
-      'pages/imglist/index',
+      'pages/imglist/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '截码战',
-      navigationBarTextStyle: 'black',
+      navigationBarTextStyle: 'black'
     }
   }
 
-
-  componentDidShow () {
-    request({
-      method: 'GET',
-      url: '/mode',
-    }).then(res => {
-      const { data } = res
-      Taro.setStorageSync('mode', data.mode)
-    })
+  componentDidShow() {
+    validate()
   }
-
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
-    return (
-      <Index />
-    )
+  render() {
+    return <Index />
   }
 }
 

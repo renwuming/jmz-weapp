@@ -2,87 +2,69 @@ import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import './index.scss'
-import { request } from '../../api'
-
+import { updateUserInfo } from '../../api'
 
 interface IProps {
-  className: string,
-  text: string,
-  callback: Function,
+  className: string
+  text: string
+  callback: Function
 }
 
 export default class Index extends Component<IProps, any> {
-
   static defaultProps = {
     className: '',
     text: '',
-    callback: () => {},
+    callback: () => {}
   }
 
-  state = {
-  }
+  state = {}
 
-  componentDidHide() {
-  }
-  componentWillUnmount() {
-  }
-  componentDidShow() {
-  }
-
-  updateUserInfo(userInfo) {
-    return request({
-        method: 'POST',
-        url: '/wx/userInfo',
-        data: {
-          userInfo,
-        },
-      })
-  }
+  componentDidHide() {}
+  componentWillUnmount() {}
+  componentDidShow() {}
 
   getUserInfo(data) {
     const { detail } = data
     const { userInfo } = detail
+
     // 若授权成功
-    if(userInfo) {
-      this.updateUserInfo(userInfo).then(() => {
-        this.setState({
-          showLogin: false,
-        })
+    if (userInfo) {
+      updateUserInfo(userInfo).then(() => {
         Taro.setStorageSync('userInfo', userInfo)
         this.props.callback()
       })
     } else {
       const mode = Taro.getStorageSync('mode')
       // 若拒绝授权
-      if(mode === 'tool') {
+      if (mode === 'tool') {
         this.props.callback()
       } else {
         Taro.showToast({
           title: '授权登录后才能体验完整功能哦~',
           icon: 'none',
-          duration: 2000,
+          duration: 2000
         })
       }
     }
   }
 
-
-  render () {
+  render() {
     const { text, className } = this.props
     return (
       <View>
-          <AtButton
-            className={className}
-            circle
-            type='primary'
-            size='normal'
-            openType='getUserInfo'
-            onGetUserInfo={(data) => {this.getUserInfo(data)}}
-          >
-            {text}
-          </AtButton>
+        <AtButton
+          className={className}
+          circle
+          type="primary"
+          size="normal"
+          openType="getUserInfo"
+          onGetUserInfo={data => {
+            this.getUserInfo(data)
+          }}
+        >
+          {text}
+        </AtButton>
       </View>
     )
   }
 }
-

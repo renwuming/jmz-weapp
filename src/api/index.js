@@ -1,106 +1,91 @@
 import Taro from '@tarojs/taro'
-import { baseUrl } from '../config'
+import { baseUrl, baseUrlAuth, weappName } from '../config'
+import _ from 'lodash'
 
-function _request(params, type) {
-  // 取出sessionID，并验证
-  const sessionID = Taro.getStorageSync('sessionID')
-  // 若不是登录请求，且无sessionID，则去请求sessionID
-  if (type !== 'login' && !sessionID) {
-    return login().then(() => {
-      return _request(params)
-    })
-  } else {
-    updateSessionID(params)
-    params.url = `${baseUrl}${params.url}`
-    return Taro.request(params).then(res => {
-      const { data } = res
-      // 若登录超时
-      if(data.code === 408 && type !== 'login') {
-        // 登录后，再次请求
-        return login().then(() => {
-          updateSessionID(params)
-          return Taro.request(params)
-        })
-      } else if(data.code === 500) {
-        serverError()
-        return res
+function _request(params) {
+  params = handleHeader(params)
+  // 若非http开头的url，则添加baseUrl
+  const { url } = params
+  if (!/^http/.test(url)) {
+    params.url = `${baseUrl}${url}`
+  }
+  return Taro.request(params)
+    .then(res => res.data)
+    .then(res => {
+      const { code, error } = res
+      if (code > 400) {
+        if (code > 500) {
+          warning(error)
+        }
+        return Promise.reject(message)
       } else {
         return res
       }
     })
-    // code非500的错误，toast提示
-    .then(res => {
-      const { data } = res
-      const { code, error } = data
-      if(code > 500) {
-        Taro.showToast({
-          title: error,
-          icon: 'none',
-          duration: 2000,
-        })
-      }
-      return res
-    })
-  }
 }
 
-function updateSessionID(params) {
-  const sessionID = Taro.getStorageSync('sessionID')
-  if (params.header) params.header['sessionid'] = sessionID
-  else params.header = { sessionid: sessionID }
+function handleHeader(params) {
+  const ticket = Taro.getStorageSync('ticket')
+  params = _.merge({}, params, {
+    header: {
+      'x-ticket': ticket,
+      'x-weappname': weappName
+    }
+  })
+  return params
 }
 
-export const login = () => {
+export const updateUserInfo = userInfo => {
   return _request({
     method: 'POST',
-    url: '/wx/session/validate',
-  }, 'login').then(res => {
-    const { data } = res
-    if (data.success) {
-      return true
-    } else {
-      return getSessionID()
+    url: `${baseUrlAuth}/weapp-user/update-userinfo`,
+    data: {
+      userInfo
     }
   })
 }
 
-const getSessionID = () => {
+export const validate = () => {
+  return _request({
+    method: 'POST',
+    url: `/users/validate`
+  })
+    .then(res => {
+      const { userInfo } = res
+      // 缓存userInfo
+      Taro.setStorageSync('userInfo', userInfo)
+    })
+    .catch(() => {
+      return login()
+    })
+}
+
+const login = () => {
   return Taro.login().then(res => {
-    if (res.code) {
-      return Taro.request({
-        method: 'POST',
-        url: `${baseUrl}/wx/login`,
-        data: {
-          code: res.code,
-        },
-      }).then(res => {
-        const { data } = res
-        if (data.sessionID) {
-          // 缓存sessionID
-          Taro.setStorageSync('sessionID', data.sessionID)
-        } else {
-          warning()
-        }
+    const { code } = res
+    return _request({
+      method: 'POST',
+      url: `${baseUrlAuth}/weapp-user/login`,
+      data: {
+        code
+      }
+    })
+      .then(res => {
+        const { ticket } = res
+        // 缓存ticket
+        Taro.setStorageSync('ticket', ticket)
       })
-    } else {
-      warning()
-    }
+      .then(() => {
+        return validate()
+      })
   })
 }
 
-function warning() {
+function warning(title) {
   Taro.showToast({
-    title: '登录失败',
+    title,
     icon: 'none',
-    duration: 2000,
-  })
-}
-
-function serverError() {
-  Taro.showToast({
-    title: '服务器错误',
-    icon: 'none',
-    duration: 2000,
+    duration: 2000
   })
 }
 

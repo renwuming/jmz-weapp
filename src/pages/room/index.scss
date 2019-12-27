@@ -26,7 +26,7 @@
   width: 300px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
 }
 .btn-list {
   margin-top: 100px;
@@ -42,4 +42,15 @@
   color: #e6504b;
   background-color: transparent;
   border: 1px #e6504b solid;
+}
+
+.at-switch__container,
+.at-switch {
+  background-color: transparent;
+}
+
+
+.at-switch__title {
+  color: #6190e8;
+  font-size: 32px;
 }
