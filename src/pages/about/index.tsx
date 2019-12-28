@@ -38,7 +38,7 @@ export default class Index extends Component {
         >
           规则说明
         </AtButton>
-        {
+        {/* {
           mode !== 'tool' && 
             <AtButton
               className='menu-btn secondary'
@@ -49,7 +49,7 @@ export default class Index extends Component {
             >
               加群交流
             </AtButton>
-        }
+        } */}
       </View>
     )
   }

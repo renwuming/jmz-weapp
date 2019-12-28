@@ -190,7 +190,7 @@ export default class Index extends Component<any, IState> {
       url: `/games/wx/${id}/submit`,
       data: {
         battle: currentBattle,
-        battleIndex: paperIndex,
+        battleIndex: paperIndex
       }
     })
       .then(() => {
@@ -315,27 +315,6 @@ export default class Index extends Component<any, IState> {
           <View className="title-box">
             <Text>{pageTitleMap[Math.abs(paperIndex - teamIndex)]}</Text>
           </View>
-          {gameMode && (
-            <View className="round-list">
-              {showHistory.map((item: HistoryItem, index) => (
-                <AtCard
-                  className="round-item"
-                  title={`回合 ${index + 1}`}
-                  note={`${item.black ? '·解密失败' : ''} ${
-                    item.red ? '·被拦截' : ''
-                  }`}
-                >
-                  {(item.list as Array<BattleRow>).map((data, wordIndex) => (
-                    <RoundItem
-                      key={data.question}
-                      data={data}
-                      index={wordIndex}
-                    ></RoundItem>
-                  ))}
-                </AtCard>
-              ))}
-            </View>
-          )}
           {gameMode && !gameOver && (
             <View>
               <AtCard
@@ -431,6 +410,28 @@ export default class Index extends Component<any, IState> {
               </AtCard>
             ))}
           </View>
+
+          {gameMode && (
+            <View className="round-list">
+              {showHistory.map((item: HistoryItem, index) => (
+                <AtCard
+                  className="round-item"
+                  title={`回合 ${index + 1}`}
+                  note={`${item.black ? '·解密失败' : ''} ${
+                    item.red ? '·被拦截' : ''
+                  }`}
+                >
+                  {(item.list as Array<BattleRow>).map((data, wordIndex) => (
+                    <RoundItem
+                      key={data.question}
+                      data={data}
+                      index={wordIndex}
+                    ></RoundItem>
+                  ))}
+                </AtCard>
+              ))}
+            </View>
+          )}
         </View>
         <View className="rotate-btn">
           <AtFab

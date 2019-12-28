@@ -56,9 +56,9 @@ export default class Index extends Component<IProps, any> {
           <Text className="code">{jiemiAnswer + 1}</Text>
           <Text className="code key">{code + 1}</Text>
           {lanjieAnswer >= 0 ? (
-            <Text className="code">{lanjieAnswer + 1}</Text>
+            <Text className="code lanjie">{lanjieAnswer + 1}</Text>
           ) : (
-            <Text className="code hidden"></Text>
+            <Text className="code lanjie hidden"></Text>
           )}
         </View>
       )
