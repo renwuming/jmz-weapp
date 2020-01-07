@@ -34,13 +34,16 @@ export default class Index extends Component<IProps, any> {
         this.props.callback()
       })
     } else {
+      const delay = 1000
       // 若拒绝授权
       Taro.showToast({
-        title: '不授权将使用默认昵称、头像，可以稍后重新授权~',
+        title: '不授权将使用默认昵称、头像，可以稍后重新授权',
         icon: 'none',
-        duration: 5000
+        duration: delay
       })
-      this.props.callback()
+      setTimeout(() => {
+        this.props.callback()
+      }, delay)
     }
   }
 

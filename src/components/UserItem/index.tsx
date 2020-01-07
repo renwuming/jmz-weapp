@@ -9,11 +9,13 @@ interface UserInfo {
 
 interface IProps {
   data: UserInfo
+  nonick: Boolean
 }
 
 export default class Index extends Component<IProps, any> {
   static defaultProps = {
-    data: {}
+    data: {},
+    nonick: false
   }
 
   ifCurrentUser() {
@@ -27,14 +29,16 @@ export default class Index extends Component<IProps, any> {
   }
 
   render() {
-    const { data } = this.props
+    const { data, nonick } = this.props
     const currentUser = this.ifCurrentUser()
     return (
       <View className="row">
         <Image className="useritem-avatar" src={data.avatarUrl} />
-        <Text className={`short-nick ${currentUser ? 'current' : ''}`}>
-          {data.nickName}
-        </Text>
+        {!nonick && (
+          <Text className={`short-nick ${currentUser ? 'current' : ''}`}>
+            {data.nickName}
+          </Text>
+        )}
       </View>
     )
   }

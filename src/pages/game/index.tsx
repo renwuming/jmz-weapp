@@ -50,7 +50,6 @@ interface IState {
   teamIndex: number
   resultMap: Array<any>
 
-
   paperIndex: number
   changePaper: boolean
   mode: string
@@ -305,10 +304,16 @@ export default class Index extends Component<any, IState> {
     const desUser = userList[desUsers[paperIndex]]
     const jiemiUser = userList[jiemiUsers[paperIndex]]
     const lanjieUser = userList[lanjieUsers[paperIndex]]
+    const desUser2 = userList[desUsers[1 - paperIndex]]
+    const jiemiUser2 = userList[jiemiUsers[1 - paperIndex]]
+    const lanjieUser2 = userList[lanjieUsers[1 - paperIndex]]
     const type = types[paperIndex]
     const jiemiStatus = battleData['jiemiStatus'][paperIndex]
     const lanjieStatus = battleData['lanjieStatus'][paperIndex]
     const jiamiStatus = battleData['jiamiStatus'][paperIndex]
+    const jiemiStatus2 = battleData['jiemiStatus'][1 - paperIndex]
+    const lanjieStatus2 = battleData['lanjieStatus'][1 - paperIndex]
+    const jiamiStatus2 = battleData['jiamiStatus'][1 - paperIndex]
     const currentBattle = battle[paperIndex] || []
 
     return (
@@ -355,26 +360,12 @@ export default class Index extends Component<any, IState> {
                 className="round-item battle-item"
                 title={`当前回合 ${roundNumber + 1}`}
               >
-                <View className="round-status">
-                  <View className="row">
-                    <Text className="left">加密者</Text>
-                    <UserItem data={desUser}></UserItem>
-                    {jiamiStatus && (
-                      <AtIcon value="check" size="20" color="#009966"></AtIcon>
-                    )}
-                  </View>
-                  <View className="row">
-                    <Text className="left">解密者</Text>
-                    <UserItem data={jiemiUser}></UserItem>
-                    {jiemiStatus && (
-                      <AtIcon value="check" size="20" color="#009966"></AtIcon>
-                    )}
-                  </View>
-                  {lanjieUser && (
+                <View className="round-container">
+                  <View className="round-status">
                     <View className="row">
-                      <Text className="left">拦截者</Text>
-                      <UserItem data={lanjieUser}></UserItem>
-                      {lanjieStatus && (
+                      <Text className="left">加密者</Text>
+                      <UserItem data={desUser}></UserItem>
+                      {jiamiStatus && (
                         <AtIcon
                           value="check"
                           size="20"
@@ -382,8 +373,67 @@ export default class Index extends Component<any, IState> {
                         ></AtIcon>
                       )}
                     </View>
-                  )}
+                    <View className="row">
+                      <Text className="left">解密者</Text>
+                      <UserItem data={jiemiUser}></UserItem>
+                      {jiemiStatus && (
+                        <AtIcon
+                          value="check"
+                          size="20"
+                          color="#009966"
+                        ></AtIcon>
+                      )}
+                    </View>
+                    {lanjieUser && (
+                      <View className="row">
+                        <Text className="left">拦截者</Text>
+                        <UserItem data={lanjieUser}></UserItem>
+                        {lanjieStatus && (
+                          <AtIcon
+                            value="check"
+                            size="20"
+                            color="#009966"
+                          ></AtIcon>
+                        )}
+                      </View>
+                    )}
+                  </View>
+                  <View className="round-status right">
+                    <View className="row">
+                      <UserItem nonick={true} data={desUser2}></UserItem>
+                      {jiamiStatus2 && (
+                        <AtIcon
+                          value="check"
+                          size="20"
+                          color="#009966"
+                        ></AtIcon>
+                      )}
+                    </View>
+                    <View className="row">
+                      <UserItem nonick={true} data={jiemiUser2}></UserItem>
+                      {jiemiStatus2 && (
+                        <AtIcon
+                          value="check"
+                          size="20"
+                          color="#009966"
+                        ></AtIcon>
+                      )}
+                    </View>
+                    {lanjieUser2 && (
+                      <View className="row">
+                        <UserItem nonick={true} data={lanjieUser2}></UserItem>
+                        {lanjieStatus2 && (
+                          <AtIcon
+                            value="check"
+                            size="20"
+                            color="#009966"
+                          ></AtIcon>
+                        )}
+                      </View>
+                    )}
+                  </View>
                 </View>
+
                 {!observeMode && (
                   <View>
                     <Text className="card-tip">

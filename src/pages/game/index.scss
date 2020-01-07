@@ -128,14 +128,25 @@
 }
 
 // 回合状态
+.round-container {
+  display: flex;
+  border-bottom: 1px #aaa solid;
+}
 .round-status {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 30px;
+  margin-top: -24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 24px;
   padding-bottom: 20px;
-  margin-bottom: 20px;
-  border-bottom: 1px #aaa solid;
+}
+.round-status.right {
+  border-left: 1px #aaa solid;
+}
+.round-status.right at-icon {
+  margin-left: 30px;
 }
 .round-status .row {
   display: flex;
@@ -162,10 +173,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding-bottom: 10px;
 }
 .team-title {
   display: flex;
+  flex-grow: 1;
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
