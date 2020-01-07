@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtCard, AtButton, AtMessage, AtFab, AtIcon } from 'taro-ui'
+import { AtCard, AtButton, AtMessage, AtFab, AtIcon, AtBadge } from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
 import UserItem from '../../components/UserItem'
@@ -48,6 +48,8 @@ interface IState {
   winner: number
   observeMode: boolean
   teamIndex: number
+  resultMap: Array<any>
+
 
   paperIndex: number
   changePaper: boolean
@@ -85,6 +87,7 @@ export default class Index extends Component<any, IState> {
     winner: 0,
     observeMode: false,
     teamIndex: 0,
+    resultMap: [{}, {}],
 
     paperIndex: 0,
     changePaper: false,
@@ -114,18 +117,34 @@ export default class Index extends Component<any, IState> {
 
       data.types.forEach((type, teamIndex) => {
         if (type === '解密' || type === '拦截') {
+          if (this.waiting[teamIndex]) {
+            this.waiting[teamIndex] = false
+            this.news[teamIndex] = true
+          }
           battle[teamIndex].forEach((item, index) => {
             item.answer = this.state.battle[teamIndex]
               ? this.state.battle[teamIndex][index].answer
               : -1
           })
-        }
-        if (type === '加密') {
-          battle[teamIndex].forEach((item, index) => {
-            item.question = this.state.battle[teamIndex]
-              ? this.state.battle[teamIndex][index].question
-              : ''
-          })
+          this.jiami[teamIndex] = false
+        } else if (type === '加密') {
+          if (this.waiting[teamIndex]) {
+            this.waiting[teamIndex] = false
+            this.news[teamIndex] = true
+          }
+          if (!this.jiami[teamIndex]) {
+            this.jiami[teamIndex] = true
+          } else {
+            battle[teamIndex].forEach((item, index) => {
+              item.question = this.state.battle[teamIndex]
+                ? this.state.battle[teamIndex][index].question
+                : ''
+            })
+          }
+        } else {
+          this.waiting[teamIndex] = true
+          this.news[teamIndex] = false
+          this.jiami[teamIndex] = false
         }
       })
       this.setState({
@@ -142,6 +161,13 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidShow() {
+    // 是否处于加密状态
+    this.jiami = [false, false]
+    // 是否处于等待状态
+    this.waiting = [true, true]
+    // 是否有新操作
+    this.news = [false, false]
+
     this.updateGameData()
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
@@ -172,7 +198,9 @@ export default class Index extends Component<any, IState> {
         return
       }
     } else {
-      const questionList = currentBattle.map(item => item.question)
+      const questionList = currentBattle.map(item => {
+        return item.question
+      })
       // 若有未填写的加密
       if (questionList.filter(n => !!n).length < 3) {
         Taro.atMessage({
@@ -241,7 +269,6 @@ export default class Index extends Component<any, IState> {
 
   render() {
     const {
-      userIndex,
       battleData,
       battle,
       history,
@@ -257,13 +284,13 @@ export default class Index extends Component<any, IState> {
       types,
       gameOver,
       winner,
-      sumList,
       teamWords,
       enemyWords,
       paperIndex,
       observeMode,
       teamIndex,
       changePaper,
+      resultMap,
       mode
     } = this.state
     const { submitLoading } = this.state
@@ -291,12 +318,19 @@ export default class Index extends Component<any, IState> {
           <View className="team-status">
             {teamNames.map((team, index) => {
               const baseIndex = index * 2
+              const result = resultMap[index]
               return (
                 <View className="team-title">
-                  <Text style={{ marginRight: '10px' }}>{team}队</Text>
-                  <UserItem data={userList[baseIndex]}></UserItem>
-                  <UserItem data={userList[baseIndex + 1]}></UserItem>
-                  <Text className="score">{sumList[index]}分</Text>
+                  <View className="row">
+                    <Text className="title">{team}队</Text>
+                    <Text className="score">解密失败 {result.black}次</Text>
+                    <Text className="score">被拦截 {result.red}次</Text>
+                    <Text className="score short">{result.sum} 分</Text>
+                  </View>
+                  <View className="row">
+                    <UserItem data={userList[baseIndex]}></UserItem>
+                    <UserItem data={userList[baseIndex + 1]}></UserItem>
+                  </View>
                 </View>
               )
             })}
@@ -412,24 +446,43 @@ export default class Index extends Component<any, IState> {
           </View>
 
           {gameMode && (
-            <View className="round-list">
-              {showHistory.map((item: HistoryItem, index) => (
-                <AtCard
-                  className="round-item"
-                  title={`回合 ${index + 1}`}
-                  note={`${item.black ? '·解密失败' : ''} ${
-                    item.red ? '·被拦截' : ''
-                  }`}
-                >
-                  {(item.list as Array<BattleRow>).map((data, wordIndex) => (
-                    <RoundItem
-                      key={data.question}
-                      data={data}
-                      index={wordIndex}
-                    ></RoundItem>
-                  ))}
-                </AtCard>
-              ))}
+            <View>
+              <View className="round-list">
+                {showHistory.map((item: HistoryItem, index) => (
+                  <AtCard
+                    className="round-item"
+                    title={`回合 ${index + 1}`}
+                    note={`${item.black ? '·解密失败' : ''} ${
+                      item.red ? '·被拦截' : ''
+                    }`}
+                  >
+                    {(item.list as Array<BattleRow>).map((data, wordIndex) => (
+                      <RoundItem
+                        key={data.question}
+                        data={data}
+                        index={wordIndex}
+                      ></RoundItem>
+                    ))}
+                  </AtCard>
+                ))}
+              </View>
+
+              {showHistory.length > 0 && (
+                <View className="tuli-container">
+                  <View className="tuli">
+                    <View className="block jiemi"></View>
+                    <Text>解密代码</Text>
+                  </View>
+                  <View className="tuli">
+                    <View className="block key"></View>
+                    <Text>正确代码</Text>
+                  </View>
+                  <View className="tuli">
+                    <View className="block lanjie"></View>
+                    <Text>拦截代码</Text>
+                  </View>
+                </View>
+              )}
             </View>
           )}
         </View>
@@ -440,7 +493,13 @@ export default class Index extends Component<any, IState> {
             }}
             size="small"
           >
-            <Text className="at-fab__icon at-icon at-icon-repeat-play"></Text>
+            {this.news && this.news[1 - paperIndex] && !gameOver ? (
+              <AtBadge className="shake" value={'new'}>
+                <Text className="at-fab__icon at-icon at-icon-repeat-play"></Text>
+              </AtBadge>
+            ) : (
+              <Text className="at-fab__icon at-icon at-icon-repeat-play"></Text>
+            )}
           </AtFab>
         </View>
         <View className="home-btn">
@@ -454,9 +513,9 @@ export default class Index extends Component<any, IState> {
           </AtFab>
         </View>
 
-        <View className="ad-box">
+        {/* <View className="ad-box">
           <ad unit-id="adunit-ba222e7895349b2d"></ad>
-        </View>
+        </View> */}
       </View>
     )
   }

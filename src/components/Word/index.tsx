@@ -49,6 +49,7 @@ export default class Index extends Component<IProps, any> {
         </Text>
         <AtModal
           isOpened={isOpened}
+          closeOnClickOverlay={false}
           confirmText='确认'
           onConfirm={ this.handleConfirm.bind(this) }
           content={text}

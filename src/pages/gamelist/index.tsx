@@ -30,6 +30,10 @@ export default class Index extends Component<IState, any> {
   }
 
   componentDidShow() {
+    this.updateData()
+  }
+
+  updateData() {
     request({
       method: 'GET',
       url: `/users/history/games`
@@ -64,6 +68,7 @@ export default class Index extends Component<IState, any> {
     this.setState({
       tabIndex: index
     })
+    this.updateData()
   }
 
   render() {

@@ -42,6 +42,7 @@ export default class Index extends Component<IProps, any> {
     const question = e.detail.value
     const { index, onQuestionChange } = this.props
     onQuestionChange(index, question)
+    return question
   }
 
   render() {
@@ -72,6 +73,7 @@ export default class Index extends Component<IProps, any> {
               value={0}
               range={this.getCodeRange()}
               onChange={this.onAnswerChange}
+              // onCancel={this.onAnswerChange}
             >
               <Text className="code battle edit">
                 {answer >= 0 ? answer + 1 : ''}
@@ -83,14 +85,19 @@ export default class Index extends Component<IProps, any> {
     } else if (type === '加密') {
       roundItem = (
         <View className="row">
-          <Input className="word" type="text" onInput={this.onQuestionChange} />
+          <Input
+            className="word"
+            type="text"
+            onInput={this.onQuestionChange}
+            value={question}
+          />
           <Text className="code battle">{code + 1}</Text>
         </View>
       )
     } else if (type === '等待') {
       roundItem = (
         <View className="row">
-          <Word long={true} text={showQuestion}></Word>
+          <Word llong={true} text={showQuestion}></Word>
           <Text className="code battle">{code >= 0 ? code + 1 : '?'}</Text>
         </View>
       )

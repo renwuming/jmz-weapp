@@ -11,22 +11,22 @@
 // 旋转动画
 @keyframes rotate {
   from {
-    transform: rotateY(0deg)
+    transform: rotateY(0deg);
   }
   to {
-    transform: rotateY(360deg)
+    transform: rotateY(360deg);
   }
 }
 // 卡片
 .at-card {
-  background-color: rgba(255,255,208,.5);
+  background-color: rgba(255, 255, 208, 0.5);
   border: 0;
   box-shadow: 2px 5px 5px #aaa;
 }
 .at-card__content-note {
   margin-left: 20px;
   font-weight: bold;
-  color: #CC3333;
+  color: #cc3333;
   height: 26px;
 }
 .over-card .at-card__header {
@@ -63,7 +63,7 @@
 }
 .battle-item {
   width: 100%;
-  background-color: #FFCC99;
+  background-color: #ffcc99;
 }
 // 结果表格
 .result-talbe {
@@ -86,22 +86,47 @@
   line-height: 70px;
   margin: 10px 40px;
   margin-bottom: 0;
-  background-color: #CC9933;
-  border: 1px #CC9933 solid;
+  background-color: #cc9933;
+  border: 1px #cc9933 solid;
 }
 // 浮动按钮
 .rotate-btn .at-fab {
   position: fixed;
-  right: 20px;
+  right: 30px;
   bottom: 160px;
   z-index: 1000;
 }
 .home-btn .at-fab {
   position: fixed;
-  right: 20px;
+  right: 30px;
   bottom: 60px;
   z-index: 1000;
 }
+.shake.at-badge {
+  animation: shake 1.5s linear infinite;
+}
+// 抖动动画
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  8% {
+    transform: rotate(-20deg);
+  }
+  16% {
+    transform: rotate(0deg);
+  }
+  24% {
+    transform: rotate(20deg);
+  }
+  32% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 // 回合状态
 .round-status {
   display: flex;
@@ -135,28 +160,40 @@
 // 队伍状态
 .team-status {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 -10px;
-  padding: 0 10px;
   padding-bottom: 10px;
-  background-color: rgba(204,204,204,.4);
 }
 .team-title {
   display: flex;
-  align-items: center;
-  height: 70px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 -15px;
+  padding: 8px 15px;
+  margin-bottom: 5px;
   font-size: 30px;
+  background-color: rgba(204, 204, 204, 0.4);
+}
+.team-title .title {
+  margin-right: 40px;
 }
 .team-title .score {
-  width: 70px;
+  color: #6190e8;
+  width: 180px;
+  text-align: right;
+}
+.team-title .score.short {
+  width: 100px;
+}
+.team-title .row {
+  display: flex;
 }
 // 顶部标题
 .title-box {
   margin: 20px 0;
   padding: 10px;
-  background-color: rgba(255,255,208,.5);
+  background-color: rgba(255, 255, 208, 0.5);
   text-align: center;
   border-radius: 10px;
   color: #003366;
@@ -168,4 +205,34 @@
   margin-top: 20px;
   width: 100%;
   z-index: 100;
+}
+
+// 图例
+.tuli-container {
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+  margin-left: 0;
+}
+.tuli {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 24px;
+  margin-right: 15px;
+}
+.tuli .block {
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+}
+.tuli .jiemi {
+  background-color: #000;
+}
+.tuli .lanjie {
+  background-color: #cc3333;
+}
+.tuli .key {
+  background-color: #ffcc00;
 }

@@ -34,17 +34,13 @@ export default class Index extends Component<IProps, any> {
         this.props.callback()
       })
     } else {
-      const mode = Taro.getStorageSync('mode')
       // 若拒绝授权
-      if (mode === 'tool') {
-        this.props.callback()
-      } else {
-        Taro.showToast({
-          title: '授权登录后才能体验完整功能哦~',
-          icon: 'none',
-          duration: 2000
-        })
-      }
+      Taro.showToast({
+        title: '不授权将使用默认昵称、头像，可以稍后重新授权~',
+        icon: 'none',
+        duration: 5000
+      })
+      this.props.callback()
     }
   }
 

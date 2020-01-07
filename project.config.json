@@ -45,20 +45,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/room/index",
 					"pathName": "pages/room/index",
-					"query": "id=5e056ce15b9eb623672a71d5",
+					"query": "id=5e116f8eefcca04120ab3d15",
 					"scene": null
 				},
 				{
 					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5e061dce921ac73df4f7071f",
+					"query": "id=5e072277b6da3b5cb0dad748",
 					"scene": null
 				},
 				{
@@ -66,13 +66,6 @@
 					"name": "线上game",
 					"pathName": "pages/game/index",
 					"query": "id=5d5d0b5ad9b4a1082165daf5",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "我的房间",
-					"pathName": "pages/gamelist/index",
-					"query": "",
 					"scene": null
 				},
 				{
@@ -87,6 +80,20 @@
 					"name": "room列表",
 					"pathName": "pages/gamelist/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "local 测试 game",
+					"pathName": "pages/game/index",
+					"query": "id=5e1300847123a33576f9bc1e",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "local 测试 room",
+					"pathName": "pages/room/index",
+					"query": "id=5e056ce15b9eb623672a71d5",
 					"scene": null
 				}
 			]

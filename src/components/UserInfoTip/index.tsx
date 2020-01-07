@@ -14,8 +14,7 @@ export default class Index extends Component {
     request({
       method: 'GET',
       url: '/users',
-    }).then(res => {
-      const { data } = res
+    }).then(data => {
       if(!data.userInfo) {
         this.setState({
           showLogin: true,

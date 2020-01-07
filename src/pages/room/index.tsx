@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtAvatar, AtButton, AtSwitch, AtForm } from 'taro-ui'
+import { AtAvatar, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 import LoginBtn from '../../components/loginBtn'
@@ -15,6 +15,7 @@ interface IState {
   activeGame: string
   waitingGame: boolean
   randomMode: boolean
+  over: boolean
 }
 
 export default class Index extends Component<any, IState> {
@@ -25,7 +26,8 @@ export default class Index extends Component<any, IState> {
     inGame: false,
     waitingGame: false,
     activeGame: '',
-    randomMode: true
+    randomMode: true,
+    over: false
   }
 
   onShareAppMessage() {
@@ -97,15 +99,8 @@ export default class Index extends Component<any, IState> {
       data: {
         randomMode
       }
-    }).then(res => {
-      const { data } = res
-      if (data.code) {
-        Taro.showToast({
-          title: data.error,
-          icon: 'none',
-          duration: 1000
-        })
-      } else {
+    }).then(data => {
+      if (data.id) {
         const gameID = data.id
         Taro.reLaunch({
           url: `/pages/game/index?id=${gameID}`
@@ -119,15 +114,8 @@ export default class Index extends Component<any, IState> {
     request({
       method: 'POST',
       url: `/rooms/${id}`
-    }).then(res => {
-      const { data } = res
-      if (data.code) {
-        Taro.showToast({
-          title: data.error,
-          icon: 'none',
-          duration: 1000
-        })
-      } else {
+    }).then(data => {
+      if (!data) {
         Taro.showToast({
           title: '加入房间成功',
           icon: 'success',
@@ -143,15 +131,8 @@ export default class Index extends Component<any, IState> {
     request({
       method: 'POST',
       url: `/rooms/${id}/quit`
-    }).then(res => {
-      const { data } = res
-      if (data.code) {
-        Taro.showToast({
-          title: data.error,
-          icon: 'none',
-          duration: 1000
-        })
-      } else {
+    }).then(data => {
+      if (!data) {
         Taro.showToast({
           title: '退出房间成功',
           icon: 'success',
@@ -168,6 +149,19 @@ export default class Index extends Component<any, IState> {
     })
   }
 
+  // 将玩家置顶
+  stick(index) {
+    const { id } = this.$router.params
+    request({
+      method: 'POST',
+      url: `/rooms/${id}/edituserlist/${index}`
+    }).then(data => {
+      if (!data) {
+        this.updateRoomData()
+      }
+    })
+  }
+
   render() {
     const {
       userList,
@@ -175,7 +169,8 @@ export default class Index extends Component<any, IState> {
       inRoom,
       inGame,
       activeGame,
-      randomMode
+      randomMode,
+      over
     } = this.state
     return (
       <View className="container">
@@ -183,10 +178,43 @@ export default class Index extends Component<any, IState> {
           const { userInfo } = user
           const { nickName, avatarUrl } = userInfo
           return (
-            <View className="row">
-              <Text className="index">{index + 1}</Text>
+            <View className={`row ${index === 3 ? 'division' : ''}`}>
+              <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
+                {index + 1}
+              </Text>
               <Text className="nick">{nickName}</Text>
-              <AtAvatar className="avatar" circle image={avatarUrl}></AtAvatar>
+              {index === 0 ? (
+                <AtBadge value={'房主'}>
+                  <AtAvatar
+                    className="avatar"
+                    circle
+                    image={avatarUrl}
+                  ></AtAvatar>
+                </AtBadge>
+              ) : (
+                <AtAvatar
+                  className="avatar"
+                  circle
+                  image={avatarUrl}
+                ></AtAvatar>
+              )}
+              {ownRoom && index > 1 ? (
+                <AtIcon
+                  onClick={() => {
+                    this.stick(index)
+                  }}
+                  value="arrow-up"
+                  size="20"
+                  color="#009966"
+                ></AtIcon>
+              ) : (
+                <AtIcon
+                  className="hidden"
+                  value="arrow-up"
+                  size="20"
+                  color="#009966"
+                ></AtIcon>
+              )}
             </View>
           )
         })}
@@ -227,7 +255,7 @@ export default class Index extends Component<any, IState> {
                 this.gotoGame()
               }}
             >
-              {inGame ? '继续' : '旁观'}
+              {over ? '回顾' : inGame ? '继续' : '旁观'}
             </AtButton>
           )}
           {!inRoom && (

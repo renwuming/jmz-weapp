@@ -17,7 +17,7 @@ function _request(params) {
         if (code > 500) {
           warning(error)
         }
-        return Promise.reject(message)
+        return Promise.reject(error)
       } else {
         return res
       }

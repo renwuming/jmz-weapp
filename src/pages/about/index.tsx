@@ -1,17 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import './index.scss'
 import { AtButton } from 'taro-ui'
 
-
 export default class Index extends Component {
-
-  componentDidHide() {
-  }
-  componentWillUnmount() {
-  }
-  componentDidShow() {
-  }
+  componentDidHide() {}
+  componentWillUnmount() {}
+  componentDidShow() {}
 
   gotoRule() {
     Taro.navigateTo({
@@ -25,21 +20,22 @@ export default class Index extends Component {
     })
   }
 
-  render () {
-    const mode = Taro.getStorageSync('mode')
+  render() {
     return (
-      <View className='container'>
+      <View className="container">
         <AtButton
-          className='menu-btn'
+          className="menu-btn"
           circle
-          type='primary'
-          size='normal'
-          onClick={() => {this.gotoRule()}}
+          type="primary"
+          size="normal"
+          onClick={() => {
+            this.gotoRule()
+          }}
         >
           规则说明
         </AtButton>
+        <Text className='statement'>*注：本小程序由桌游【截码战(Decrypto)】改编而成，仅供线上试玩体验。推荐购买正版桌游，享受桌游的快乐~</Text>
         {/* {
-          mode !== 'tool' && 
             <AtButton
               className='menu-btn secondary'
               circle
@@ -54,4 +50,3 @@ export default class Index extends Component {
     )
   }
 }
-

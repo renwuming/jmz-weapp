@@ -94,9 +94,9 @@ export default class Index extends Component<IProps, any> {
             关于
           </AtButton>
         </View>
-        <View className="ad-box">
+        {/* <View className="ad-box">
           <ad unit-id="adunit-ba222e7895349b2d"></ad>
-        </View>
+        </View> */}
       </View>
     )
   }

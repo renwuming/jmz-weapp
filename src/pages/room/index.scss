@@ -10,6 +10,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px 20px;
+}
+.row.division {
   border-bottom: 1px #ccc solid;
 }
 .index {
@@ -22,11 +24,17 @@
   color: #fff;
   box-shadow: 5px 5px 5px #aaa;
 }
+.index.inGame {
+  background-color: #FFCC00;
+}
 .nick {
   width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.hidden {
+  visibility: hidden;
 }
 .btn-list {
   margin-top: 100px;
