@@ -51,6 +51,12 @@ export default class Index extends Component<IProps, any> {
     })
   }
 
+  gotoJmz() {
+    Taro.navigateToMiniProgram({
+      appId: 'wxfe74b714bde12b3f'
+    })
+  }
+
   render() {
     return (
       <View className="container">
@@ -68,30 +74,16 @@ export default class Index extends Component<IProps, any> {
               lang="zh_CN"
             ></OpenData>
           </View>
-          <LoginBtn
-            text={'创建房间'}
-            className={'menu-btn'}
-            callback={() => {
-              this.createRoom()
-            }}
-          />
-          <LoginBtn
-            text={'我的房间'}
-            className={'menu-btn'}
-            callback={() => {
-              this.gotoGameList()
-            }}
-          />
           <AtButton
-            className="menu-btn secondary"
+            className="menu-btn"
             circle
             type="primary"
             size="normal"
             onClick={() => {
-              this.gotoAbout()
+              this.gotoJmz()
             }}
           >
-            关于
+            Let's 截码战!!
           </AtButton>
         </View>
         {/* <View className="ad-box">

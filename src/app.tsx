@@ -33,7 +33,8 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '截码战',
       navigationBarTextStyle: 'black'
-    }
+    },
+    navigateToMiniProgramAppIdList: ['wxfe74b714bde12b3f']
   }
 
   componentDidShow() {
