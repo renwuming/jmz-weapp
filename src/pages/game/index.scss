@@ -180,11 +180,10 @@
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  margin: 0 -15px;
-  padding: 8px 15px;
+  padding: 8px 10px;
   margin-bottom: 5px;
   font-size: 30px;
-  background-color: rgba(204, 204, 204, 0.4);
+  border-bottom: 2px solid #fff;
 }
 .team-title .title {
   margin-right: 40px;
