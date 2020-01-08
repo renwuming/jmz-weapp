@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "jmz",
 	"description": "截码战小程序",
-	"appid": "wxfe74b714bde12b3f",
+	"appid": "wx78bc21b55d1cc0c5",
 	"setting": {
 		"urlCheck": false,
 		"es6": false,
