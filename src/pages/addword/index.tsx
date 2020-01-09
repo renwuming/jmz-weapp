@@ -35,7 +35,7 @@ export default class Index extends Component<any, IState> {
         icon: 'success',
         duration: 1000
       })
-      return this.init()
+      this.init()
     })
   }
 
