@@ -26,7 +26,8 @@ class App extends Component {
       'pages/game/index',
       'pages/gamelist/index',
       'pages/about/index',
-      'pages/imglist/index'
+      'pages/imglist/index',
+      'pages/addword/index'
     ],
     window: {
       backgroundTextStyle: 'light',

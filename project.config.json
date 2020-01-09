@@ -95,6 +95,13 @@
 					"pathName": "pages/room/index",
 					"query": "id=5e056ce15b9eb623672a71d5",
 					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "贡献词条",
+					"pathName": "pages/addword/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

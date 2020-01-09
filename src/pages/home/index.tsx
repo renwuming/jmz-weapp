@@ -45,9 +45,15 @@ export default class Index extends Component<IProps, any> {
     })
   }
 
-  gotoAbout() {
+  gotoRule() {
     Taro.navigateTo({
-      url: '/pages/about/index'
+      url: '/pages/imglist/index?type=rule'
+    })
+  }
+
+  gotoAddWord() {
+    Taro.navigateTo({
+      url: '/pages/addword/index'
     })
   }
 
@@ -84,6 +90,28 @@ export default class Index extends Component<IProps, any> {
             }}
           >
             Let's 截码战!!
+          </AtButton>
+          <AtButton
+            className="menu-btn"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoAddWord()
+            }}
+          >
+            贡献词条
+          </AtButton>
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoRule()
+            }}
+          >
+            规则介绍
           </AtButton>
         </View>
         {/* <View className="ad-box">
