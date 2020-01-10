@@ -76,7 +76,7 @@ export default class Index extends Component<any, IState> {
           提交
         </AtButton>
         <Text className="statement">
-          *注：请填写1-4字的词语，后台审核完成后，将加入小程序截码战的词库。欢迎大家贡献词条~
+          *注：请填写1-5字的词语，后台审核完成后，将加入小程序截码战的词库。欢迎大家贡献词条~
         </Text>
       </View>
     )
