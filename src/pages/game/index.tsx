@@ -228,6 +228,11 @@ export default class Index extends Component<any, IState> {
           submitLoading: false
         })
       })
+      .catch(() => {
+        this.setState({
+          submitLoading: false
+        })
+      })
   }
 
   updateAnswer(index, answer) {
