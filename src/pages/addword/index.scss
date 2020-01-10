@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px 0;
+  min-height: 100%;
+  background-color: #eef5ff;
+}
+.menu-btn {
+  position: relative;
+  width: 450px;
+  margin-top: 30px;
+  background-color: #e6504b;
+  border: 2px #e6504b solid;
+}
+.statement {
+  color: #6190E8;
+  margin-top: 60px;
+  padding: 0 30px;
+}
+.word-input {
+  color: #003366;
+  margin-left: 24px;
+  margin-right: 24px;
+  text-align: center;
+  padding: 10px;
+  width: 400px;
+  line-height: 84px;
+  height: 84px;
+  font-size: 50px;
+  font-weight: bold;
+  background-color: #fff;
+}
+

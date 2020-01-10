@@ -91,7 +91,7 @@ export default class Index extends Component<IProps, any> {
               this.gotoAbout()
             }}
           >
-            关于
+            更多
           </AtButton>
         </View>
         {/* <View className="ad-box">

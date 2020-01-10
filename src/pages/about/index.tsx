@@ -14,6 +14,12 @@ export default class Index extends Component {
     })
   }
 
+  gotoAddword() {
+    Taro.navigateTo({
+      url: `/pages/addword/index`
+    })
+  }
+
   gotoGroup() {
     Taro.navigateTo({
       url: `/pages/imglist/index?type=group`
@@ -23,8 +29,19 @@ export default class Index extends Component {
   render() {
     return (
       <View className="container">
+      <AtButton
+        className="menu-btn"
+        circle
+        type="primary"
+        size="normal"
+        onClick={() => {
+          this.gotoAddword()
+        }}
+      >
+        贡献词条
+      </AtButton>
         <AtButton
-          className="menu-btn"
+          className="menu-btn secondary"
           circle
           type="primary"
           size="normal"
