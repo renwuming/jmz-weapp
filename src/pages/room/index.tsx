@@ -4,6 +4,7 @@ import { AtAvatar, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 import LoginBtn from '../../components/loginBtn'
+import FormIdBtn from '../../components/FormIdBtn'
 
 let updateTimer
 
@@ -246,17 +247,12 @@ export default class Index extends Component<any, IState> {
             </View>
           )}
           {!!activeGame && (
-            <AtButton
-              className="menu-btn"
-              circle
-              type="primary"
-              size="normal"
+            <FormIdBtn
+              text={over ? '回顾' : inGame ? '继续' : '旁观'}
               onClick={() => {
                 this.gotoGame()
               }}
-            >
-              {over ? '回顾' : inGame ? '继续' : '旁观'}
-            </AtButton>
+            ></FormIdBtn>
           )}
           {!inRoom && (
             <LoginBtn
