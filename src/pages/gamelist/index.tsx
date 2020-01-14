@@ -26,7 +26,7 @@ export default class Index extends Component<IState, any> {
     tabIndex: 0
   }
   config: Config = {
-    navigationBarTitleText: '房间列表'
+    navigationBarTitleText: '我的房间'
   }
 
   componentDidShow() {

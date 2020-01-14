@@ -107,7 +107,7 @@ export default class Index extends Component<any, IState> {
   onShareAppMessage() {
     const { id } = this.$router.params
     return {
-      title: '截码战，火热进行中',
+      title: '我们正在玩截码战，速来围观！',
       path: `/pages/game/index?id=${id}`,
       imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg'
     }

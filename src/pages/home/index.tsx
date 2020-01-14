@@ -16,14 +16,11 @@ export default class Index extends Component<IProps, any> {
     index: 0
   }
 
-  config: Config = {
-    navigationBarTitleText: '首页'
-  }
-
   onShareAppMessage() {
     return {
-      title: '截码战，等你来',
-      path: `/pages/home/index`
+      title: '截码战，最好玩的聚会游戏！',
+      path: `/pages/home/index`,
+      imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg'
     }
   }
 
@@ -82,6 +79,15 @@ export default class Index extends Component<IProps, any> {
               this.gotoGameList()
             }}
           />
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            openType="share"
+          >
+            分享
+          </AtButton>
           <AtButton
             className="menu-btn secondary"
             circle

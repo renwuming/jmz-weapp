@@ -36,7 +36,7 @@ export default class Index extends Component<any, IState> {
   onShareAppMessage() {
     const { id } = this.$router.params
     return {
-      title: '房间已开好，就等你了',
+      title: '房间已开好，快来加入吧~',
       path: `/pages/room/index?id=${id}`
     }
   }

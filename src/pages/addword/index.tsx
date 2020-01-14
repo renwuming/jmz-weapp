@@ -1,4 +1,4 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
 import './index.scss'
 import { AtButton, AtMessage } from 'taro-ui'
@@ -9,6 +9,9 @@ interface IState {
 }
 
 export default class Index extends Component<any, IState> {
+  config: Config = {
+    navigationBarTitleText: '贡献词条'
+  }
   state = {
     word: ''
   }
