@@ -220,7 +220,6 @@
 // 图例
 .tuli-container {
   display: flex;
-  // justify-content: space-between;
   align-items: center;
   margin: 15px;
   margin-left: 0;
@@ -245,4 +244,31 @@
 }
 .tuli .key {
   background-color: #ffcc00;
+}
+
+// 倒计时
+.stage-count-down-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #ffcc99;
+  border-radius: 10px;
+  text {
+    font-size: 34px;
+  }
+  at-countdown-item:first-child {
+    display: none;
+  }
+  .at-countdown--card .at-countdown__time-box .at-countdown__time {
+    font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+    font-size: 60px;
+  }
+  .at-countdown__separator {
+    font-size: 34px;
+  }
+  .at-countdown--card .at-countdown__time-box {
+    padding: 0 10px;
+  }
 }

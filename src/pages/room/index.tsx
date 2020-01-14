@@ -16,6 +16,7 @@ interface IState {
   activeGame: string
   waitingGame: boolean
   randomMode: boolean
+  quickMode: boolean
   over: boolean
 }
 
@@ -28,6 +29,7 @@ export default class Index extends Component<any, IState> {
     waitingGame: false,
     activeGame: '',
     randomMode: true,
+    quickMode: false,
     over: false
   }
 
@@ -93,12 +95,13 @@ export default class Index extends Component<any, IState> {
 
   startGame() {
     const { id } = this.$router.params
-    const { randomMode } = this.state
+    const { randomMode, quickMode } = this.state
     request({
       method: 'POST',
       url: `/rooms/wx/${id}/start`,
       data: {
-        randomMode
+        randomMode,
+        quickMode
       }
     }).then(data => {
       if (data.id) {
@@ -171,6 +174,7 @@ export default class Index extends Component<any, IState> {
       inGame,
       activeGame,
       randomMode,
+      quickMode,
       over
     } = this.state
     return (
@@ -222,6 +226,17 @@ export default class Index extends Component<any, IState> {
         <View className="btn-list">
           {ownRoom && !activeGame && (
             <View>
+              <AtSwitch
+                title="限时竞技"
+                className="switch"
+                border={false}
+                checked={quickMode}
+                onChange={() => {
+                  this.setState({
+                    quickMode: !quickMode
+                  })
+                }}
+              />
               <AtSwitch
                 title="随机组队"
                 className="switch"

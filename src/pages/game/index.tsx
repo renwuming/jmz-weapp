@@ -1,6 +1,14 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtCard, AtButton, AtMessage, AtFab, AtIcon, AtBadge } from 'taro-ui'
+import {
+  AtCard,
+  AtButton,
+  AtMessage,
+  AtFab,
+  AtIcon,
+  AtBadge,
+  AtCountdown
+} from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
 import UserItem from '../../components/UserItem'
@@ -47,6 +55,7 @@ interface IState {
   sumList: Array<number>
   winner: number
   observeMode: boolean
+  quickMode: boolean
   teamIndex: number
   resultMap: Array<any>
 
@@ -85,6 +94,7 @@ export default class Index extends Component<any, IState> {
     gameOver: false,
     winner: 0,
     observeMode: false,
+    quickMode: false,
     teamIndex: 0,
     resultMap: [{}, {}],
 
@@ -171,7 +181,7 @@ export default class Index extends Component<any, IState> {
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateGameData()
-    }, 3000)
+    }, 1000)
   }
 
   initMode(length) {
@@ -295,8 +305,17 @@ export default class Index extends Component<any, IState> {
       teamIndex,
       changePaper,
       resultMap,
+      quickMode,
+      countdownData,
       mode
     } = this.state
+    // 处理倒计时
+    if (countdownData) {
+      const { time } = countdownData
+      countdownData.minute = Math.floor(time / 60)
+      countdownData.second = time % 60
+    }
+
     const { submitLoading } = this.state
     const showTable = teamIndex === paperIndex ? table : tableEnemy
     const showHistory = teamIndex === paperIndex ? history : historyEnemy
@@ -353,6 +372,17 @@ export default class Index extends Component<any, IState> {
                 <Text className="over-tip">{resultString}</Text>
               </View>
             </AtCard>
+          </View>
+        )}
+        {quickMode && !gameOver && (
+          <View className="stage-count-down-box">
+            <Text>{countdownData.name}阶段：</Text>
+            <AtCountdown
+              className="count-down"
+              isCard
+              minutes={countdownData.minute}
+              seconds={countdownData.second}
+            />
           </View>
         )}
         <View className={changePaper ? 'rotate-container' : ''}>

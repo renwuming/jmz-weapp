@@ -54,10 +54,10 @@ export default class Index extends Component<IProps, any> {
       roundItem = (
         <View className={index % 2 === 0 ? 'row grey' : 'row'}>
           <Word long={true} text={question}></Word>
-          <Text className="code">{jiemiAnswer + 1}</Text>
+          <Text className="code">{jiemiAnswer < 4 ? jiemiAnswer + 1 : '-'}</Text>
           <Text className="code key">{code + 1}</Text>
           {lanjieAnswer >= 0 ? (
-            <Text className="code lanjie">{lanjieAnswer + 1}</Text>
+            <Text className="code lanjie">{lanjieAnswer < 4 ? lanjieAnswer + 1 : '-'}</Text>
           ) : (
             <Text className="code lanjie hidden"></Text>
           )}

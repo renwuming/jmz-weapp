@@ -58,7 +58,7 @@
 					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5e19a8a3be91d41fbe27485a",
+					"query": "id=5e1d7ec4b49b77632e148b88",
 					"scene": null
 				},
 				{
@@ -86,14 +86,14 @@
 					"id": 5,
 					"name": "local 测试 game",
 					"pathName": "pages/game/index",
-					"query": "id=5e1300847123a33576f9bc1e",
+					"query": "id=5e1d84fd7339239fcbba9a20",
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "local 测试 room",
 					"pathName": "pages/room/index",
-					"query": "id=5e056ce15b9eb623672a71d5",
+					"query": "id=5e056ce15b9eb623672a71d4",
 					"scene": null
 				}
 			]
