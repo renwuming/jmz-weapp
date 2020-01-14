@@ -25,7 +25,7 @@
   box-shadow: 5px 5px 5px #aaa;
 }
 .index.inGame {
-  background-color: #FFCC00;
+  background-color: #ffcc00;
 }
 .nick {
   width: 300px;
@@ -52,11 +52,14 @@
   border: 1px #e6504b solid;
 }
 
+.red-switch .at-switch__title {
+  color: #e6504b;
+}
+
 .at-switch__container,
 .at-switch {
   background-color: transparent;
 }
-
 
 .at-switch__title {
   color: #6190e8;

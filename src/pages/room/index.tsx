@@ -29,7 +29,7 @@ export default class Index extends Component<any, IState> {
     waitingGame: false,
     activeGame: '',
     randomMode: true,
-    quickMode: false,
+    quickMode: true,
     over: false
   }
 
@@ -228,7 +228,8 @@ export default class Index extends Component<any, IState> {
             <View>
               <AtSwitch
                 title="限时竞技"
-                className="switch"
+                className="red-switch"
+                color="#e6504b"
                 border={false}
                 checked={quickMode}
                 onChange={() => {
@@ -239,7 +240,6 @@ export default class Index extends Component<any, IState> {
               />
               <AtSwitch
                 title="随机组队"
-                className="switch"
                 border={false}
                 checked={randomMode}
                 onChange={() => {
