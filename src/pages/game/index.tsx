@@ -478,7 +478,6 @@ export default class Index extends Component<any, IState> {
                       {(currentBattle as Array<BattleRow>).map(
                         (data, wordIndex) => (
                           <RoundItem
-                            key={data.question}
                             data={data}
                             index={wordIndex}
                             onAnswerChange={(...args) => {
@@ -523,8 +522,8 @@ export default class Index extends Component<any, IState> {
                 }`}
               >
                 {gameMode &&
-                  (item as Array<string>).map(text => (
-                    <Word key={text} text={text}></Word>
+                  (item as Array<string>).map((text, index2) => (
+                    <Word key={index * 10 + index2} text={text}></Word>
                   ))}
               </AtCard>
             ))}
@@ -543,7 +542,6 @@ export default class Index extends Component<any, IState> {
                   >
                     {(item.list as Array<BattleRow>).map((data, wordIndex) => (
                       <RoundItem
-                        key={data.question}
                         data={data}
                         index={wordIndex}
                       ></RoundItem>
