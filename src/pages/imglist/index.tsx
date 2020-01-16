@@ -54,7 +54,7 @@ export default class Index extends Component {
     const { type } = this.$router.params
     const imglist = this.getImgList(type)
     return (
-      <View className="container">
+      <View className={`container ${type}`}>
         {imglist.map((img, index) => (
           <Image
             className="img-item"

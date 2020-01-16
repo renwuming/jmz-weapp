@@ -99,9 +99,6 @@ export default class Index extends Component {
         >
           打赏作者
         </AtButton>
-        <Text className="statement">
-          *注：本小程序由桌游【截码战(Decrypto)】改编而成，仅供线上试玩体验。推荐购买正版桌游，享受桌游的快乐~
-        </Text>
         {/* {
             <AtButton
               className='menu-btn secondary'

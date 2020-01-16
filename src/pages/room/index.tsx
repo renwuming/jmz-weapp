@@ -5,6 +5,7 @@ import './index.scss'
 import { request } from '../../api'
 import LoginBtn from '../../components/loginBtn'
 import FormIdBtn from '../../components/FormIdBtn'
+import UserItem from '../../components/UserItem'
 
 let updateTimer
 
@@ -180,7 +181,7 @@ export default class Index extends Component<any, IState> {
     return (
       <View className="container">
         {userList.map((user, index) => {
-          const { userInfo } = user
+          const { userInfo, id } = user
           const { nickName, avatarUrl } = userInfo
           return (
             <View className={`row ${index === 3 ? 'division' : ''}`}>
@@ -190,18 +191,24 @@ export default class Index extends Component<any, IState> {
               <Text className="nick">{nickName}</Text>
               {index === 0 ? (
                 <AtBadge value={'房主'}>
-                  <AtAvatar
-                    className="avatar"
-                    circle
-                    image={avatarUrl}
-                  ></AtAvatar>
+                  <UserItem
+                    nonick={true}
+                    big={true}
+                    data={{
+                      id,
+                      ...userInfo
+                    }}
+                  ></UserItem>
                 </AtBadge>
               ) : (
-                <AtAvatar
-                  className="avatar"
-                  circle
-                  image={avatarUrl}
-                ></AtAvatar>
+                <UserItem
+                  nonick={true}
+                  big={true}
+                  data={{
+                    id,
+                    ...userInfo
+                  }}
+                ></UserItem>
               )}
               {ownRoom && index > 1 ? (
                 <AtIcon

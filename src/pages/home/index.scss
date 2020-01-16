@@ -4,7 +4,7 @@
   align-items: center;
   box-sizing: border-box;
   padding: 20px 0;
-  padding-bottom: 0;
+  padding-bottom: 50px;
   background-color: #eef5ff;
   min-height: 100%;
 }
@@ -48,4 +48,24 @@
 .ad-box {
   margin-top: 240px;
   width: 100%;
+}
+.statement {
+  display: flex;
+  flex-direction: column;
+  margin-top: 150px;
+  color: #6190E8;
+  bottom: 50px;
+  padding: 0 50px;
+  font-size: 20px;
+}
+.statement text {
+  color: #e6504b;
+  font-weight: bold;
+  padding: 10px 0;
+}
+.statement .top {
+  color: #3a5274;
+}
+.statement .bottom {
+  border-top: 2px solid #707070;
 }

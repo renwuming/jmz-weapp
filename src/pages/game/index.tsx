@@ -206,6 +206,10 @@ export default class Index extends Component<any, IState> {
         })
         return
       }
+      // 处理提交内容
+      currentBattle.forEach(item => {
+        item.question = ''
+      })
     } else {
       const questionList = currentBattle.map(item => {
         return item.question
@@ -218,6 +222,10 @@ export default class Index extends Component<any, IState> {
         })
         return
       }
+      // 处理提交内容
+      currentBattle.forEach(item => {
+        item.answer = -1
+      })
     }
     this.setState({
       submitLoading: true
@@ -541,10 +549,7 @@ export default class Index extends Component<any, IState> {
                     }`}
                   >
                     {(item.list as Array<BattleRow>).map((data, wordIndex) => (
-                      <RoundItem
-                        data={data}
-                        index={wordIndex}
-                      ></RoundItem>
+                      <RoundItem data={data} index={wordIndex}></RoundItem>
                     ))}
                   </AtCard>
                 ))}

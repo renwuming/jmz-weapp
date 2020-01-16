@@ -3,12 +3,17 @@
   align-items: center;
   height: 70px;
 }
+.row.big .useritem-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
 .short-nick {
   width: 250px;
   margin-right: 10px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
 }
 .current {
   color: #e6504b;
@@ -18,4 +23,22 @@
   height: 60px;
   border-radius: 60px;
   margin-right: 10px;
+}
+// 玩家游戏数据
+at-modal {
+  font-weight: bold;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+}
+at-modal text {
+  color: #555;
+}
+at-modal-content .detail-row {
+  margin-top: 10px;
+}
+at-modal-content .left {
+  display: inline-block;
+  width: 150px;
+}
+at-modal-content .win-rate {
+  color: #e6504b;
 }
