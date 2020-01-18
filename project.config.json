@@ -58,7 +58,7 @@
 					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5e19a8a3be91d41fbe27485a",
+					"query": "id=5e217234839f232767209cd8",
 					"scene": null
 				},
 				{
@@ -84,9 +84,9 @@
 				},
 				{
 					"id": 5,
-					"name": "local 测试 game",
+					"name": "local 测试 game - 旁观",
 					"pathName": "pages/game/index",
-					"query": "id=5e1ff9f521f08f747ac23f7f",
+					"query": "id=5e219993fc0c87c90e6412a6",
 					"scene": null
 				},
 				{

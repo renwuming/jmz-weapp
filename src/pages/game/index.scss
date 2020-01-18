@@ -255,6 +255,14 @@
   padding: 10px;
   background-color: #ffcc99;
   border-radius: 10px;
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .title {
+    line-height: 70px;
+  }
   text {
     font-size: 34px;
   }

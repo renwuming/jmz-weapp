@@ -1,5 +1,13 @@
-export const baseUrl = 'https://www.renwuming.cn/jmz-fyb2'
-export const baseUrlAuth = 'https://www.renwuming.cn/auth/'
-// export const baseUrl = 'http://localhost:9999'
-// export const baseUrlAuth = 'http://localhost:5555'
+let env = 'prod'
+// env = 'dev'
+
+export const baseUrl =
+  env === 'dev'
+    ? 'http://localhost:9999'
+    : 'https://www.renwuming.cn/jmz-fyb2'
+export const baseUrlAuth =
+  env === 'dev'
+    ? 'http://localhost:5555'
+    : 'https://www.renwuming.cn/auth/'
+
 export const weappName = 'jmz'

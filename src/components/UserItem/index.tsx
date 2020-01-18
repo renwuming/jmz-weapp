@@ -13,13 +13,15 @@ interface IProps {
   data: UserInfo
   nonick: Boolean
   big: Boolean
+  userDetail: Object
 }
 
 export default class Index extends Component<IProps, any> {
   static defaultProps = {
     data: {},
     nonick: false,
-    big: false
+    big: false,
+    userDetail: {}
   }
 
   ifCurrentUser() {
@@ -33,15 +35,17 @@ export default class Index extends Component<IProps, any> {
   }
 
   showUserDetail() {
+    this.setState({
+      isOpened: true
+    })
     const { data } = this.props
     const { id } = data
     request({
       method: 'GET',
       url: `/users/gamedata/${id}`
     }).then(res => {
-      this.userDetail = res
       this.setState({
-        isOpened: true
+        userDetail: res
       })
     })
   }
@@ -53,7 +57,7 @@ export default class Index extends Component<IProps, any> {
 
   render() {
     const { data, nonick, big } = this.props
-    const { isOpened } = this.state
+    const { isOpened, userDetail } = this.state
     const currentUser = this.ifCurrentUser()
     return (
       <View className={`row ${big ? 'big' : ''}`}>
@@ -83,15 +87,15 @@ export default class Index extends Component<IProps, any> {
           <AtModalContent>
             <View className="detail-row">
               <Text className="left win-rate">胜率</Text>
-              <Text className="win-rate">{this.userDetail.winRate}%</Text>
+              <Text className="win-rate">{userDetail.winRate}%</Text>
             </View>
             <View className="detail-row">
               <Text className="left">获胜局数</Text>
-              <Text className="info">{this.userDetail.winSum}</Text>
+              <Text className="info">{userDetail.winSum}</Text>
             </View>
             <View className="detail-row">
               <Text className="left">总计局数</Text>
-              <Text className="info">{this.userDetail.Sum}</Text>
+              <Text className="info">{userDetail.Sum}</Text>
             </View>
           </AtModalContent>
         </AtModal>

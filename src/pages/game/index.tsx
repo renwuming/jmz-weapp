@@ -181,7 +181,7 @@ export default class Index extends Component<any, IState> {
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateGameData()
-    }, 1000)
+    }, 2000)
   }
 
   initMode(length) {
@@ -384,13 +384,19 @@ export default class Index extends Component<any, IState> {
         )}
         {quickMode && !gameOver && (
           <View className="stage-count-down-box">
-            <Text>{countdownData.name}阶段：</Text>
-            <AtCountdown
-              className="count-down"
-              isCard
-              minutes={countdownData.minute}
-              seconds={countdownData.second}
-            />
+            {countdownData.time > 0 ? (
+              <View className='row'>
+                <Text className='title'>{countdownData.name}阶段：</Text>
+                <AtCountdown
+                  className="count-down"
+                  isCard
+                  minutes={countdownData.minute}
+                  seconds={countdownData.second}
+                />
+              </View>
+            ) : (
+              <Text className='title'>即将进入下一阶段...</Text>
+            )}
           </View>
         )}
         <View className={changePaper ? 'rotate-container' : ''}>
@@ -477,28 +483,33 @@ export default class Index extends Component<any, IState> {
                   </View>
                 </View>
 
-                {!observeMode && (
-                  <View>
+                <View>
+                  {observeMode ? (
+                    <Text className="card-tip">您处于【旁观】状态</Text>
+                  ) : (
                     <Text className="card-tip">
                       您处于【{type}】阶段，请【{type}】
                     </Text>
-                    <View style={{ marginTop: '6px' }}>
-                      {(currentBattle as Array<BattleRow>).map(
-                        (data, wordIndex) => (
-                          <RoundItem
-                            data={data}
-                            index={wordIndex}
-                            onAnswerChange={(...args) => {
-                              this.updateAnswer.apply(this, args)
-                            }}
-                            onQuestionChange={(...args) => {
-                              this.updateQuestion.apply(this, args)
-                            }}
-                            type={type}
-                          ></RoundItem>
-                        )
-                      )}
-                      {type !== '等待' && (
+                  )}
+                  <View style={{ marginTop: '6px' }}>
+                    {(currentBattle as Array<BattleRow>).map(
+                      (data, wordIndex) => (
+                        <RoundItem
+                          data={data}
+                          index={wordIndex}
+                          onAnswerChange={(...args) => {
+                            this.updateAnswer.apply(this, args)
+                          }}
+                          onQuestionChange={(...args) => {
+                            this.updateQuestion.apply(this, args)
+                          }}
+                          type={type}
+                        ></RoundItem>
+                      )
+                    )}
+                    {type !== '等待' &&
+                      (!countdownData ||
+                        (countdownData && countdownData.time > 0)) && (
                         <AtButton
                           onClick={() => {
                             this.submit()
@@ -512,9 +523,8 @@ export default class Index extends Component<any, IState> {
                           提交
                         </AtButton>
                       )}
-                    </View>
                   </View>
-                )}
+                </View>
               </AtCard>
             </View>
           )}
