@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { AtAvatar, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui'
+import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 import LoginBtn from '../../components/loginBtn'
@@ -18,6 +18,7 @@ interface IState {
   randomMode: boolean
   quickMode: boolean
   over: boolean
+  isOpened: boolean
 }
 
 export default class Index extends Component<any, IState> {
@@ -29,7 +30,8 @@ export default class Index extends Component<any, IState> {
     activeGame: '',
     randomMode: true,
     quickMode: true,
-    over: false
+    over: false,
+    isOpened: false
   }
 
   onShareAppMessage() {
@@ -48,17 +50,12 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidShow() {
-    this.init()
     this.updateRoomData()
 
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateRoomData()
     }, 3000)
-  }
-
-  init() {
-
   }
 
   updateRoomData() {
@@ -70,13 +67,23 @@ export default class Index extends Component<any, IState> {
       this.setState(data)
       const { activeGame } = data
       // 若已开始，则跳转
-      if (activeGame) {
-        this.gotoGame(activeGame)
+      if (activeGame && !this.forbidAutoNavigate) {
+        this.setState({
+          isOpened: true
+        })
+        // 保证弹出提示框
+        wx.nextTick(() => {
+          if (this.state.isOpened) {
+            this.navigateTimer = setTimeout(() => {
+              this.gotoGame(activeGame)
+            }, 1500)
+          }
+        })
       }
     })
   }
 
-  gotoGame(id) {
+  gotoGame(id = null) {
     const { activeGame } = this.state
     Taro.redirectTo({
       url: `/pages/game/index?id=${id ? id : activeGame}`
@@ -156,6 +163,15 @@ export default class Index extends Component<any, IState> {
     })
   }
 
+  // 取消跳转到游戏
+  handleCancel() {
+    clearTimeout(this.navigateTimer)
+    this.setState({
+      isOpened: false
+    })
+    this.forbidAutoNavigate = true
+  }
+
   render() {
     const {
       userList,
@@ -165,7 +181,8 @@ export default class Index extends Component<any, IState> {
       activeGame,
       randomMode,
       quickMode,
-      over
+      over,
+      isOpened
     } = this.state
     return (
       <View className="container">
@@ -308,6 +325,15 @@ export default class Index extends Component<any, IState> {
             回首页
           </AtButton>
         </View>
+        <AtModal
+          isOpened={isOpened}
+          cancelText="取消"
+          closeOnClickOverlay={false}
+          onCancel={() => {
+            this.handleCancel()
+          }}
+          content="即将跳转到正在进行的游戏..."
+        />
       </View>
     )
   }
