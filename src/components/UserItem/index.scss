@@ -1,7 +1,7 @@
 .row {
   display: flex;
   align-items: center;
-  height: 70px;
+  height: 90px;
 }
 .row.big .useritem-avatar {
   width: 100px;
@@ -9,14 +9,17 @@
   border-radius: 100px;
 }
 .short-nick {
-  width: 250px;
+  width: 150px;
   margin-right: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.short-nick.long {
+  width: 250px;
+}
 .current {
-  color: #e6504b;
+  // color: #e6504b;
 }
 .useritem-avatar {
   width: 60px;

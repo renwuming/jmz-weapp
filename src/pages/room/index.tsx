@@ -15,7 +15,6 @@ interface IState {
   inRoom: boolean
   inGame: boolean
   activeGame: string
-  waitingGame: boolean
   randomMode: boolean
   quickMode: boolean
   over: boolean
@@ -27,7 +26,6 @@ export default class Index extends Component<any, IState> {
     ownRoom: false,
     inRoom: false,
     inGame: false,
-    waitingGame: false,
     activeGame: '',
     randomMode: true,
     quickMode: true,
@@ -60,9 +58,7 @@ export default class Index extends Component<any, IState> {
   }
 
   init() {
-    this.setState({
-      waitingGame: false
-    })
+
   }
 
   updateRoomData() {
@@ -72,25 +68,18 @@ export default class Index extends Component<any, IState> {
       url: `/rooms/wx/${id}`
     }).then(data => {
       this.setState(data)
-      const { activeGame, inGame } = data
-      const { waitingGame } = this.state
-      // 如果还没开始，则说明玩家在等待开始
-      if (!activeGame) {
-        this.setState({
-          waitingGame: true
-        })
+      const { activeGame } = data
+      // 若已开始，则跳转
+      if (activeGame) {
+        this.gotoGame(activeGame)
       }
-      // // 若已开始，则跳转
-      // if(inGame && activeGame && waitingGame) {
-      //   this.gotoGame()
-      // }
     })
   }
 
-  gotoGame() {
+  gotoGame(id) {
     const { activeGame } = this.state
-    Taro.reLaunch({
-      url: `/pages/game/index?id=${activeGame}`
+    Taro.redirectTo({
+      url: `/pages/game/index?id=${id ? id : activeGame}`
     })
   }
 
@@ -107,7 +96,7 @@ export default class Index extends Component<any, IState> {
     }).then(data => {
       if (data.id) {
         const gameID = data.id
-        Taro.reLaunch({
+        Taro.redirectTo({
           url: `/pages/game/index?id=${gameID}`
         })
       }

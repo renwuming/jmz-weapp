@@ -1,9 +1,11 @@
 .container {
   box-sizing: border-box;
-  padding: 0 15px;
   padding-bottom: 40px;
   background-color: #f2f2f2;
   min-height: 100%;
+}
+.padding-container {
+  padding: 0 15px;
 }
 .rotate-container {
   animation: rotate 1s linear 1;
@@ -29,9 +31,30 @@
   color: #cc3333;
   height: 26px;
 }
-.over-card .at-card__header {
-  font-weight: bold;
+.over-card.team1 {
+  background: repeat url('https://www.renwuming.cn/static/jmz/blue-bk.jpg');
+  text {
+    color: #fff;
+  }
+}
+.over-card.team0 {
+  background: repeat url('https://www.renwuming.cn/static/jmz/red-bk.jpg');
+  text {
+    color: #fff;
+  }
+}
+.over-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
+  height: 140px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 208, 0.5);
+  box-shadow: 2px 5px 5px #aaa;
+  text {
+    color: #333;
+  }
 }
 .at-card__header {
   padding: 10px;
@@ -49,6 +72,13 @@
   background-color: #ddd;
 }
 // 回合列表
+.round-list.team1 {
+  .round-item {
+    .at-card__header-title {
+      color: #100964;
+    }
+  }
+}
 .round-list {
   display: flex;
   flex-direction: row;
@@ -60,18 +90,59 @@
   width: 350px;
   margin: 0;
   margin-bottom: 15px;
+  .at-card__header-title {
+    font-family: yansong;
+    color: #a40000;
+  }
+}
+
+.battle-item.team1 {
+  .at-card__header {
+    background: repeat url('https://www.renwuming.cn/static/jmz/blue-bk2.jpg');
+  }
 }
 .battle-item {
   width: 100%;
+  margin-top: 20px;
+  box-shadow: none;
   background-color: #ffcc99;
+  .at-card__header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: repeat url('https://www.renwuming.cn/static/jmz/red-bk2.jpg');
+    text {
+      font-family: yansong;
+      color: #fff;
+    }
+  }
 }
 // 结果表格
+.result-talbe.team1 {
+  .at-card__header .at-card__header-title {
+    color: #100964;
+  }
+}
 .result-talbe {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 10px;
   min-height: 280px;
+  .at-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .at-card__header-title {
+      color: #a40000;
+      font-family: yansong;
+      font-size: 26px;
+    }
+    .at-card__header-extra {
+      margin: 0;
+      font-weight: bold;
+      font-size: 32px;
+    }
+  }
 }
 .table-item {
   width: 180px;
@@ -81,27 +152,36 @@
   border-radius: 10px;
 }
 // 提交按钮
+.submit-btn.team1 {
+  background: repeat url('https://www.renwuming.cn/static/jmz/blue-bk2.jpg');
+}
 .submit-btn {
   height: 70px;
   line-height: 70px;
   margin: 10px 40px;
   margin-bottom: 0;
-  background-color: #cc9933;
-  border: 1px #cc9933 solid;
+  color: #fff;
+  font-family: yansong;
+  background: repeat url('https://www.renwuming.cn/static/jmz/red-bk2.jpg');
+  border: 0;
 }
 // 浮动按钮
 .rotate-btn .at-fab {
   position: fixed;
-  right: 30px;
-  bottom: 160px;
+  right: 50px;
+  bottom: 80px;
   z-index: 900;
+  image {
+    width: 80px;
+    height: 80px;
+  }
 }
-.home-btn .at-fab {
-  position: fixed;
-  right: 30px;
-  bottom: 60px;
-  z-index: 900;
-}
+// .home-btn .at-fab {
+//   position: fixed;
+//   right: 30px;
+//   bottom: 60px;
+//   z-index: 900;
+// }
 .shake.at-badge {
   animation: shake 1.5s linear infinite;
 }
@@ -162,53 +242,72 @@
   padding: 10px 30px;
 }
 .over-tip {
-  display: block;
-  font-weight: bold;
-  padding: 10px 30px;
-  text-align: center;
-  font-size: 34px;
+  color: #fff;
+  font-family: yansong;
 }
 // 队伍状态
 .team-status {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+}
+.team-title.team1 {
+  background: repeat url('https://www.renwuming.cn/static/jmz/blue-bk.jpg');
 }
 .team-title {
   display: flex;
-  flex-grow: 1;
+  flex-basis: 373px;
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  padding: 8px 10px;
-  margin-bottom: 5px;
   font-size: 30px;
-  border-bottom: 2px solid #fff;
+  background: repeat url('https://www.renwuming.cn/static/jmz/red-bk.jpg');
+  color: #fff;
+  font-family: yansong;
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 90px;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .detail-row {
+    display: flex;
+    padding: 8px 14px;
+    align-items: center;
+    .user-list {
+      flex-grow: 1;
+      flex-direction: column;
+    }
+    .score-list {
+      width: 100px;
+      flex-direction: column;
+      border-left: 6px solid #ffcc99;
+      .score {
+        text-align: right;
+        margin: 10px 0;
+      }
+      text {
+        display: block;
+      }
+    }
+  }
 }
-.team-title .title {
-  margin-right: 40px;
-}
-.team-title .score {
-  color: #6190e8;
-  width: 180px;
-  text-align: right;
-}
-.team-title .score.short {
-  width: 100px;
-}
-.team-title .row {
-  display: flex;
-}
+
 // 顶部标题
+.title-box.title1 {
+  background: repeat url('https://www.renwuming.cn/static/jmz/blue-bk2.jpg');
+}
 .title-box {
-  margin: 20px 0;
+  margin-top: 20px;
   padding: 10px;
   background-color: rgba(255, 255, 208, 0.5);
   text-align: center;
   border-radius: 10px;
-  color: #003366;
-  font-weight: bold;
+  color: #fff;
+  font-family: yansong;
   box-shadow: 2px 5px 5px #aaa;
+  background: repeat url('https://www.renwuming.cn/static/jmz/red-bk2.jpg');
 }
 // 广告
 .ad-box {
@@ -236,11 +335,11 @@
   height: 36px;
   margin-right: 10px;
 }
-.tuli .jiemi {
-  background-color: #000;
+.tuli .team0 {
+  background-color: #a40000;
 }
-.tuli .lanjie {
-  background-color: #cc3333;
+.tuli .team1 {
+  background-color: #100964;
 }
 .tuli .key {
   background-color: #ffcc00;

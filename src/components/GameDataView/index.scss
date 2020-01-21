@@ -1,0 +1,31 @@
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.nick {
+  width: 200px;
+  text-align: center;
+  margin-left: 20px;
+  color: #666;
+}
+
+// 玩家游戏数据
+at-modal {
+  font-weight: bold;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+}
+at-modal text {
+  color: #555;
+}
+at-modal-content .detail-row {
+  margin-top: 10px;
+}
+at-modal-content .left {
+  display: inline-block;
+  width: 150px;
+}
+at-modal-content .win-rate {
+  color: #e6504b;
+}

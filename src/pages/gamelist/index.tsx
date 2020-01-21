@@ -75,20 +75,26 @@ export default class Index extends Component<IState, any> {
     const { roomList, historyList, tabIndex } = this.state
     return (
       <View className="container">
-        <AtSegmentedControl
-          className="tabs"
-          values={['正在进行', '历史记录']}
-          onClick={index => {
-            this.changeTab(index)
-          }}
-          current={tabIndex}
-        />
+        <View className="tabs">
+          <AtSegmentedControl
+            values={['正在进行', '历史记录']}
+            onClick={index => {
+              this.changeTab(index)
+            }}
+            current={tabIndex}
+          />
+        </View>
         {tabIndex === 0 &&
           roomList.map((room, index) => {
             const { userList } = room
             const list = (userList as Array<User>).slice(0, 4)
             return (
-              <View className="row">
+              <View
+                className="row"
+                onClick={() => {
+                  this.enterRoom(room._id)
+                }}
+              >
                 <Text className="index">{index + 1}</Text>
                 <View className="avatar-box">
                   {list.map(user =>
@@ -103,7 +109,7 @@ export default class Index extends Component<IState, any> {
                     )
                   )}
                 </View>
-                <AtButton
+                {/* <AtButton
                   className="menu-btn error-btn"
                   circle
                   type="primary"
@@ -113,7 +119,7 @@ export default class Index extends Component<IState, any> {
                   }}
                 >
                   进入房间
-                </AtButton>
+                </AtButton> */}
               </View>
             )
           })}
@@ -121,11 +127,18 @@ export default class Index extends Component<IState, any> {
           historyList.map((game, index) => {
             const { userList, status } = game
             const list = (userList as Array<User>).slice(0, 4)
+            const statusClass =
+              status === '胜利' ? 'success' : status === '失败' ? 'fail' : ''
             return (
-              <View className="row">
+              <View
+                className="row"
+                onClick={() => {
+                  this.enterGame(game._id)
+                }}
+              >
                 <Text className="index">{index + 1}</Text>
                 <View className="column">
-                  <Text className="status">{status}</Text>
+                  <Text className={`status ${statusClass}`}>{status}</Text>
                   <View className="avatar-box">
                     {list.map(user =>
                       user.userInfo ? (
@@ -140,7 +153,7 @@ export default class Index extends Component<IState, any> {
                     )}
                   </View>
                 </View>
-                <AtButton
+                {/* <AtButton
                   className="menu-btn error-btn"
                   circle
                   type="primary"
@@ -150,7 +163,7 @@ export default class Index extends Component<IState, any> {
                   }}
                 >
                   详情
-                </AtButton>
+                </AtButton> */}
               </View>
             )
           })}

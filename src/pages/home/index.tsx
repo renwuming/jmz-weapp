@@ -4,6 +4,7 @@ import LoginBtn from '../../components/loginBtn'
 import { AtAvatar, AtButton } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
+import GameDataView from '../../components/GameDataView'
 
 interface IProps {
   text: string
@@ -59,12 +60,7 @@ export default class Index extends Component<IProps, any> {
         />
         <View className="menu">
           <View className="user-info">
-            <AtAvatar circle openData={{ type: 'userAvatarUrl' }}></AtAvatar>
-            <OpenData
-              className="nick"
-              type="userNickName"
-              lang="zh_CN"
-            ></OpenData>
+            <GameDataView></GameDataView>
           </View>
           <LoginBtn
             text={'创建房间'}
@@ -111,11 +107,13 @@ export default class Index extends Component<IProps, any> {
         ></View>
         <View className="statement">
           <Text className="top">
-            ■ 本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。
+            ■
+            本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。
           </Text>
           {mode === 'game' && (
             <Text className="bottom">
-              ■ 欢迎您添加微信 ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。
+              ■ 欢迎您添加微信
+              ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。
             </Text>
           )}
         </View>

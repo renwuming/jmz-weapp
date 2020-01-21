@@ -9,6 +9,7 @@ interface BattleRow {
   lanjieAnswer: number
   answer: number
   code: number
+  teamIndex: number
 }
 
 interface IProps {
@@ -47,17 +48,28 @@ export default class Index extends Component<IProps, any> {
 
   render() {
     const { data, index, type } = this.props
-    const { question, jiemiAnswer, lanjieAnswer, code, answer } = data
+    const {
+      question,
+      jiemiAnswer,
+      lanjieAnswer,
+      code,
+      answer,
+      teamIndex
+    } = data
     const showQuestion = question || '?????????'
     let roundItem
     if (!type) {
       roundItem = (
         <View className={index % 2 === 0 ? 'row grey' : 'row'}>
           <Word long={true} text={question}></Word>
-          <Text className="code">{jiemiAnswer < 4 ? jiemiAnswer + 1 : '-'}</Text>
+          <Text className={`code team${teamIndex}`}>
+            {jiemiAnswer < 4 ? jiemiAnswer + 1 : '-'}
+          </Text>
           <Text className="code key">{code + 1}</Text>
           {lanjieAnswer >= 0 ? (
-            <Text className="code lanjie">{lanjieAnswer < 4 ? lanjieAnswer + 1 : '-'}</Text>
+            <Text className={`code team${1 - teamIndex}`}>
+              {lanjieAnswer < 4 ? lanjieAnswer + 1 : '-'}
+            </Text>
           ) : (
             <Text className="code lanjie hidden"></Text>
           )}
