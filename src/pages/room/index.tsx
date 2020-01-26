@@ -65,9 +65,9 @@ export default class Index extends Component<any, IState> {
       url: `/rooms/wx/${id}`
     }).then(data => {
       this.setState(data)
-      const { activeGame } = data
+      const { activeGame, over } = data
       // 若已开始，则跳转
-      if (activeGame && !this.forbidAutoNavigate) {
+      if (activeGame && !over && !this.forbidAutoNavigate) {
         this.setState({
           isOpened: true
         })
@@ -326,6 +326,7 @@ export default class Index extends Component<any, IState> {
           </AtButton>
         </View>
         <AtModal
+          className="game-tip"
           isOpened={isOpened}
           cancelText="取消"
           closeOnClickOverlay={false}
