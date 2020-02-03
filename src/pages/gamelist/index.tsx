@@ -20,6 +20,12 @@ interface IState {
 }
 
 export default class Index extends Component<IState, any> {
+  // 分页数
+  page1 = 0
+  page2 = 0
+  // 是否已出初始化
+  init = false
+
   state = {
     roomList: [],
     historyList: [],
@@ -30,45 +36,52 @@ export default class Index extends Component<IState, any> {
   }
 
   componentDidShow() {
-    // 两栏的page计数
-    this.page1 = 0
-    this.page2 = 0
-
-    this.updateData1()
-    this.updateData2()
+    if (!this.init) {
+      this.updateData1()
+      this.updateData2()
+      this.init = true
+    }
   }
 
   updateData2() {
     request({
       method: 'GET',
       url: `/users/v2/history/games/${this.page2}`
-    }).then(res => {
-      const { historyList } = this.state
-      this.setState({
-        historyList: historyList.concat(res)
-      })
-      if (res.length < 10) {
-        this.setState({
-          end2: true
-        })
-      }
     })
+      .then(res => {
+        const { historyList } = this.state
+        this.setState({
+          historyList: historyList.concat(res)
+        })
+        if (res.length < 10) {
+          this.setState({
+            end2: true
+          })
+        }
+      })
+      .then(() => {
+        this.loading = false
+      })
   }
   updateData1() {
     request({
       method: 'GET',
       url: `/rooms/v2/list/${this.page1}`
-    }).then(res => {
-      const { roomList } = this.state
-      this.setState({
-        roomList: roomList.concat(res)
-      })
-      if (res.length < 10) {
-        this.setState({
-          end1: true
-        })
-      }
     })
+      .then(res => {
+        const { roomList } = this.state
+        this.setState({
+          roomList: roomList.concat(res)
+        })
+        if (res.length < 10) {
+          this.setState({
+            end1: true
+          })
+        }
+      })
+      .then(() => {
+        this.loading = false
+      })
   }
 
   enterGame(id) {
@@ -91,6 +104,8 @@ export default class Index extends Component<IState, any> {
 
   // 加载更多
   updateMore(index) {
+    if (this.loading) return
+    this.loading = true
     const { end1, end2 } = this.state
     if (index === 0 && !end1) {
       this.page1++
@@ -98,6 +113,8 @@ export default class Index extends Component<IState, any> {
     } else if (index === 1 && !end2) {
       this.page2++
       this.updateData2()
+    } else {
+      this.loading = false
     }
   }
 
