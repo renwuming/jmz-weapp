@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import {
   AtCard,
   AtButton,
@@ -7,7 +7,11 @@ import {
   AtFab,
   AtIcon,
   AtBadge,
-  AtCountdown
+  AtCountdown,
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction
 } from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
@@ -199,7 +203,6 @@ export default class Index extends Component<any, IState> {
   }
 
   submit() {
-    const { id } = this.$router.params
     const { battle, types, paperIndex } = this.state
     const currentBattle = battle[paperIndex]
     const type = types[paperIndex]
@@ -213,13 +216,11 @@ export default class Index extends Component<any, IState> {
         })
         return
       }
-      // 处理提交内容
-      currentBattle.forEach(item => {
-        item.question = ''
-      })
     } else {
       const questionList = currentBattle.map(item => {
-        return item.question.trim()
+        const { question } = item
+        item.question = question.trim()
+        return item.question
       })
       // 若有未填写的加密
       if (questionList.filter(n => !!n).length < 3) {
@@ -229,14 +230,41 @@ export default class Index extends Component<any, IState> {
         })
         return
       }
-      // 处理提交内容
+
+      currentBattle.forEach(item => {
+        item.answer = item.code
+      })
+    }
+
+    this.setState({
+      isOpenedSubmitTip: true,
+      preSubmit: currentBattle
+    })
+  }
+
+  // 确认提交加密/解密
+  confirmSubmit() {
+    const { id } = this.$router.params
+    const { battle, types, paperIndex } = this.state
+    const currentBattle = battle[paperIndex]
+    const type = types[paperIndex]
+
+    this.setState({
+      submitLoading: true,
+      isOpenedSubmitTip: false
+    })
+
+    // 处理提交内容
+    if (type === '解密' || type === '拦截') {
+      currentBattle.forEach(item => {
+        item.question = ''
+      })
+    } else {
       currentBattle.forEach(item => {
         item.answer = -1
       })
     }
-    this.setState({
-      submitLoading: true
-    })
+
     request({
       method: 'POST',
       url: `/games/wx/${id}/submit`,
@@ -322,7 +350,9 @@ export default class Index extends Component<any, IState> {
       resultMap,
       quickMode,
       countdownData,
-      mode
+      mode,
+      isOpenedSubmitTip,
+      preSubmit
     } = this.state
     // 处理倒计时
     if (countdownData) {
@@ -356,6 +386,40 @@ export default class Index extends Component<any, IState> {
     return (
       <View className="container">
         <AtMessage />
+        <AtModal
+          isOpened={isOpenedSubmitTip}
+          cancelText="取消"
+          confirmText="确定"
+          closeOnClickOverlay={false}
+        >
+          <AtModalHeader>您即将提交的数据</AtModalHeader>
+          <AtModalContent>
+            {preSubmit.map(item => (
+              <View className="detail-row">
+                <Text className="left">{item.question}</Text>
+                <Text className="right">{item.answer + 1}</Text>
+              </View>
+            ))}
+          </AtModalContent>
+          <AtModalAction>
+            <Button
+              onClick={() => {
+                this.setState({
+                  isOpenedSubmitTip: false
+                })
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              onClick={() => {
+                this.confirmSubmit()
+              }}
+            >
+              确定
+            </Button>
+          </AtModalAction>
+        </AtModal>
         {gameMode && (
           <View className="team-status">
             {teamNames.map((team, index) => {

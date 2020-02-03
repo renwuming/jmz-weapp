@@ -379,3 +379,38 @@
     padding: 0 10px;
   }
 }
+
+// 提交提示窗口
+at-modal {
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+  text {
+    color: #555;
+  }
+  at-modal-header {
+    display: block;
+    text-align: center;
+  }
+  at-modal-content .detail-row {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  at-modal-content .left {
+    display: inline-block;
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  at-modal-content .right {
+    margin-left: 50px;
+    display: block;
+    width: 80px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    box-shadow: 3px 3px 3px #aaa;
+  }
+}
