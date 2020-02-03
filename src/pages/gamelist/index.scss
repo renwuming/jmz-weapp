@@ -11,10 +11,10 @@
   display: flex;
   align-items: center;
   padding: 30px 20px;
-  border-bottom: 1px #ccc solid;
+  border-top: 1px #ccc solid;
 }
-.row:last-child {
-  border-bottom: 0;
+.row:first-child {
+  border-top: 0;
 }
 .column {
   display: flex;
@@ -53,6 +53,7 @@
   box-sizing: border-box;
   padding: 20px 50px;
   background-color: #eef5ff;
+  z-index: 100;
 }
 .status {
   margin-bottom: 20px;
@@ -64,4 +65,28 @@
 }
 .status.success {
   color: #e6504b;
+}
+// 滚动view
+scroll-view {
+  height: 100%;
+}
+.loading-box {
+  margin-top: 20px;
+  text-align: center;
+  display: block;
+  font-size: 56px;
+  animation: rotate 0.5s linear infinite;
+}
+// 旋转动画
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+// 底部分隔符
+.at-divider__content {
+  background-color: #eef5ff;
 }

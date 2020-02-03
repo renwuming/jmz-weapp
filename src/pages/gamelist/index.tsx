@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtAvatar, AtButton, AtSegmentedControl } from 'taro-ui'
+import { View, Text, ScrollView } from '@tarojs/components'
+import { AtAvatar, AtSegmentedControl, AtDivider } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
 
@@ -30,25 +30,44 @@ export default class Index extends Component<IState, any> {
   }
 
   componentDidShow() {
-    this.updateData()
+    // 两栏的page计数
+    this.page1 = 0
+    this.page2 = 0
+
+    this.updateData1()
+    this.updateData2()
   }
 
-  updateData() {
+  updateData2() {
     request({
       method: 'GET',
-      url: `/users/history/games`
+      url: `/users/v2/history/games/${this.page2}`
     }).then(res => {
+      const { historyList } = this.state
       this.setState({
-        historyList: res
+        historyList: historyList.concat(res)
       })
+      if (res.length < 10) {
+        this.setState({
+          end2: true
+        })
+      }
     })
+  }
+  updateData1() {
     request({
       method: 'GET',
-      url: `/rooms/list/wx`
+      url: `/rooms/v2/list/${this.page1}`
     }).then(res => {
+      const { roomList } = this.state
       this.setState({
-        roomList: res
+        roomList: roomList.concat(res)
       })
+      if (res.length < 10) {
+        this.setState({
+          end1: true
+        })
+      }
     })
   }
 
@@ -68,11 +87,22 @@ export default class Index extends Component<IState, any> {
     this.setState({
       tabIndex: index
     })
-    this.updateData()
+  }
+
+  // 加载更多
+  updateMore(index) {
+    const { end1, end2 } = this.state
+    if (index === 0 && !end1) {
+      this.page1++
+      this.updateData1()
+    } else if (index === 1 && !end2) {
+      this.page2++
+      this.updateData2()
+    }
   }
 
   render() {
-    const { roomList, historyList, tabIndex } = this.state
+    const { roomList, historyList, tabIndex, end1, end2 } = this.state
     return (
       <View className="container">
         <View className="tabs">
@@ -84,61 +114,26 @@ export default class Index extends Component<IState, any> {
             current={tabIndex}
           />
         </View>
-        {tabIndex === 0 &&
-          roomList.map((room, index) => {
-            const { userList } = room
-            const list = (userList as Array<User>).slice(0, 4)
-            return (
-              <View
-                className="row"
-                onClick={() => {
-                  this.enterRoom(room._id)
-                }}
-              >
-                <Text className="index">{index + 1}</Text>
-                <View className="avatar-box">
-                  {list.map(user =>
-                    user.userInfo ? (
-                      <AtAvatar
-                        className="avatar"
-                        circle
-                        image={user.userInfo.avatarUrl}
-                      ></AtAvatar>
-                    ) : (
-                      ''
-                    )
-                  )}
-                </View>
-                {/* <AtButton
-                  className="menu-btn error-btn"
-                  circle
-                  type="primary"
-                  size="small"
+        {tabIndex === 0 && (
+          <ScrollView
+            scrollY={true}
+            enableBackToTop={true}
+            onScrollToLower={() => {
+              this.updateMore(tabIndex)
+            }}
+          >
+            {roomList.map((room, index) => {
+              const { userList, _id } = room
+              const list = (userList as Array<User>).slice(0, 4)
+              return (
+                <View
+                  key={_id}
+                  className="row"
                   onClick={() => {
                     this.enterRoom(room._id)
                   }}
                 >
-                  进入房间
-                </AtButton> */}
-              </View>
-            )
-          })}
-        {tabIndex === 1 &&
-          historyList.map((game, index) => {
-            const { userList, status } = game
-            const list = (userList as Array<User>).slice(0, 4)
-            const statusClass =
-              status === '胜利' ? 'success' : status === '失败' ? 'fail' : ''
-            return (
-              <View
-                className="row"
-                onClick={() => {
-                  this.enterGame(game._id)
-                }}
-              >
-                <Text className="index">{index + 1}</Text>
-                <View className="column">
-                  <Text className={`status ${statusClass}`}>{status}</Text>
+                  <Text className="index">{index + 1}</Text>
                   <View className="avatar-box">
                     {list.map(user =>
                       user.userInfo ? (
@@ -153,20 +148,70 @@ export default class Index extends Component<IState, any> {
                     )}
                   </View>
                 </View>
-                {/* <AtButton
-                  className="menu-btn error-btn"
-                  circle
-                  type="primary"
-                  size="small"
+              )
+            })}
+            {end1 ? (
+              <AtDivider
+                content="没有更多了"
+                fontColor="#999"
+                lineColor="#ccc"
+              />
+            ) : (
+              <View className="at-icon at-icon-loading-3 loading-box"></View>
+            )}
+          </ScrollView>
+        )}
+        {tabIndex === 1 && (
+          <ScrollView
+            scrollY={true}
+            enableBackToTop={true}
+            onScrollToLower={() => {
+              this.updateMore(tabIndex)
+            }}
+          >
+            {historyList.map((game, index) => {
+              const { userList, status } = game
+              const list = (userList as Array<User>).slice(0, 4)
+              const statusClass =
+                status === '胜利' ? 'success' : status === '失败' ? 'fail' : ''
+              return (
+                <View
+                  className="row"
                   onClick={() => {
                     this.enterGame(game._id)
                   }}
                 >
-                  详情
-                </AtButton> */}
-              </View>
-            )
-          })}
+                  <Text className="index">{index + 1}</Text>
+                  <View className="column">
+                    <Text className={`status ${statusClass}`}>{status}</Text>
+                    <View className="avatar-box">
+                      {list.map(user =>
+                        user.userInfo ? (
+                          <AtAvatar
+                            className="avatar"
+                            circle
+                            image={user.userInfo.avatarUrl}
+                          ></AtAvatar>
+                        ) : (
+                          ''
+                        )
+                      )}
+                    </View>
+                  </View>
+                </View>
+              )
+            })}
+            {end2 ? (
+              <AtDivider
+                content="没有更多了"
+                fontColor="#999"
+                lineColor="#ccc"
+              />
+            ) : (
+              <View className="at-icon at-icon-loading-3 loading-box"></View>
+            )}
+          </ScrollView>
+        )}
       </View>
     )
   }

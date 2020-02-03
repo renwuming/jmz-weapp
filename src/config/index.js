@@ -4,7 +4,8 @@ let env = 'prod'
 export const baseUrl =
   env === 'dev'
     ? 'http://localhost:9999'
-    : 'https://www.renwuming.cn/jmz-fyb2'
+    // ? 'http://47.104.15.69/jmz-fyb2'
+    : 'https://www.renwuming.cn/jmz'
 export const baseUrlAuth =
   env === 'dev'
     ? 'http://localhost:5555'

@@ -384,16 +384,19 @@ export default class Index extends Component<any, IState> {
     const currentBattle = battle[paperIndex] || []
 
     return (
-      <View className="container">
+      <View className={`container  bk${paperIndex}`}>
         <AtMessage />
         <AtModal
           isOpened={isOpenedSubmitTip}
-          cancelText="取消"
-          confirmText="确定"
-          closeOnClickOverlay={false}
+          closeOnClickOverlay={true}
+          onClose={() => {
+            this.setState({
+              isOpenedSubmitTip: false
+            })
+          }}
         >
-          <AtModalHeader>您即将提交的数据</AtModalHeader>
-          <AtModalContent>
+          {/* <AtModalHeader>您即将提交的数据</AtModalHeader> */}
+          <AtModalContent className="submit-tip">
             {preSubmit.map(item => (
               <View className="detail-row">
                 <Text className="left">{item.question}</Text>
@@ -404,19 +407,10 @@ export default class Index extends Component<any, IState> {
           <AtModalAction>
             <Button
               onClick={() => {
-                this.setState({
-                  isOpenedSubmitTip: false
-                })
-              }}
-            >
-              取消
-            </Button>
-            <Button
-              onClick={() => {
                 this.confirmSubmit()
               }}
             >
-              确定
+              提交！
             </Button>
           </AtModalAction>
         </AtModal>
