@@ -219,7 +219,7 @@ export default class Index extends Component<any, IState> {
       })
     } else {
       const questionList = currentBattle.map(item => {
-        return item.question
+        return item.question.trim()
       })
       // 若有未填写的加密
       if (questionList.filter(n => !!n).length < 3) {
