@@ -1,0 +1,14 @@
+// 广告
+.ad-box {
+  position: relative;
+  margin-top: 50px;
+  width: 100%;
+  z-index: 100;
+  .ad-tip {
+    width: 150px;
+    border-left: 6px solid #6190e8;
+    padding-left: 20px;
+    color: #6a6a77;
+    margin-bottom: 20px;
+  }
+}

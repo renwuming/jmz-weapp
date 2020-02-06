@@ -188,7 +188,7 @@ export default class Index extends Component<any, IState> {
       <View className="container">
         {userList.map((user, index) => {
           const { userInfo, id } = user
-          const { nickName, avatarUrl } = userInfo
+          const { nickName } = userInfo
           return (
             <View className={`row ${index === 3 ? 'division' : ''}`}>
               <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
@@ -333,7 +333,7 @@ export default class Index extends Component<any, IState> {
           onCancel={() => {
             this.handleCancel()
           }}
-          content="即将跳转到正在进行的游戏..."
+          content="即将跳转到正在进行的..."
         />
       </View>
     )

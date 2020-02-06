@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image, Button } from '@tarojs/components'
+import { View, Text, Image, Button, Image } from '@tarojs/components'
 import {
   AtCard,
   AtButton,
@@ -9,13 +9,13 @@ import {
   AtBadge,
   AtCountdown,
   AtModal,
-  AtModalHeader,
   AtModalContent,
   AtModalAction
 } from 'taro-ui'
 import RoundItem from '../../components/RoundItem'
 import Word from '../../components/Word'
 import UserItem from '../../components/UserItem'
+import AD from '../../components/AD'
 import './index.scss'
 import { request } from '../../api'
 
@@ -175,9 +175,13 @@ export default class Index extends Component<any, IState> {
 
   componentDidHide() {
     clearInterval(updateTimer)
+    // 停止背景音乐
+    wx.stopBackgroundAudio({})
   }
   componentWillUnmount() {
     clearInterval(updateTimer)
+    // 停止背景音乐
+    wx.stopBackgroundAudio({})
   }
 
   componentDidShow() {
@@ -193,6 +197,12 @@ export default class Index extends Component<any, IState> {
     updateTimer = setInterval(() => {
       this.updateGameData()
     }, 2000)
+
+    // 播放背景音乐
+    wx.playBackgroundAudio({
+      dataUrl: 'http://cdn.renwuming.cn/static/jmz/music.mp3',
+      title: '截码战-music'
+    })
   }
 
   initMode(length) {
@@ -315,7 +325,7 @@ export default class Index extends Component<any, IState> {
       this.setState({
         changePaper: false
       })
-    }, 1200)
+    }, 900)
   }
 
   gotoHome() {
@@ -352,7 +362,8 @@ export default class Index extends Component<any, IState> {
       countdownData,
       mode,
       isOpenedSubmitTip,
-      preSubmit
+      preSubmit,
+      stageName
     } = this.state
     // 处理倒计时
     if (countdownData) {
@@ -395,12 +406,14 @@ export default class Index extends Component<any, IState> {
             })
           }}
         >
-          {/* <AtModalHeader>您即将提交的数据</AtModalHeader> */}
           <AtModalContent className="submit-tip">
             {preSubmit.map(item => (
               <View className="detail-row">
                 <Text className="left">{item.question}</Text>
-                <Text className="right">{item.answer + 1}</Text>
+                <Text className="right">
+                  {item.answer + 1}{' '}
+                  {paperIndex === teamIndex ? teamWords[item.answer] : ''}
+                </Text>
               </View>
             ))}
           </AtModalContent>
@@ -414,6 +427,15 @@ export default class Index extends Component<any, IState> {
             </Button>
           </AtModalAction>
         </AtModal>
+        <View className="top-menu">
+          <View className="top-bk"></View>
+          <View
+            className="menu-btn"
+            onClick={() => {
+              this.gotoHome()
+            }}
+          ></View>
+        </View>
         {gameMode && (
           <View className="team-status">
             {teamNames.map((team, index) => {
@@ -423,8 +445,10 @@ export default class Index extends Component<any, IState> {
               return (
                 <View className={`team-title team${index}`}>
                   <View className="title-row">
+                    <Image
+                      src={`http://cdn.renwuming.cn/static/jmz/team-icon${index}.png`}
+                    />
                     <Text className="title">{team}</Text>
-                    <Text className="score">{result.sum} 分</Text>
                   </View>
                   <View className="detail-row">
                     <View className="user-list">
@@ -432,10 +456,14 @@ export default class Index extends Component<any, IState> {
                       <UserItem data={userList[baseIndex + 1]}></UserItem>
                     </View>
                     <View className="score-list">
+                      <Text className="sum-score">{result.sum}</Text>
                       <Text className="score">退回：</Text>
-                      <Text className="score">{result.black}次</Text>
+                      <Text className="score right">
+                        {result.black > 0 ? '-' : ''}
+                        {result.black}
+                      </Text>
                       <Text className="score">识破：</Text>
-                      <Text className="score">{result2.red}次</Text>
+                      <Text className="score right">{result2.red}</Text>
                     </View>
                   </View>
                 </View>
@@ -443,17 +471,27 @@ export default class Index extends Component<any, IState> {
             })}
           </View>
         )}
-        <View className="padding-container">
-          {gameMode && gameOver && (
-            <View className={`over-card ${winner >= 0 ? 'team' + winner : ''}`}>
-              <Text className="over-tip">{resultString}</Text>
-            </View>
-          )}
-          {quickMode && !gameOver && (
-            <View className="stage-count-down-box">
-              {countdownData.time > 0 ? (
+        {gameMode && gameOver && (
+          <View
+            className={`over-card ${winner >= 0 ? 'team' + winner : ''}`}
+            onClick={() => {
+              this.changePaper()
+            }}
+          >
+            <Text className="over-tip">{resultString}</Text>
+          </View>
+        )}
+        {!gameOver && (
+          <View
+            className="stage-count-down-box"
+            onClick={() => {
+              this.changePaper()
+            }}
+          >
+            {quickMode &&
+              (countdownData.time > 0 ? (
                 <View className="row">
-                  <Text className="title">{countdownData.name}阶段：</Text>
+                  <Text className="title">{countdownData.name}</Text>
                   <AtCountdown
                     className="count-down"
                     isCard
@@ -463,9 +501,15 @@ export default class Index extends Component<any, IState> {
                 </View>
               ) : (
                 <Text className="title">即将进入下一阶段...</Text>
-              )}
-            </View>
-          )}
+              ))}
+            {!quickMode && (
+              <View className="row">
+                <Text className="title">{stageName}</Text>
+              </View>
+            )}
+          </View>
+        )}
+        <View className="padding-container">
           <View className={changePaper ? 'rotate-container' : ''}>
             {gameOver && teamNames[0] && (
               <View className={`title-box title${paperIndex}`}>
@@ -476,15 +520,31 @@ export default class Index extends Component<any, IState> {
               <View>
                 <AtCard
                   className={`round-item battle-item team${paperIndex}`}
-                  title={`第${roundNumber + 1}封 ${pageTitleMap[paperIndex]}`}
+                  title={`第${roundNumber + 1}封 ${pageTitleMap[paperIndex]}卡`}
+                  extra={`(点击右下圆形按钮翻面\n查看${
+                    pageTitleMap[1 - paperIndex]
+                  }卡)`}
                 >
                   <View className="round-container">
                     <View className="round-status">
+                      <View className="row-tip">
+                        <Image src="http://cdn.renwuming.cn/static/jmz/mid-bk.png"></Image>
+                        <Text className={`team${paperIndex}`}>
+                          ▽ {paperIndex === teamIndex ? '我方' : '敌方'}密电进度
+                        </Text>
+                      </View>
                       <View className="row">
                         <Text className="left">加密者</Text>
                         <UserItem long={true} data={desUser}></UserItem>
-                        {jiamiStatus && (
+                        {jiamiStatus ? (
                           <AtIcon
+                            value="check"
+                            size="20"
+                            color="#009966"
+                          ></AtIcon>
+                        ) : (
+                          <AtIcon
+                            className="hidden"
                             value="check"
                             size="20"
                             color="#009966"
@@ -517,10 +577,22 @@ export default class Index extends Component<any, IState> {
                       )}
                     </View>
                     <View className="round-status right">
+                      <View className="row-tip">
+                        <Text className={`team${1 - paperIndex}`}>
+                          ▽ {paperIndex === teamIndex ? '敌方' : '我方'}密电进度
+                        </Text>
+                      </View>
                       <View className="row">
                         <UserItem nonick={true} data={desUser2}></UserItem>
-                        {jiamiStatus2 && (
+                        {jiamiStatus2 ? (
                           <AtIcon
+                            value="check"
+                            size="20"
+                            color="#009966"
+                          ></AtIcon>
+                        ) : (
+                          <AtIcon
+                            className="hidden"
                             value="check"
                             size="20"
                             color="#009966"
@@ -619,7 +691,11 @@ export default class Index extends Component<any, IState> {
             </View>
 
             {gameMode && (
-              <View>
+              <View
+                style={{
+                  minHeight: '100px'
+                }}
+              >
                 <View className={`round-list team${paperIndex}`}>
                   {showHistory.map((item: HistoryItem, index) => (
                     <AtCard
@@ -669,28 +745,15 @@ export default class Index extends Component<any, IState> {
             >
               {this.news && this.news[1 - paperIndex] && !gameOver ? (
                 <AtBadge className="shake" value={'new'}>
-                  <Image src="https://www.renwuming.cn/static/jmz/rotate.png" />
+                  <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
                 </AtBadge>
               ) : (
-                <Image src="https://www.renwuming.cn/static/jmz/rotate.png" />
+                <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
               )}
             </AtFab>
           </View>
-          {/* <View className="home-btn">
-            <AtFab
-              onClick={() => {
-                this.gotoHome()
-              }}
-              size="small"
-            >
-              <Text className="at-fab__icon at-icon at-icon-home"></Text>
-            </AtFab>
-          </View> */}
-
-          {/* <View className="ad-box">
-          <ad unit-id="adunit-ba222e7895349b2d"></ad>
-        </View> */}
         </View>
+        <AD />
       </View>
     )
   }

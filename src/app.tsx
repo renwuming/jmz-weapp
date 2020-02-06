@@ -27,14 +27,16 @@ class App extends Component {
       'pages/gamelist/index',
       'pages/about/index',
       'pages/imglist/index',
-      'pages/addword/index'
+      'pages/addword/index',
+      'pages/onlineMatch/index'
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#eef5ff',
       navigationBarTitleText: '截码战',
       navigationBarTextStyle: 'black'
-    }
+    },
+    navigateToMiniProgramAppIdList: ['wx18a2ac992306a5a4']
   }
 
   componentDidShow() {

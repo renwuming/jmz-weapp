@@ -66,7 +66,7 @@ export default class Index extends Component<IState, any> {
   updateData1() {
     request({
       method: 'GET',
-      url: `/rooms/v2/list/${this.page1}`
+      url: `/rooms/v3/list/${this.page1}`
     })
       .then(res => {
         const { roomList } = this.state
@@ -139,15 +139,19 @@ export default class Index extends Component<IState, any> {
               this.updateMore(tabIndex)
             }}
           >
-            {roomList.map((room, index) => {
-              const { userList, _id } = room
+            {roomList.map((data, index) => {
+              const { userList, _id, teams, observe } = data
               const list = (userList as Array<User>).slice(0, 4)
               return (
                 <View
                   key={_id}
                   className="row"
                   onClick={() => {
-                    this.enterRoom(room._id)
+                    if (teams) {
+                      this.enterGame(_id)
+                    } else {
+                      this.enterRoom(_id)
+                    }
                   }}
                 >
                   <Text className="index">{index + 1}</Text>
@@ -164,11 +168,19 @@ export default class Index extends Component<IState, any> {
                       )
                     )}
                   </View>
+                  {teams ? (
+                    <Text className="room-status gaming">进行中</Text>
+                  ) : observe ? (
+                    <Text className="room-status gaming">旁观中</Text>
+                  ) : (
+                    <Text className="room-status">未开始</Text>
+                  )}
                 </View>
               )
             })}
             {end1 ? (
               <AtDivider
+                className={roomList.length > 0 ? '' : 'middle'}
                 content="没有更多了"
                 fontColor="#999"
                 lineColor="#ccc"
@@ -220,6 +232,7 @@ export default class Index extends Component<IState, any> {
             })}
             {end2 ? (
               <AtDivider
+                className={historyList.length > 0 ? '' : 'middle'}
                 content="没有更多了"
                 fontColor="#999"
                 lineColor="#ccc"

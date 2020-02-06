@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
 import { AtButton } from 'taro-ui'
+import AD from '../../components/AD'
 
 // 在页面中定义插屏广告
 let interstitialAd = null
@@ -24,12 +25,22 @@ export default class Index extends Component {
       interstitialAd.onLoad(() => {})
       interstitialAd.onError(err => {})
       interstitialAd.onClose(() => {
-        this.gotoDashang()
+        this.navigateToRule()
       })
     }
   }
 
   gotoRule() {
+    // 在适合的场景显示插屏广告
+    if (interstitialAd) {
+      interstitialAd.show().catch(err => {
+        console.error(err)
+        this.navigateToRule()
+      })
+    }
+  }
+
+  navigateToRule() {
     Taro.navigateTo({
       url: `/pages/imglist/index?type=rule`
     })
@@ -48,18 +59,16 @@ export default class Index extends Component {
   }
 
   dashang() {
-    // 在适合的场景显示插屏广告
-    if (interstitialAd) {
-      interstitialAd.show().catch(err => {
-        console.error(err)
-        this.gotoDashang()
-      })
-    }
+    this.gotoDashang()
   }
 
   gotoDashang() {
-    Taro.navigateTo({
-      url: `/pages/imglist/index?type=reward`
+    // Taro.navigateTo({
+    //   url: `/pages/imglist/index?type=reward`
+    // })
+    wx.navigateToMiniProgram({
+      appId: 'wx18a2ac992306a5a4',
+      path: 'pages/apps/largess/detail?id=qml%2Fe4T5%2FpA%3D'
     })
   }
 
@@ -99,6 +108,7 @@ export default class Index extends Component {
         >
           打赏作者
         </AtButton>
+
         {/* {
             <AtButton
               className='menu-btn secondary'
@@ -110,6 +120,12 @@ export default class Index extends Component {
               加群交流
             </AtButton>
         } */}
+        <View
+          style={{
+            flexGrow: 1
+          }}
+        ></View>
+        <AD />
       </View>
     )
   }

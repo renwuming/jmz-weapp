@@ -100,7 +100,14 @@
 					"id": 7,
 					"name": "game2",
 					"pathName": "pages/game/index",
-					"query": "id=5e19a861be91d41fbe274859",
+					"query": "id=5e219993fc0c87c90e6412a5",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "在线组局",
+					"pathName": "pages/onlineMatch/index",
+					"query": "id=5e1fe931c00059c74b8b9a79",
 					"scene": null
 				}
 			]

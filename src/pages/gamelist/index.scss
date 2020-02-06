@@ -66,6 +66,14 @@
 .status.success {
   color: #e6504b;
 }
+
+.room-status {
+  color: #666;
+  font-family: yansong;
+}
+.room-status.gaming {
+  color: #e6504b;
+}
 // 滚动view
 scroll-view {
   height: 100%;
@@ -87,6 +95,9 @@ scroll-view {
   }
 }
 // 底部分隔符
+.at-divider.middle {
+  // margin-top: 40%;
+}
 .at-divider__content {
   background-color: #eef5ff;
 }
