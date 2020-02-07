@@ -62,13 +62,6 @@
 					"scene": null
 				},
 				{
-					"id": 2,
-					"name": "线上game",
-					"pathName": "pages/game/index",
-					"query": "id=5d5d0b5ad9b4a1082165daf5",
-					"scene": null
-				},
-				{
 					"id": -1,
 					"name": "关于",
 					"pathName": "pages/about/index",

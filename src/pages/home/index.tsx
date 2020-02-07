@@ -3,7 +3,7 @@ import { View, Image, OpenData, Text } from '@tarojs/components'
 import LoginBtn from '../../components/loginBtn'
 import { AtButton } from 'taro-ui'
 import './index.scss'
-import { request } from '../../api'
+import { request, validate } from '../../api'
 import GameDataView from '../../components/GameDataView'
 
 interface IProps {
@@ -15,6 +15,15 @@ export default class Index extends Component<IProps, any> {
   static defaultProps = {
     text: '',
     index: 0
+  }
+
+  componentDidShow() {
+    validate().then(res => {
+      const { mode } = res
+      this.setState({
+        mode
+      })
+    })
   }
 
   onShareAppMessage() {
@@ -62,7 +71,7 @@ export default class Index extends Component<IProps, any> {
   }
 
   render() {
-    const mode = Taro.getStorageSync('mode')
+    const { mode } = this.state
     return (
       <View className="container">
         <Image

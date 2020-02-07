@@ -1,6 +1,10 @@
+page {
+  background-color: #eee;
+}
+
 .container {
   box-sizing: border-box;
-  background-color: #eef5ff;
+  background-color: #eee;
   min-height: 100%;
 }
 .padding-container {
@@ -37,6 +41,7 @@
 }
 // 比赛结果
 .over-card {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,6 +60,7 @@
 }
 // 倒计时
 .stage-count-down-box {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,6 +100,32 @@
   }
   .at-countdown--card .at-countdown__time-box {
     padding: 0 10px;
+  }
+}
+
+// 翻转按钮
+.img-btn-box {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 20px;
+  top: 24px;
+  image {
+    width: 120px;
+    height: 56px;
+  }
+  text {
+    font-size: 20px;
+    font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+    text-align: center;
+    color: #242831;
+  }
+}
+.img-btn-box.right {
+  left: initial;
+  right: 30px;
+  image {
+    width: 104px;
   }
 }
 
@@ -146,7 +178,7 @@
   width: 100%;
   margin-top: 20px;
   box-shadow: none;
-  background-color: #ffcc99;
+  background-color: #ece4c6;
   .at-card__content {
     padding-top: 0;
   }
@@ -330,14 +362,13 @@
 .team-title {
   display: flex;
   flex-basis: 373px;
-  padding-bottom: 30px;
+  height: 280px;
   box-sizing: border-box;
   flex-direction: column;
   font-size: 30px;
   background: no-repeat
     url('http://cdn.renwuming.cn/static/jmz/team-status-bk.jpg') 0 0 / cover;
   color: #fff;
-  font-family: yansong;
   .title-row {
     display: flex;
     align-items: center;
@@ -352,6 +383,7 @@
       margin-left: 10px;
       font-size: 30px;
       color: #535353;
+      font-family: yansong;
     }
   }
   .detail-row {
@@ -377,12 +409,14 @@
       flex-direction: column;
       margin-left: 12px;
       color: #474747;
+      font-family: yansong;
       .sum-score {
         color: #1f262c;
         font-size: 46px;
         padding-bottom: 4px;
         text-align: center;
         border-bottom: 4px solid #4e515a;
+        margin-bottom: 4px;
       }
       .score {
         font-size: 20px;
@@ -392,6 +426,7 @@
         border-bottom: 1px solid #4e515a;
         margin-top: 0;
         padding-bottom: 4px;
+        margin-bottom: 4px;
       }
       .score.right:last-child {
         border-bottom: none;

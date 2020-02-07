@@ -55,6 +55,7 @@ export const validate = () => {
       // 缓存userInfo和mode
       Taro.setStorageSync('userInfo', userInfo)
       Taro.setStorageSync('mode', mode)
+      return res
     })
     .catch(() => {
       return login()
@@ -86,7 +87,7 @@ function warning(title) {
   Taro.showToast({
     title,
     icon: 'none',
-    duration: 2000
+    duration: 3000
   })
 }
 

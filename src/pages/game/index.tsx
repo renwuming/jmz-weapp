@@ -1,4 +1,4 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text, Image, Button, Image } from '@tarojs/components'
 import {
   AtCard,
@@ -79,6 +79,11 @@ interface IState {
 let changePaperTimer
 
 export default class Index extends Component<any, IState> {
+
+  config: Config = {
+    navigationBarBackgroundColor: '#eee',
+  }
+
   state = {
     mode: 'tool', // 模式
     battle: [] as Array<BattleRow>,
@@ -125,6 +130,9 @@ export default class Index extends Component<any, IState> {
   }
 
   updateGameData() {
+    // 修正背景音乐状态
+    this.getMusicStatus(
+
     const { id } = this.$router.params
     return request({
       method: 'GET',
@@ -200,8 +208,42 @@ export default class Index extends Component<any, IState> {
 
     // 播放背景音乐
     wx.playBackgroundAudio({
-      dataUrl: 'http://cdn.renwuming.cn/static/jmz/music.mp3',
+      dataUrl: 'http://cdn.renwuming.cn/static/jmz/music2.mp3',
       title: '截码战-music'
+    })
+  }
+
+  getMusicStatus(fn = () => {}) {
+    wx.getBackgroundAudioPlayerState({
+      success: data => {
+        const { status } = data
+        this.setState({
+          music: status
+        })
+        fn(data)
+      }
+    })
+  }
+
+  // 暂停/播放背景音乐
+  changeMusicPower() {
+    this.getMusicStatus(data => {
+      const { status } = data
+      if (status === 1) {
+        wx.pauseBackgroundAudio()
+        this.setState({
+          music: 0
+        })
+      } else {
+        // 播放背景音乐
+        wx.playBackgroundAudio({
+          dataUrl: 'http://cdn.renwuming.cn/static/jmz/music2.mp3',
+          title: '截码战-music'
+        })
+        this.setState({
+          music: 1
+        })
+      }
     })
   }
 
@@ -363,7 +405,8 @@ export default class Index extends Component<any, IState> {
       mode,
       isOpenedSubmitTip,
       preSubmit,
-      stageName
+      stageName,
+      music
     } = this.state
     // 处理倒计时
     if (countdownData) {
@@ -472,22 +515,39 @@ export default class Index extends Component<any, IState> {
           </View>
         )}
         {gameMode && gameOver && (
-          <View
-            className={`over-card ${winner >= 0 ? 'team' + winner : ''}`}
-            onClick={() => {
-              this.changePaper()
-            }}
-          >
+          <View className={`over-card ${winner >= 0 ? 'team' + winner : ''}`}>
+            <View
+              className="img-btn-box"
+              onClick={() => {
+                this.changePaper()
+              }}
+            >
+              <Image src="http://www.renwuming.cn/static/jmz/left-rotate.jpg" />
+              <Text>切换密电卡</Text>
+            </View>
             <Text className="over-tip">{resultString}</Text>
+            <View
+              className="img-btn-box right"
+              onClick={() => {
+                this.changeMusicPower()
+              }}
+            >
+              <Image src="http://www.renwuming.cn/static/jmz/music.png" />
+              <Text>音乐 {music === 1 ? '开' : '关'}</Text>
+            </View>
           </View>
         )}
         {!gameOver && (
-          <View
-            className="stage-count-down-box"
-            onClick={() => {
-              this.changePaper()
-            }}
-          >
+          <View className="stage-count-down-box">
+            <View
+              className="img-btn-box"
+              onClick={() => {
+                this.changePaper()
+              }}
+            >
+              <Image src="http://www.renwuming.cn/static/jmz/left-rotate.jpg" />
+              <Text>切换密电卡</Text>
+            </View>
             {quickMode &&
               (countdownData.time > 0 ? (
                 <View className="row">
@@ -507,6 +567,16 @@ export default class Index extends Component<any, IState> {
                 <Text className="title">{stageName}</Text>
               </View>
             )}
+
+            <View
+              className="img-btn-box right"
+              onClick={() => {
+                this.changeMusicPower()
+              }}
+            >
+              <Image src="http://www.renwuming.cn/static/jmz/music.png" />
+              <Text>音乐 {music === 1 ? '开' : '关'}</Text>
+            </View>
           </View>
         )}
         <View className="padding-container">
@@ -521,9 +591,9 @@ export default class Index extends Component<any, IState> {
                 <AtCard
                   className={`round-item battle-item team${paperIndex}`}
                   title={`第${roundNumber + 1}封 ${pageTitleMap[paperIndex]}卡`}
-                  extra={`(点击右下圆形按钮翻面\n查看${
+                  extra={`点击右下圆形按钮翻面\n查看【${
                     pageTitleMap[1 - paperIndex]
-                  }卡)`}
+                  }卡】`}
                 >
                   <View className="round-container">
                     <View className="round-status">
