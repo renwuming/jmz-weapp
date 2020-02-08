@@ -85,7 +85,7 @@ export default class Index extends Component<any, IState> {
 
   gotoGame(id = null) {
     const { activeGame } = this.state
-    Taro.redirectTo({
+    Taro.reLaunch({
       url: `/pages/game/index?id=${id ? id : activeGame}`
     })
   }
@@ -103,9 +103,7 @@ export default class Index extends Component<any, IState> {
     }).then(data => {
       if (data.id) {
         const gameID = data.id
-        Taro.redirectTo({
-          url: `/pages/game/index?id=${gameID}`
-        })
+        this.gotoGame(gameID)
       }
     })
   }

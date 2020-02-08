@@ -79,9 +79,8 @@ interface IState {
 let changePaperTimer
 
 export default class Index extends Component<any, IState> {
-
   config: Config = {
-    navigationBarBackgroundColor: '#eee',
+    navigationBarBackgroundColor: '#eee'
   }
 
   state = {
@@ -131,7 +130,9 @@ export default class Index extends Component<any, IState> {
 
   updateGameData() {
     // 修正背景音乐状态
-    this.getMusicStatus(
+    this.getMusicStatus()
+    const { gameOver } = this.state
+    if (gameOver) return
 
     const { id } = this.$router.params
     return request({
@@ -205,12 +206,6 @@ export default class Index extends Component<any, IState> {
     updateTimer = setInterval(() => {
       this.updateGameData()
     }, 2000)
-
-    // 播放背景音乐
-    wx.playBackgroundAudio({
-      dataUrl: 'http://cdn.renwuming.cn/static/jmz/music2.mp3',
-      title: '截码战-music'
-    })
   }
 
   getMusicStatus(fn = () => {}) {
@@ -221,6 +216,9 @@ export default class Index extends Component<any, IState> {
           music: status
         })
         fn(data)
+      },
+      fail: () => {
+        fn({ status: 0 })
       }
     })
   }
@@ -367,7 +365,7 @@ export default class Index extends Component<any, IState> {
       this.setState({
         changePaper: false
       })
-    }, 900)
+    }, 500)
   }
 
   gotoHome() {
@@ -522,7 +520,7 @@ export default class Index extends Component<any, IState> {
                 this.changePaper()
               }}
             >
-              <Image src="http://www.renwuming.cn/static/jmz/left-rotate.jpg" />
+              <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
               <Text>切换密电卡</Text>
             </View>
             <Text className="over-tip">{resultString}</Text>
@@ -532,7 +530,7 @@ export default class Index extends Component<any, IState> {
                 this.changeMusicPower()
               }}
             >
-              <Image src="http://www.renwuming.cn/static/jmz/music.png" />
+              <Image src="http://cdn.renwuming.cn/static/jmz/music.png" />
               <Text>音乐 {music === 1 ? '开' : '关'}</Text>
             </View>
           </View>
@@ -545,7 +543,7 @@ export default class Index extends Component<any, IState> {
                 this.changePaper()
               }}
             >
-              <Image src="http://www.renwuming.cn/static/jmz/left-rotate.jpg" />
+              <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
               <Text>切换密电卡</Text>
             </View>
             {quickMode &&
@@ -574,7 +572,7 @@ export default class Index extends Component<any, IState> {
                 this.changeMusicPower()
               }}
             >
-              <Image src="http://www.renwuming.cn/static/jmz/music.png" />
+              <Image src="http://cdn.renwuming.cn/static/jmz/music.png" />
               <Text>音乐 {music === 1 ? '开' : '关'}</Text>
             </View>
           </View>

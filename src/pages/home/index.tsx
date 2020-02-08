@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, OpenData, Text } from '@tarojs/components'
 import LoginBtn from '../../components/loginBtn'
-import { AtButton } from 'taro-ui'
+import { AtButton, AtBadge } from 'taro-ui'
 import './index.scss'
 import { request, validate } from '../../api'
 import GameDataView from '../../components/GameDataView'
@@ -19,9 +19,10 @@ export default class Index extends Component<IProps, any> {
 
   componentDidShow() {
     validate().then(res => {
-      const { mode } = res
+      const { mode, onlineMatch } = res
       this.setState({
-        mode
+        mode,
+        onlineMatch
       })
     })
   }
@@ -71,7 +72,7 @@ export default class Index extends Component<IProps, any> {
   }
 
   render() {
-    const { mode } = this.state
+    const { mode, onlineMatch } = this.state
     return (
       <View className="container">
         <Image
@@ -83,15 +84,17 @@ export default class Index extends Component<IProps, any> {
           <View className="user-info">
             <GameDataView></GameDataView>
           </View>
-          {/* {mode === 'game' && (
-            <LoginBtn
-              text="快速开始"
-              className="menu-btn strong"
-              callback={() => {
-                this.randomRoom()
-              }}
-            />
-          )} */}
+          {mode === 'game' && (
+            <AtBadge value={onlineMatch && '正在进行'}>
+              <LoginBtn
+                text="快速开始"
+                className="menu-btn strong"
+                callback={() => {
+                  this.randomRoom()
+                }}
+              />
+            </AtBadge>
+          )}
           <LoginBtn
             text="创建房间"
             className="menu-btn"
@@ -136,18 +139,16 @@ export default class Index extends Component<IProps, any> {
             flexGrow: 1
           }}
         ></View>
-        {mode === 'game' && (
-          <View className="statement">
-            <Text className="top">
-              ■
-              本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。
-            </Text>
-            <Text className="bottom">
-              ■ 欢迎您添加微信
-              ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。
-            </Text>
-          </View>
-        )}
+        <View className="statement">
+          <Text className="top">
+            ■
+            本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。
+          </Text>
+          <Text className="bottom">
+            ■ 欢迎您添加微信
+            ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。
+          </Text>
+        </View>
       </View>
     )
   }

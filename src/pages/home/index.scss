@@ -36,6 +36,14 @@
   // background-color: #3a5274;
   // border: 2px #3a5274 solid;
 }
+.menu {
+  .at-badge .at-badge__num {
+    top: -12px;
+    right: 0;
+    background-color: #ffcc00;
+    font-size: 24px;
+  }
+}
 // 广告
 .ad-box {
   margin-top: 240px;
@@ -45,7 +53,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 150px;
-  color: #6190E8;
+  color: #6190e8;
   bottom: 50px;
   padding: 0 50px;
   font-size: 20px;

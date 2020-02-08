@@ -9,14 +9,14 @@ page {
 }
 .padding-container {
   padding: 0 15px;
-  margin-bottom: 20px;
+  padding-bottom: 20px;
   // transform-style: preserve-3d;
   text {
     backface-visibility: hidden;
   }
 }
 .rotate-container {
-  animation: rotate 0.7s linear 1;
+  animation: rotate 0.2s linear 1;
 }
 // 旋转动画
 @keyframes rotate {
@@ -181,9 +181,14 @@ page {
   background-color: #ece4c6;
   .at-card__content {
     padding-top: 0;
+    border: 1px solid #aaa;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 0;
   }
   .at-card__header {
     flex: 1;
+    border-bottom: 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background: repeat url('http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg');
@@ -257,13 +262,13 @@ page {
 .rotate-btn .at-fab {
   position: fixed;
   right: 50px;
-  bottom: 80px;
+  bottom: 100px;
   z-index: 900;
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   image {
-    width: 160px;
-    height: 160px;
+    width: 120px;
+    height: 120px;
   }
 }
 .shake.at-badge {

@@ -90,6 +90,12 @@ export default class Index extends Component<IState, any> {
     })
   }
 
+  enterGame2(id) {
+    Taro.reLaunch({
+      url: `/pages/game/index?id=${id}`
+    })
+  }
+
   enterRoom(id) {
     Taro.navigateTo({
       url: `/pages/room/index?id=${id}`
@@ -148,7 +154,7 @@ export default class Index extends Component<IState, any> {
                   className="row"
                   onClick={() => {
                     if (teams) {
-                      this.enterGame(_id)
+                      this.enterGame2(_id)
                     } else {
                       this.enterRoom(_id)
                     }

@@ -36,3 +36,54 @@
 .hidden {
   visibility: hidden;
 }
+
+.btn-list {
+  margin-top: 100px;
+}
+.menu-btn {
+  margin-top: 30px;
+}
+.error-btn {
+  background-color: #e6504b;
+  border: 1px #e6504b solid;
+}
+.menu-btn.secondary {
+  color: #e6504b;
+  background-color: transparent;
+  border: 1px #e6504b solid;
+}
+
+// 匹配提示
+.match-tip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  font-family: yansong;
+  padding: 30px 0;
+  color: #555;
+  border-bottom: 1px #ccc solid;
+  margin-bottom: 30px;
+  text {
+    color: #e6504b;
+    margin: 0 10px;
+    font-weight: bold;
+    font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+  }
+}
+.loading-box {
+  margin-left: 20px;
+  text-align: center;
+  display: block;
+  font-size: 56px;
+  animation: rotate 0.5s linear infinite;
+}
+// 旋转动画
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
