@@ -41,7 +41,7 @@ export default class Index extends Component {
   }
 
   navigateToRule() {
-    Taro.navigateTo({
+    Taro.redirectTo({
       url: `/pages/imglist/index?type=rule`
     })
   }
