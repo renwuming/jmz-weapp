@@ -12,6 +12,8 @@
 		"newFeature": true,
 		"coverView": true,
 		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -58,7 +60,7 @@
 					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5e3ea76579a2b2324ddb655c",
+					"query": "id=5e19a861be91d41fbe274859",
 					"scene": null
 				},
 				{

@@ -3,6 +3,7 @@ import { View, Text } from '@tarojs/components'
 import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui'
 import './index.scss'
 import { request } from '../../api'
+import { connectWs, getData, listeningWs, closeWs } from '../../api/websocket'
 import LoginBtn from '../../components/loginBtn'
 import FormIdBtn from '../../components/FormIdBtn'
 import UserItem from '../../components/UserItem'
@@ -44,43 +45,50 @@ export default class Index extends Component<any, IState> {
 
   componentDidHide() {
     clearInterval(updateTimer)
+    closeWs()
   }
   componentWillUnmount() {
     clearInterval(updateTimer)
   }
 
   componentDidShow() {
-    this.updateRoomData()
-
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateRoomData()
-    }, 3000)
+    }, 2000)
+
+    connectWs()
+
+    listeningWs(res => {
+      const { data } = res
+      this.updateDataToView(JSON.parse(data))
+    })
+    this.updateRoomData()
+  }
+
+  updateDataToView(data) {
+    this.setState(data)
+    const { activeGame, over } = data
+    // 若已开始，则跳转
+    if (activeGame && !over && !this.forbidAutoNavigate) {
+      this.setState({
+        isOpened: true
+      })
+      // 保证弹出提示框
+      wx.nextTick(() => {
+        if (this.state.isOpened) {
+          this.navigateTimer = setTimeout(() => {
+            this.gotoGame(activeGame)
+          }, 1500)
+        }
+      })
+    }
   }
 
   updateRoomData() {
     const { id } = this.$router.params
-    request({
-      method: 'GET',
-      url: `/rooms/wx/${id}`
-    }).then(data => {
-      this.setState(data)
-      const { activeGame, over } = data
-      // 若已开始，则跳转
-      if (activeGame && !over && !this.forbidAutoNavigate) {
-        this.setState({
-          isOpened: true
-        })
-        // 保证弹出提示框
-        wx.nextTick(() => {
-          if (this.state.isOpened) {
-            this.navigateTimer = setTimeout(() => {
-              this.gotoGame(activeGame)
-            }, 1500)
-          }
-        })
-      }
-    })
+    // 通过websocket获取游戏数据
+    getData(`room-${id}`)
   }
 
   gotoGame(id = null) {
@@ -184,17 +192,28 @@ export default class Index extends Component<any, IState> {
     } = this.state
     return (
       <View className="container">
-        {userList.map((user, index) => {
-          const { userInfo, id } = user
-          const { nickName } = userInfo
-          return (
-            <View className={`row ${index === 3 ? 'division' : ''}`}>
-              <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
-                {index + 1}
-              </Text>
-              <Text className="nick">{nickName}</Text>
-              {index === 0 ? (
-                <AtBadge value={'房主'}>
+        {userList &&
+          userList.map((user, index) => {
+            const { userInfo, id } = user
+            const { nickName } = userInfo
+            return (
+              <View className={`row ${index === 3 ? 'division' : ''}`}>
+                <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
+                  {index + 1}
+                </Text>
+                <Text className="nick">{nickName}</Text>
+                {index === 0 ? (
+                  <AtBadge value={'房主'}>
+                    <UserItem
+                      nonick={true}
+                      big={true}
+                      data={{
+                        id,
+                        ...userInfo
+                      }}
+                    ></UserItem>
+                  </AtBadge>
+                ) : (
                   <UserItem
                     nonick={true}
                     big={true}
@@ -203,37 +222,27 @@ export default class Index extends Component<any, IState> {
                       ...userInfo
                     }}
                   ></UserItem>
-                </AtBadge>
-              ) : (
-                <UserItem
-                  nonick={true}
-                  big={true}
-                  data={{
-                    id,
-                    ...userInfo
-                  }}
-                ></UserItem>
-              )}
-              {ownRoom && index > 1 ? (
-                <AtIcon
-                  onClick={() => {
-                    this.stick(index)
-                  }}
-                  value="arrow-up"
-                  size="20"
-                  color="#009966"
-                ></AtIcon>
-              ) : (
-                <AtIcon
-                  className="hidden"
-                  value="arrow-up"
-                  size="20"
-                  color="#009966"
-                ></AtIcon>
-              )}
-            </View>
-          )
-        })}
+                )}
+                {ownRoom && index > 1 ? (
+                  <AtIcon
+                    onClick={() => {
+                      this.stick(index)
+                    }}
+                    value="arrow-up"
+                    size="20"
+                    color="#009966"
+                  ></AtIcon>
+                ) : (
+                  <AtIcon
+                    className="hidden"
+                    value="arrow-up"
+                    size="20"
+                    color="#009966"
+                  ></AtIcon>
+                )}
+              </View>
+            )
+          })}
         <View className="btn-list">
           {ownRoom && !activeGame && (
             <View>

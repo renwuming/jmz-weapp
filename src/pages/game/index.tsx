@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text, Image, Button, Image } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import {
   AtCard,
   AtButton,
@@ -18,6 +18,7 @@ import UserItem from '../../components/UserItem'
 import AD from '../../components/AD'
 import './index.scss'
 import { request } from '../../api'
+import { connectWs, getData, listeningWs,closeWs } from '../../api/websocket'
 
 let updateTimer
 
@@ -135,55 +136,58 @@ export default class Index extends Component<any, IState> {
     if (gameOver) return
 
     const { id } = this.$router.params
-    return request({
-      method: 'GET',
-      url: `/games/wx/${id}`
-    }).then(data => {
-      const { battle, ...otherData } = data
-      this.setState(otherData)
-      // 根据玩家人数，设置mode
-      this.initMode(data.userList.length)
 
-      data.types.forEach((type, teamIndex) => {
-        if (type === '解密' || type === '拦截') {
-          if (this.waiting[teamIndex]) {
-            this.waiting[teamIndex] = false
-            this.news[teamIndex] = true
-          }
-          battle[teamIndex].forEach((item, index) => {
-            item.answer = this.state.battle[teamIndex]
-              ? this.state.battle[teamIndex][index].answer
-              : -1
-          })
-          this.jiami[teamIndex] = false
-        } else if (type === '加密') {
-          if (this.waiting[teamIndex]) {
-            this.waiting[teamIndex] = false
-            this.news[teamIndex] = true
-          }
-          if (!this.jiami[teamIndex]) {
-            this.jiami[teamIndex] = true
-          } else {
-            battle[teamIndex].forEach((item, index) => {
-              item.question = this.state.battle[teamIndex]
-                ? this.state.battle[teamIndex][index].question
-                : ''
-            })
-          }
-        } else {
-          this.waiting[teamIndex] = true
-          this.news[teamIndex] = false
-          this.jiami[teamIndex] = false
+    // 通过websocket获取游戏数据
+    getData(`game-${id}`)
+  }
+
+  // 将data更新到state
+  updateDataToView(data) {
+    const { battle, ...otherData } = data
+    this.setState(otherData)
+    // 根据玩家人数，设置mode
+    this.initMode(data.userList.length)
+
+    data.types.forEach((type, teamIndex) => {
+      if (type === '解密' || type === '拦截') {
+        if (this.waiting[teamIndex]) {
+          this.waiting[teamIndex] = false
+          this.news[teamIndex] = true
         }
-      })
-      this.setState({
-        battle
-      })
+        battle[teamIndex].forEach((item, index) => {
+          item.answer = this.state.battle[teamIndex]
+            ? this.state.battle[teamIndex][index].answer
+            : -1
+        })
+        this.jiami[teamIndex] = false
+      } else if (type === '加密') {
+        if (this.waiting[teamIndex]) {
+          this.waiting[teamIndex] = false
+          this.news[teamIndex] = true
+        }
+        if (!this.jiami[teamIndex]) {
+          this.jiami[teamIndex] = true
+        } else {
+          battle[teamIndex].forEach((item, index) => {
+            item.question = this.state.battle[teamIndex]
+              ? this.state.battle[teamIndex][index].question
+              : ''
+          })
+        }
+      } else {
+        this.waiting[teamIndex] = true
+        this.news[teamIndex] = false
+        this.jiami[teamIndex] = false
+      }
+    })
+    this.setState({
+      battle
     })
   }
 
   componentDidHide() {
     clearInterval(updateTimer)
+    closeWs()
     // 停止背景音乐
     wx.stopBackgroundAudio({})
   }
@@ -193,7 +197,7 @@ export default class Index extends Component<any, IState> {
     wx.stopBackgroundAudio({})
   }
 
-  componentDidShow() {
+  componentWillMount() {
     // 是否处于加密状态
     this.jiami = [false, false]
     // 是否处于等待状态
@@ -201,11 +205,18 @@ export default class Index extends Component<any, IState> {
     // 是否有新操作
     this.news = [false, false]
 
-    this.updateGameData()
     clearInterval(updateTimer)
     updateTimer = setInterval(() => {
       this.updateGameData()
     }, 2000)
+
+    connectWs()
+
+    listeningWs(res => {
+      const { data } = res
+      this.updateDataToView(JSON.parse(data))
+    })
+    this.updateGameData()
   }
 
   getMusicStatus(fn = () => {}) {

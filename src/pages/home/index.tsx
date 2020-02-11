@@ -84,7 +84,7 @@ export default class Index extends Component<IProps, any> {
           <View className="user-info">
             <GameDataView></GameDataView>
           </View>
-          {mode === 'game' && (
+          {/* {mode === 'game' && (
             <AtBadge value={onlineMatch && '正在进行'}>
               <LoginBtn
                 text="快速开始"
@@ -94,7 +94,7 @@ export default class Index extends Component<IProps, any> {
                 }}
               />
             </AtBadge>
-          )}
+          )} */}
           <LoginBtn
             text="创建房间"
             className="menu-btn"
@@ -109,6 +109,17 @@ export default class Index extends Component<IProps, any> {
               this.gotoGameList()
             }}
           />
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoAbout()
+            }}
+          >
+            更多
+          </AtButton>
           {mode === 'game' && (
             <AtButton
               className="menu-btn secondary"
@@ -122,17 +133,6 @@ export default class Index extends Component<IProps, any> {
               加群交流
             </AtButton>
           )}
-          <AtButton
-            className="menu-btn secondary"
-            circle
-            type="primary"
-            size="normal"
-            onClick={() => {
-              this.gotoAbout()
-            }}
-          >
-            更多
-          </AtButton>
         </View>
         <View
           style={{

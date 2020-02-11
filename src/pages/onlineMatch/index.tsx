@@ -80,18 +80,29 @@ export default class Index extends Component<any, any> {
             <View className="at-icon at-icon-loading-3 loading-box"></View>
           </View>
         )}
-        {userList.map((user, index) => {
-          const { me, userData } = user
-          const { userInfo, _id } = userData
-          const { nickName } = userInfo
-          return (
-            <View className={`row ${index === 3 ? 'division' : ''}`}>
-              <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
-                {index + 1}
-              </Text>
-              <Text className="nick">{nickName}</Text>
-              {me ? (
-                <AtBadge value={'我'}>
+        {userList &&
+          userList.map((user, index) => {
+            const { me, userData } = user
+            const { userInfo, _id } = userData
+            const { nickName } = userInfo
+            return (
+              <View className={`row ${index === 3 ? 'division' : ''}`}>
+                <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
+                  {index + 1}
+                </Text>
+                <Text className="nick">{nickName}</Text>
+                {me ? (
+                  <AtBadge value={'我'}>
+                    <UserItem
+                      nonick={true}
+                      big={true}
+                      data={{
+                        id: _id,
+                        ...userInfo
+                      }}
+                    ></UserItem>
+                  </AtBadge>
+                ) : (
                   <UserItem
                     nonick={true}
                     big={true}
@@ -100,26 +111,16 @@ export default class Index extends Component<any, any> {
                       ...userInfo
                     }}
                   ></UserItem>
-                </AtBadge>
-              ) : (
-                <UserItem
-                  nonick={true}
-                  big={true}
-                  data={{
-                    id: _id,
-                    ...userInfo
-                  }}
-                ></UserItem>
-              )}
-              <AtIcon
-                className="hidden"
-                value="arrow-up"
-                size="20"
-                color="#009966"
-              ></AtIcon>
-            </View>
-          )
-        })}
+                )}
+                <AtIcon
+                  className="hidden"
+                  value="arrow-up"
+                  size="20"
+                  color="#009966"
+                ></AtIcon>
+              </View>
+            )
+          })}
         <View className="btn-list">
           <AtButton
             className="menu-btn error-btn"
