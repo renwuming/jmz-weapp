@@ -187,7 +187,7 @@ export default class Index extends Component<any, IState> {
 
   componentDidHide() {
     clearInterval(updateTimer)
-    closeWs()
+    // closeWs()
     // 停止背景音乐
     wx.stopBackgroundAudio({})
   }
@@ -197,7 +197,7 @@ export default class Index extends Component<any, IState> {
     wx.stopBackgroundAudio({})
   }
 
-  componentWillMount() {
+  componentDidShow() {
     // 是否处于加密状态
     this.jiami = [false, false]
     // 是否处于等待状态

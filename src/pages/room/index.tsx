@@ -45,7 +45,7 @@ export default class Index extends Component<any, IState> {
 
   componentDidHide() {
     clearInterval(updateTimer)
-    closeWs()
+    // closeWs()
   }
   componentWillUnmount() {
     clearInterval(updateTimer)

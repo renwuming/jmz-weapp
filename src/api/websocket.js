@@ -40,6 +40,7 @@ export function getData(msg) {
   if (socketOpen) {
     sendSocketMessage(msg)
   } else {
+    connectWs()
     socketQue.push(msg)
   }
 }
