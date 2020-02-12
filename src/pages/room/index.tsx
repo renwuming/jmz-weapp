@@ -67,6 +67,11 @@ export default class Index extends Component<any, IState> {
   }
 
   updateDataToView(data) {
+    const { id } = this.$router.params
+    // 只更新正确id的数据
+    if (data.id !== id) {
+      return
+    }
     this.setState(data)
     const { activeGame, over } = data
     // 若已开始，则跳转

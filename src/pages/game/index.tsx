@@ -18,7 +18,7 @@ import UserItem from '../../components/UserItem'
 import AD from '../../components/AD'
 import './index.scss'
 import { request } from '../../api'
-import { connectWs, getData, listeningWs,closeWs } from '../../api/websocket'
+import { connectWs, getData, listeningWs, closeWs } from '../../api/websocket'
 
 let updateTimer
 
@@ -143,7 +143,12 @@ export default class Index extends Component<any, IState> {
 
   // 将data更新到state
   updateDataToView(data) {
+    const { id } = this.$router.params
     const { battle, ...otherData } = data
+    // 只更新正确id的数据
+    if (data.id !== id) {
+      return
+    }
     this.setState(otherData)
     // 根据玩家人数，设置mode
     this.initMode(data.userList.length)
