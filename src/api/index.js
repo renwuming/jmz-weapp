@@ -71,15 +71,11 @@ const login = () => {
       data: {
         code
       }
+    }).then(res => {
+      const { ticket } = res
+      // 缓存ticket
+      Taro.setStorageSync('ticket', ticket)
     })
-      .then(res => {
-        const { ticket } = res
-        // 缓存ticket
-        Taro.setStorageSync('ticket', ticket)
-      })
-      .then(() => {
-        return validate()
-      })
   })
 }
 
