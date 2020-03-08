@@ -1,9 +1,9 @@
-import '@tarojs/async-await'
-import Taro, { Component, Config } from '@tarojs/taro'
-import Index from './pages/game/index'
-import 'taro-ui/dist/style/index.scss'
-import './app.scss'
-import { validate } from './api'
+import '@tarojs/async-await';
+import Taro, { Component, Config } from '@tarojs/taro';
+import Index from './pages/game/index';
+import 'taro-ui/dist/style/index.scss';
+import './app.scss';
+import { validate } from './api';
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -28,26 +28,30 @@ class App extends Component {
       'pages/about/index',
       'pages/imglist/index',
       'pages/addword/index',
-      'pages/onlineMatch/index'
+      'pages/onlineMatch/index',
+      'pages/hall/index',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#eef5ff',
       navigationBarTitleText: '截码战',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
     },
-    navigateToMiniProgramAppIdList: ['wx18a2ac992306a5a4']
-  }
+    navigateToMiniProgramAppIdList: [
+      'wx18a2ac992306a5a4',
+      'wx78bc21b55d1cc0c5',
+    ],
+  };
 
   componentDidShow() {
-    validate()
+    validate();
   }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {
-    return <Index />
+    return <Index />;
   }
 }
 
-Taro.render(<App />, document.getElementById('app'))
+Taro.render(<App />, document.getElementById('app'));

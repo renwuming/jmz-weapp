@@ -23,6 +23,13 @@
   align-items: center;
   justify-content: center;
 }
+.column-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+}
 .index {
   display: block;
   width: 60px;
@@ -34,6 +41,7 @@
   box-shadow: 5px 5px 5px #aaa;
 }
 .avatar-box {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
@@ -68,8 +76,14 @@
 }
 
 .room-status {
+  margin-top: 20px;
   color: #666;
   font-family: yansong;
+}
+.time-status {
+  font-size: 26px;
+  color: #666;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
 }
 .room-status.gaming {
   color: #e6504b;
@@ -102,27 +116,24 @@ scroll-view {
   background-color: #eef5ff;
 }
 
-// 成就部分
-.achievement-box {
-  margin-top: 100px;
-  font-weight: bold;
-  font-size: 36px;
-  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
-  text {
-    color: #555;
-    width: 100px;
+// 浮动按钮
+.fab-btn {
+  position: fixed;
+  right: 50px;
+  bottom: 100px;
+  z-index: 900;
+  &.reload {
+    bottom: 100px;
   }
-  .detail-row {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  .left {
-    display: inline-block;
-    width: 200px;
-    margin-right: 50px;
-  }
-  .win-rate {
-    color: #e6504b;
+  &.create-room {
+    bottom: 240px;
+    .at-badge__num {
+      padding: 8px;
+      top: -100px;
+      right: -32px;
+    }
+    .shake.at-badge {
+      animation: shake 1.5s linear infinite;
+    }
   }
 }

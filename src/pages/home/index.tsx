@@ -1,87 +1,89 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, Image, OpenData, Text } from '@tarojs/components'
-import LoginBtn from '../../components/loginBtn'
-import { AtButton, AtBadge } from 'taro-ui'
-import './index.scss'
-import { request, validate } from '../../api'
-import GameDataView from '../../components/GameDataView'
+import Taro, { Component } from '@tarojs/taro';
+import { View, Image, OpenData, Text } from '@tarojs/components';
+import LoginBtn from '../../components/loginBtn';
+import { AtButton, AtBadge } from 'taro-ui';
+import './index.scss';
+import { request, validate } from '../../api';
+import GameDataView from '../../components/GameDataView';
+import { version } from '../../config';
 
 interface IProps {
-  text: string
-  index: number
+  text: string;
+  index: number;
 }
 
 export default class Index extends Component<IProps, any> {
   static defaultProps = {
     text: '',
-    index: 0
-  }
+    index: 0,
+  };
 
   componentDidShow() {
     validate().then(res => {
-      const { mode, onlineMatch } = res
+      const { mode, onlineMatch } = res;
       this.setState({
         mode,
-        onlineMatch
-      })
-    })
+        onlineMatch,
+      });
+    });
   }
 
   onShareAppMessage() {
     return {
       title: '截码战，最佳的聚会活动！',
       path: `/pages/home/index`,
-      imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg'
-    }
-  }
-
-  createRoom() {
-    request({
-      method: 'POST',
-      url: '/rooms'
-    }).then(res => {
-      const { id } = res
-      Taro.navigateTo({
-        url: `/pages/room/index?id=${id}`
-      })
-    })
+      imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg',
+    };
   }
 
   randomRoom() {
     Taro.navigateTo({
-      url: `/pages/onlineMatch/index`
-    })
+      url: `/pages/onlineMatch/index`,
+    });
   }
 
   gotoGameList() {
     Taro.navigateTo({
-      url: '/pages/gamelist/index'
-    })
+      url: '/pages/gamelist/index',
+    });
   }
 
   gotoAbout() {
     Taro.navigateTo({
-      url: '/pages/about/index'
-    })
+      url: '/pages/about/index',
+    });
   }
 
   gotoGroup() {
     Taro.navigateTo({
-      url: `/pages/imglist/index?type=group`
-    })
+      url: `/pages/imglist/index?type=group`,
+    });
+  }
+
+  openGbts() {
+    Taro.navigateToMiniProgram({
+      appId: 'wx78bc21b55d1cc0c5',
+    });
+  }
+
+  gotoHall() {
+    Taro.navigateTo({
+      url: `/pages/hall/index`,
+    });
   }
 
   render() {
-    const { mode, onlineMatch } = this.state
+    // const { mode, onlineMatch } = this.state;
     return (
-      <View className="container">
+      <View className='container'>
         <Image
-          className="logo"
-          mode="scaleToFill"
-          src="http://cdn.renwuming.cn/static/jmz/logo.png"
+          className='logo'
+          mode='scaleToFill'
+          src='http://cdn.renwuming.cn/static/jmz/logo.png'
         />
-        <View className="menu">
-          <View className="user-info">
+        <Text className='version'>{version}</Text>
+        <View className='menu'>
+          <View className='user-info'>
             <GameDataView></GameDataView>
           </View>
           {/* {mode === 'game' && (
@@ -96,60 +98,71 @@ export default class Index extends Component<IProps, any> {
             </AtBadge>
           )} */}
           <LoginBtn
-            text="创建房间"
-            className="menu-btn"
+            text='房间大厅'
+            className='menu-btn'
             callback={() => {
-              this.createRoom()
+              this.gotoHall();
             }}
           />
           <LoginBtn
-            text="我的房间"
-            className="menu-btn"
+            text='成就·历史'
+            className='menu-btn'
             callback={() => {
-              this.gotoGameList()
+              this.gotoGameList();
             }}
           />
           <AtButton
-            className="menu-btn secondary"
+            className='menu-btn secondary'
             circle
-            type="primary"
-            size="normal"
+            type='primary'
+            size='normal'
             onClick={() => {
-              this.gotoAbout()
+              this.gotoAbout();
             }}
           >
             更多
           </AtButton>
-          {mode === 'game' && (
-            <AtButton
-              className="menu-btn secondary"
-              circle
-              type="primary"
-              size="normal"
-              onClick={() => {
-                this.gotoGroup()
-              }}
-            >
-              加群交流
-            </AtButton>
-          )}
+          {/* <AtButton
+            className='menu-btn secondary'
+            circle
+            type='primary'
+            size='normal'
+            onClick={() => {
+              this.openGbts();
+            }}
+          >
+            Let's 古堡探险！
+          </AtButton> */}
+          <AtButton
+            className='menu-btn secondary'
+            circle
+            type='primary'
+            size='normal'
+            onClick={() => {
+              this.gotoGroup();
+            }}
+          >
+            意见反馈
+          </AtButton>
         </View>
         <View
           style={{
-            flexGrow: 1
+            flexGrow: 1,
           }}
         ></View>
-        <View className="statement">
-          <Text className="top">
-            ■
-            本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。
+        <View className='statement'>
+          <Text className='top'>
+            {
+              '■ 本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。'
+            }
           </Text>
-          <Text className="bottom">
-            ■ 欢迎您添加微信
-            ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。
+          <Text className='bottom'>
+            {
+              '■ 欢迎您添加微信 ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。'
+            }
           </Text>
         </View>
       </View>
-    )
+    );
   }
 }

@@ -53,14 +53,14 @@
 					"id": 0,
 					"name": "pages/room/index",
 					"pathName": "pages/room/index",
-					"query": "id=5e1ea14fb0c5e4739f337bbf",
+					"query": "id=5e64d08cb7173b68a66bd938",
 					"scene": null
 				},
 				{
 					"id": 1,
 					"name": "pages/game/index",
 					"pathName": "pages/game/index",
-					"query": "id=5e19a861be91d41fbe274859",
+					"query": "id=5e63981edff9da6182724508",
 					"scene": null
 				},
 				{
@@ -78,17 +78,17 @@
 					"scene": null
 				},
 				{
-					"id": 5,
+					"id": 4,
 					"name": "local 测试 game - 旁观",
 					"pathName": "pages/game/index",
-					"query": "id=5e219993fc0c87c90e6412a6",
+					"query": "id=5e362f61953d846f29805f29",
 					"scene": null
 				},
 				{
-					"id": 6,
+					"id": 5,
 					"name": "local 测试 room",
 					"pathName": "pages/room/index",
-					"query": "id=5e1fe931c00059c74b8b9a79",
+					"query": "id=5e64f3fa623a13699e2189f7",
 					"scene": null
 				},
 				{
@@ -106,9 +106,16 @@
 					"scene": null
 				},
 				{
+					"id": 8,
+					"name": "pages/teach/index",
+					"pathName": "pages/teach/index",
+					"query": "",
+					"scene": null
+				},
+				{
 					"id": -1,
-					"name": "快速开始",
-					"pathName": "pages/onlineMatch/index",
+					"name": "房间大厅",
+					"pathName": "pages/hall/index",
 					"query": "",
 					"scene": null
 				}

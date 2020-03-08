@@ -38,6 +38,7 @@ export default class Index extends Component<IProps, any> {
       // 若拒绝授权
       Taro.showToast({
         title: '不授权将使用默认昵称、头像，可以稍后重新授权',
+        // title: '不授权昵称、头像，无法创建或加入房间',
         icon: 'none',
         duration: delay
       })

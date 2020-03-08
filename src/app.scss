@@ -3,14 +3,65 @@ page {
   background-color: #eef5ff;
 }
 .login-btn {
-  background-color: #2BA245;
+  background-color: #2ba245;
   position: relative;
   width: 450px;
   margin-top: 20px;
-  border: 1px #2BA245 solid;
+  border: 1px #2ba245 solid;
 }
 @font-face {
-  font-family:'yansong';
-  src:url('https://www.renwuming.cn/static/jmz/fonts/yansong.otf') format('truetype');
+  font-family: 'yansong';
+  src: url('https://www.renwuming.cn/static/jmz/fonts/yansong.otf')
+    format('truetype');
 }
 
+// 抖动动画
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  8% {
+    transform: rotate(-20deg);
+  }
+  16% {
+    transform: rotate(0deg);
+  }
+  24% {
+    transform: rotate(20deg);
+  }
+  32% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+// 在线离线状态
+.at-tag {
+  background-color: rgba(99, 214, 33, 0.7);
+  color: #fff;
+  border: none;
+  height: 26px;
+  line-height: 26px;
+  &.offline {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  &.big {
+    width: 100px;
+    height: 28px;
+    line-height: 28px;
+  }
+  &.room-online {
+    font-size: 24px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #2ba245;
+  }
+  &.room-own {
+    font-size: 24px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #e35654;
+  }
+}

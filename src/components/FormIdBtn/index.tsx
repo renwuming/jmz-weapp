@@ -22,7 +22,7 @@ export default class FormIdBtn extends Component<IProps, any> {
    */
   formSubmit(e) {
     // 打印在控制台
-    // console.log('formId:', e.detail.formId)
+    // console.info('formId:', e.detail.formId)
     // 模态框展示
     // Taro.showModal({
     //   title: 'formId',

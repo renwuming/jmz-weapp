@@ -1,4 +1,5 @@
 .row {
+  position: relative;
   display: flex;
   align-items: center;
   height: 90px;
@@ -44,4 +45,15 @@ at-modal-content .left {
 }
 at-modal-content .win-rate {
   color: #e6504b;
+}
+
+// 在线离线状态
+.online-box {
+  position: absolute;
+  left: -5rpx;
+  bottom: -2rpx;
+  &.big {
+    left: 0;
+    bottom: -24rpx;
+  }
 }

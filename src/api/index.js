@@ -51,10 +51,11 @@ export const validate = () => {
     url: `/users/validate`
   })
     .then(res => {
-      const { userInfo, mode } = res
+      const { userInfo, mode, history } = res
       // 缓存userInfo和mode
       Taro.setStorageSync('userInfo', userInfo)
       Taro.setStorageSync('mode', mode)
+      Taro.setStorageSync('history', history)
       return res
     })
     .catch(() => {
