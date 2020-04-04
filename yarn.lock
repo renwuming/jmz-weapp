@@ -190,6 +190,17 @@
     raf "^3.4.1"
     whatwg-fetch "^2.0.4"
 
+"@tarojs/taro-h5@^1.3.13":
+  version "1.3.39"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro-h5/-/taro-h5-1.3.39.tgz#dc529d1c2f95c4488f3e4b064ab8bd215447ff4e"
+  integrity sha512-/HQrd/blUjvV+XSdT+TjDfr1XCFU/Zo4RNQVD2x+LC/NCYL8AasBj7ce9yWKtoNWfPX1SBwSd2hPiB5ReF7XQQ==
+  dependencies:
+    base64-js "^1.3.0"
+    jsonp-retry "^1.0.3"
+    mobile-detect "^1.4.2"
+    raf "^3.4.1"
+    whatwg-fetch "^2.0.4"
+
 "@tarojs/taro-qq@1.3.12":
   version "1.3.12"
   resolved "https://registry.npm.taobao.org/@tarojs/taro-qq/download/@tarojs/taro-qq-1.3.12.tgz?cache=0&sync_timestamp=1564985720849&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Ftaro-qq%2Fdownload%2F%40tarojs%2Ftaro-qq-1.3.12.tgz#9161a242ee837b98ecd48a40a080c429720499d7"
@@ -247,10 +258,22 @@
   dependencies:
     "@tarojs/utils" "1.3.12"
 
+"@tarojs/taro@^1.3.12":
+  version "1.3.39"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-1.3.39.tgz#5c5dc9ba334a7175a0e9cb952e98c3835da4c57c"
+  integrity sha512-1mdiuG1a1Jl545qpQ/lSdqdUYJTcjElZy0y6x6PX28EBbwXiJ4EhNhXxSGjhwpCIZXQrpZeUW/Wi4ieG4bdifg==
+  dependencies:
+    "@tarojs/utils" "1.3.39"
+
 "@tarojs/utils@1.3.12":
   version "1.3.12"
   resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-1.3.12.tgz?cache=0&sync_timestamp=1564985572754&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-1.3.12.tgz#12ae1c0423cfc055f044250e6ba7055938f407e3"
   integrity sha1-Eq4cBCPPwFXwRCUOa6cFWTj0B+M=
+
+"@tarojs/utils@1.3.39":
+  version "1.3.39"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-1.3.39.tgz#5f9698abb59d11dd95ad4bf430a1eacd97415935"
+  integrity sha512-eZdSe0ku4JqVlffNFASW22ZpiJV0XmutXql8EsBzD7Ng868wA85H8poxCkYQ5IE8weRtFsFcJ8TysIVHTC3h2A==
 
 "@tarojs/webpack-runner@1.3.12":
   version "1.3.12"
@@ -579,9 +602,9 @@ acorn-jsx@^5.0.0:
   integrity sha1-MqBk/ZJUKSFqCbFBECv90YX65A4=
 
 acorn@^5.0.0, acorn@^5.6.2:
-  version "5.7.3"
-  resolved "https://registry.npm.taobao.org/acorn/download/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha1-Z6ojG/iBKXS4UjWpZ3Hra9B+onk=
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.7:
   version "6.2.1"
@@ -5636,13 +5659,26 @@ nerv-utils@1.4.3:
   resolved "https://registry.npm.taobao.org/nerv-utils/download/nerv-utils-1.4.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnerv-utils%2Fdownload%2Fnerv-utils-1.4.3.tgz#5a23d109147f56f478beed24794ff942fe4e4927"
   integrity sha1-WiPRCRR/VvR4vu0keU/5Qv5OSSc=
 
-nervjs@1.4.3, nervjs@^1.4.0:
+nerv-utils@1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/nerv-utils/-/nerv-utils-1.4.5.tgz#3e017a8a1b605b35ee31ad396a038207fbc597b0"
+  integrity sha512-9XeifC0l+aDXhA0aXcklxS2o7o87xJxMQAl1+iIHrD5Sei/61ubap0oOzb4t9VMhSEvwWm4/rJRd8PGMKZiwiA==
+
+nervjs@1.4.3:
   version "1.4.3"
   resolved "https://registry.npm.taobao.org/nervjs/download/nervjs-1.4.3.tgz#8ef7d610f6400fb81e7ca41f880612a62416a20b"
   integrity sha1-jvfWEPZAD7gefKQfiAYSpiQWogs=
   dependencies:
     nerv-shared "1.4.0"
     nerv-utils "1.4.3"
+
+nervjs@^1.4.3:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/nervjs/-/nervjs-1.5.6.tgz#0451dd06993f7e3a885a6d1be3ea049ac51f1abd"
+  integrity sha512-2v8VkGCTUfOaD3C3s9fmCSRnYOw+6UWfbdVk3+vZZF+oD1Hp8+KpcObUV8EZL0GlWa9FhziDYGHOy4M70Fd6KA==
+  dependencies:
+    nerv-shared "1.4.0"
+    nerv-utils "1.4.5"
 
 next-tick@^1.0.0:
   version "1.0.0"
