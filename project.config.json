@@ -81,14 +81,14 @@
 					"id": 4,
 					"name": "local 测试 game - 旁观",
 					"pathName": "pages/game/index",
-					"query": "id=5e362f61953d846f29805f29",
+					"query": "id=5e747bbf42e0bb2e366c4719",
 					"scene": null
 				},
 				{
 					"id": 5,
 					"name": "local 测试 room",
 					"pathName": "pages/room/index",
-					"query": "id=5e64f3fa623a13699e2189f7",
+					"query": "id=5e738ffde35530d2e57c47f1",
 					"scene": null
 				},
 				{
@@ -117,6 +117,20 @@
 					"name": "房间大厅",
 					"pathName": "pages/hall/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "创建房间",
+					"pathName": "pages/createRoom/index",
+					"query": "id=5e64f3fa623a13699e2189f7",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "排行榜",
+					"pathName": "pages/ranking/index",
+					"query": "id=5e738ffde35530d2e57c47f1",
 					"scene": null
 				}
 			]

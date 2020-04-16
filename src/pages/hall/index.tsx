@@ -159,13 +159,20 @@ export default class Index extends Component<IState, any> {
   // 创建房间
   createRoom() {
     request({
-      method: 'POST',
-      url: '/rooms',
+      method: 'GET',
+      url: '/rooms/ownroom',
     }).then(res => {
       const { id } = res;
-      Taro.navigateTo({
-        url: `/pages/room/index?id=${id}`,
-      });
+      // 尚未拥有房间，则去创建
+      if (!id) {
+        Taro.navigateTo({
+          url: `/pages/createRoom/index`,
+        });
+      } else {
+        Taro.navigateTo({
+          url: `/pages/room/index?id=${id}`,
+        });
+      }
     });
   }
 
@@ -184,7 +191,7 @@ export default class Index extends Component<IState, any> {
       <View className='container'>
         <View className='tabs'>
           <AtSegmentedControl
-            values={['大厅房间', '我的房间']}
+            values={['大厅', '我的房间']}
             onClick={index => {
               this.changeTab(index);
             }}

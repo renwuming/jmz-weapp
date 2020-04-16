@@ -8,6 +8,7 @@ interface UserInfo {
   nickName: string;
   avatarUrl: string;
   online: Boolean;
+  id: string;
 }
 
 interface IProps {
@@ -98,7 +99,7 @@ export default class Index extends Component<IProps, any> {
           <Text
             className={`short-nick ${currentUser ? 'current' : ''} ${
               long ? 'long' : ''
-            }`}
+            } ${big ? 'big' : ''}`}
             onClick={() => {
               this.showUserDetail();
             }}

@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon } from 'taro-ui';
+import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from 'taro-ui';
 import './index.scss';
 import { request } from '../../api';
 import { connectWs, getData, listeningWs, closeWs } from '../../api/websocket';
@@ -29,6 +29,7 @@ export default class Index extends Component<any, IState> {
   forbidAutoNavigate = false;
   navigateTimer: any;
   changeStatusTime: number = 0;
+  requestTimes: number;
 
   state = {
     id: '',
@@ -69,6 +70,7 @@ export default class Index extends Component<any, IState> {
 
     connectWs();
 
+    this.requestTimes = 0;
     listeningWs(res => {
       const { data } = res;
       this.updateDataToView(JSON.parse(data));
@@ -77,9 +79,10 @@ export default class Index extends Component<any, IState> {
   }
 
   updateDataToView(data) {
+    this.requestTimes++;
     const { id } = this.$router.params;
     // 若服务端报错
-    if (data.code) {
+    if (data.code && this.requestTimes > 2) {
       this.setState({
         id: '',
       });
@@ -87,7 +90,7 @@ export default class Index extends Component<any, IState> {
       Taro.showToast({
         title: data.message,
         icon: 'none',
-        duration: 2000,
+        duration: 3000,
       });
     }
     // 只更新正确id的数据
@@ -233,9 +236,8 @@ export default class Index extends Component<any, IState> {
       inRoom,
       inGame,
       activeGame,
-      publicStatus,
-      random,
-      timer,
+      tags,
+      roomMode,
       over,
       isOpened,
       userOnlineStatus,
@@ -243,6 +245,19 @@ export default class Index extends Component<any, IState> {
 
     return id ? (
       <View className='container'>
+        <Text className={roomMode.red ? 'title red' : 'title'}>
+          {roomMode.text}
+        </Text>
+        <View className='status-row'>
+          {tags.map(tag => {
+            const { text, red } = tag;
+            return (
+              <AtTag className={red ? 'red' : ''} type='primary' circle>
+                {text}
+              </AtTag>
+            );
+          })}
+        </View>
         {userList &&
           userList.map((user, index) => {
             const { userInfo, id } = user;
@@ -302,79 +317,17 @@ export default class Index extends Component<any, IState> {
           })}
         <View className='btn-list'>
           {ownRoom && !activeGame && (
-            <View>
-              <AtSwitch
-                title='公开房间'
-                className='red-switch'
-                color='#e6504b'
-                border={false}
-                checked={publicStatus}
-                onChange={() => {
-                  this.changeRoomStatus({
-                    publicStatus: !publicStatus,
-                  });
-                }}
-              />
-              <AtSwitch
-                title='随机组队'
-                border={false}
-                checked={random}
-                onChange={() => {
-                  this.changeRoomStatus({
-                    random: !random,
-                  });
-                }}
-              />
-              <AtSwitch
-                title='限时竞技'
-                className='red-switch'
-                color='#e6504b'
-                border={false}
-                checked={timer}
-                onChange={() => {
-                  this.changeRoomStatus({
-                    timer: !timer,
-                  });
-                }}
-              />
-              <AtButton
-                className='menu-btn'
-                circle
-                type='primary'
-                size='normal'
-                onClick={() => {
-                  this.startGame();
-                }}
-              >
-                开始
-              </AtButton>
-            </View>
-          )}
-          {!ownRoom && !activeGame && (
-            <View>
-              <AtSwitch
-                title='公开房间'
-                className='red-switch'
-                color='#e6504b'
-                disabled
-                border={false}
-                checked={publicStatus}
-              />
-              <AtSwitch
-                title='随机组队'
-                disabled
-                border={false}
-                checked={random}
-              />
-              <AtSwitch
-                title='限时竞技'
-                className='red-switch'
-                color='#e6504b'
-                disabled
-                border={false}
-                checked={timer}
-              />
-            </View>
+            <AtButton
+              className='menu-btn'
+              circle
+              type='primary'
+              size='normal'
+              onClick={() => {
+                this.startGame();
+              }}
+            >
+              开始
+            </AtButton>
           )}
           {!!activeGame && (
             <FormIdBtn
@@ -402,7 +355,7 @@ export default class Index extends Component<any, IState> {
           >
             邀请朋友
           </AtButton>
-          {inRoom && !(inGame && activeGame) && (
+          {inRoom && (ownRoom || !(inGame && activeGame)) && (
             <AtButton
               className='menu-btn error-btn'
               circle

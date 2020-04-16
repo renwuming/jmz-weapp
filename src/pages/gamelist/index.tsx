@@ -125,7 +125,7 @@ export default class Index extends Component<any, any> {
             <View className='detail-row'>
               <Text className='left win-rate'>胜率</Text>
               <Text className='win-rate'>
-                {(winRate || winRate === 0) && winRate + '%'}
+                {winRate || winRate === 0 ? winRate + '%' : ''}
               </Text>
             </View>
             <View className='detail-row'>

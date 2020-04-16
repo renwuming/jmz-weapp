@@ -79,6 +79,9 @@
   margin-top: 20px;
   color: #666;
   font-family: yansong;
+  &:first-child {
+    margin-top: 0;
+  }
 }
 .time-status {
   font-size: 26px;

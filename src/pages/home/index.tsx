@@ -72,8 +72,14 @@ export default class Index extends Component<IProps, any> {
     });
   }
 
+  gotoRanking() {
+    Taro.navigateTo({
+      url: `/pages/ranking/index`,
+    });
+  }
+
   render() {
-    // const { mode, onlineMatch } = this.state;
+    const { mode } = this.state;
     return (
       <View className='container'>
         <Image
@@ -104,6 +110,15 @@ export default class Index extends Component<IProps, any> {
               this.gotoHall();
             }}
           />
+          {mode === 'game' && (
+            <LoginBtn
+              text='排行榜'
+              className='menu-btn'
+              callback={() => {
+                this.gotoRanking();
+              }}
+            />
+          )}
           <LoginBtn
             text='成就·历史'
             className='menu-btn'
@@ -133,17 +148,19 @@ export default class Index extends Component<IProps, any> {
           >
             Let's 古堡探险！
           </AtButton> */}
-          <AtButton
-            className='menu-btn secondary'
-            circle
-            type='primary'
-            size='normal'
-            onClick={() => {
-              this.gotoGroup();
-            }}
-          >
-            意见反馈
-          </AtButton>
+          {mode === 'game' && (
+            <AtButton
+              className='menu-btn secondary'
+              circle
+              type='primary'
+              size='normal'
+              onClick={() => {
+                this.gotoGroup();
+              }}
+            >
+              加群交流
+            </AtButton>
+          )}
         </View>
         <View
           style={{

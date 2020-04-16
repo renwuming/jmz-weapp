@@ -14,6 +14,11 @@ page {
   src: url('https://www.renwuming.cn/static/jmz/fonts/yansong.otf')
     format('truetype');
 }
+@font-face {
+  font-family: 'zcool';
+  src: url('https://www.renwuming.cn/static/jmz/fonts/zcool.ttf')
+    format('truetype');
+}
 
 // 抖动动画
 @keyframes shake {

@@ -1,0 +1,35 @@
+.create-form {
+  padding: 20px;
+  background-color: transparent;
+  &:after {
+    border-top-width: 0;
+    border-bottom-width: 0;
+  }
+  .title {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+  }
+  .at-switch__container,
+  .at-switch {
+    background-color: transparent;
+  }
+  .menu-btn {
+    margin-top: 50px;
+  }
+  .at-radio {
+    color: #fff;
+    background-color: rgba(255, 255, 208, 0.5);
+    .at-radio__title {
+      color: #e6504b;
+    }
+    .at-radio__option:first-child {
+      .at-radio__title {
+        color: #6190e8;
+      }
+    }
+    .at-radio__desc {
+      color: #666;
+    }
+  }
+}

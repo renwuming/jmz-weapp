@@ -30,6 +30,8 @@ class App extends Component {
       'pages/addword/index',
       'pages/onlineMatch/index',
       'pages/hall/index',
+      'pages/createRoom/index',
+      'pages/ranking/index',
     ],
     window: {
       backgroundTextStyle: 'light',

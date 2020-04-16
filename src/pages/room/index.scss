@@ -70,3 +70,37 @@
   min-height: 0;
   text-align: center;
 }
+
+// 状态列表
+.title {
+  display: block;
+  text-align: center;
+  font-family: yansong;
+  font-size: 50px;
+  color: #333;
+  &.red {
+    color: #e6504b;
+  }
+}
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  .at-tag {
+    width: 180px;
+    background-color: transparent;
+    color: #6190e8;
+    border: 1px solid #6190e8;
+    height: 50px;
+    line-height: 50px;
+    margin-top: 20px;
+    margin-right: 30px;
+    &.red {
+      color: #e6504b;
+      border: 1px solid #e6504b;
+    }
+  }
+}
