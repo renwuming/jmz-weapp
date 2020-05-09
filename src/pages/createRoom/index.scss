@@ -28,6 +28,11 @@
         color: #6190e8;
       }
     }
+    .at-radio__option:last-child {
+      .at-radio__title {
+        color: #996699;
+      }
+    }
     .at-radio__desc {
       color: #666;
     }

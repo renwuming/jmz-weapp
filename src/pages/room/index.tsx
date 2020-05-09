@@ -1,12 +1,12 @@
-import Taro, { Component } from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
-import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from 'taro-ui';
-import './index.scss';
-import { request } from '../../api';
-import { connectWs, getData, listeningWs, closeWs } from '../../api/websocket';
-import LoginBtn from '../../components/loginBtn';
-import FormIdBtn from '../../components/FormIdBtn';
-import UserItem from '../../components/UserItem';
+import Taro, { Component } from "@tarojs/taro";
+import { View, Text } from "@tarojs/components";
+import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from "taro-ui";
+import "./index.scss";
+import { request } from "../../api";
+import { connectWs, getData, listeningWs } from "../../api/websocket";
+import LoginBtn from "../../components/loginBtn";
+import FormIdBtn from "../../components/FormIdBtn";
+import UserItem from "../../components/UserItem";
 
 let updateTimer;
 
@@ -32,12 +32,12 @@ export default class Index extends Component<any, IState> {
   requestTimes: number;
 
   state = {
-    id: '',
+    id: "",
     userList: [],
     ownRoom: false,
     inRoom: false,
     inGame: false,
-    activeGame: '',
+    activeGame: "",
     random: true,
     timer: true,
     publicStatus: false,
@@ -49,14 +49,13 @@ export default class Index extends Component<any, IState> {
   onShareAppMessage() {
     const { id } = this.$router.params;
     return {
-      title: '房间已开好，快来加入吧~',
+      title: "房间已开好，快来加入吧~",
       path: `/pages/room/index?id=${id}`,
     };
   }
 
   componentDidHide() {
     clearInterval(updateTimer);
-    // closeWs()
   }
   componentWillUnmount() {
     clearInterval(updateTimer);
@@ -66,12 +65,12 @@ export default class Index extends Component<any, IState> {
     clearInterval(updateTimer);
     updateTimer = setInterval(() => {
       this.updateRoomData();
-    }, 2000);
+    }, 1000);
 
     connectWs();
 
     this.requestTimes = 0;
-    listeningWs(res => {
+    listeningWs((res) => {
       const { data } = res;
       this.updateDataToView(JSON.parse(data));
     });
@@ -84,12 +83,12 @@ export default class Index extends Component<any, IState> {
     // 若服务端报错
     if (data.code && this.requestTimes > 2) {
       this.setState({
-        id: '',
+        id: "",
       });
       clearInterval(updateTimer);
       Taro.showToast({
         title: data.message,
-        icon: 'none',
+        icon: "none",
         duration: 3000,
       });
     }
@@ -142,9 +141,9 @@ export default class Index extends Component<any, IState> {
   startGame() {
     const { id } = this.$router.params;
     request({
-      method: 'POST',
+      method: "POST",
       url: `/rooms/v2/wx/${id}/start`,
-    }).then(data => {
+    }).then((data) => {
       if (data.id) {
         const gameID = data.id;
         this.gotoGame(gameID);
@@ -155,13 +154,13 @@ export default class Index extends Component<any, IState> {
   joinRoom() {
     const { id } = this.$router.params;
     request({
-      method: 'POST',
+      method: "POST",
       url: `/rooms/${id}`,
-    }).then(data => {
+    }).then((data) => {
       if (!data) {
         Taro.showToast({
-          title: '加入房间成功',
-          icon: 'success',
+          title: "加入房间成功",
+          icon: "success",
           duration: 1000,
         });
         this.updateRoomData();
@@ -173,14 +172,14 @@ export default class Index extends Component<any, IState> {
     const { id } = this.$router.params;
     const { ownRoom } = this.state;
     request({
-      method: 'POST',
+      method: "POST",
       url: `/rooms/${id}/quit`,
-    }).then(data => {
-      const title = ownRoom ? '解散房间成功' : '退出房间成功';
+    }).then((data) => {
+      const title = ownRoom ? "解散房间成功" : "退出房间成功";
       if (!data) {
         Taro.showToast({
           title,
-          icon: 'success',
+          icon: "success",
           duration: 1000,
         });
         Taro.navigateBack();
@@ -190,7 +189,7 @@ export default class Index extends Component<any, IState> {
 
   gotoHome() {
     Taro.reLaunch({
-      url: '/pages/home/index',
+      url: "/pages/home/index",
     });
   }
 
@@ -198,9 +197,9 @@ export default class Index extends Component<any, IState> {
   stick(index) {
     const { id } = this.$router.params;
     request({
-      method: 'POST',
+      method: "POST",
       url: `/rooms/${id}/edituserlist/${index}`,
-    }).then(data => {
+    }).then((data) => {
       if (!data) {
         this.updateRoomData();
       }
@@ -221,11 +220,22 @@ export default class Index extends Component<any, IState> {
     this.changeStatusTime = new Date().getTime();
     const { id } = this.$router.params;
     request({
-      method: 'POST',
+      method: "POST",
       url: `/rooms/${id}/status`,
       data: status,
     });
     this.setState(status);
+  }
+
+  handleOwnerInGame(ownerQuitGame) {
+    const { id } = this.$router.params;
+    request({
+      method: "POST",
+      url: `/rooms/${id}/ownerQuitGame`,
+      data: {
+        ownerQuitGame,
+      },
+    });
   }
 
   render() {
@@ -236,23 +246,26 @@ export default class Index extends Component<any, IState> {
       inRoom,
       inGame,
       activeGame,
+      ownerQuitGame, // 房主是否参与游戏
       tags,
       roomMode,
+      teamMode, // 是否为团队模式
       over,
       isOpened,
       userOnlineStatus,
+      random, // 是否随机组队
     } = this.state;
 
     return id ? (
-      <View className='container'>
-        <Text className={roomMode.red ? 'title red' : 'title'}>
+      <View className="container">
+        <Text className={roomMode.red ? "title red" : "title"}>
           {roomMode.text}
         </Text>
-        <View className='status-row'>
-          {tags.map(tag => {
+        <View className="status-row">
+          {tags.map((tag) => {
             const { text, red } = tag;
             return (
-              <AtTag className={red ? 'red' : ''} type='primary' circle>
+              <AtTag className={red ? "red" : ""} type="primary" circle>
                 {text}
               </AtTag>
             );
@@ -266,14 +279,41 @@ export default class Index extends Component<any, IState> {
             if (!activeGame) {
               online = userOnlineStatus[index];
             }
+            const extraSeat = ownerQuitGame ? 1 : 0;
+            const _index = index + 1 - extraSeat;
+
+            const teamL = Math.ceil(userList.length / 2);
             return (
-              <View className={`row ${index === 3 ? 'division' : ''}`}>
-                <Text className={`index ${index < 4 ? 'inGame' : ''}`}>
-                  {index + 1}
+              <View
+                className={`row ${
+                  (teamMode && index === 9 + extraSeat) ||
+                  (!teamMode && index === 3 + extraSeat)
+                    ? "division"
+                    : ""
+                } ${
+                  !teamMode && !random && index - extraSeat <= 3
+                    ? `team${Math.floor((index - extraSeat) / 2)}`
+                    : ""
+                } ${
+                  teamMode && !random && index - extraSeat <= 9
+                    ? `team${Math.floor((index - extraSeat) / teamL)}`
+                    : ""
+                }
+                `}
+              >
+                <Text
+                  className={`index ${
+                    (teamMode && index < 10 + extraSeat) ||
+                    index < 4 + extraSeat
+                      ? "inGame"
+                      : ""
+                  } ${_index === 0 ? "red" : ""}`}
+                >
+                  {_index ? _index : ""}
                 </Text>
-                <Text className='nick'>{nickName}</Text>
+                <Text className="nick">{nickName}</Text>
                 {index === 0 ? (
-                  <AtBadge value={'房主'}>
+                  <AtBadge value={"房主"}>
                     <UserItem
                       nonick={true}
                       big={true}
@@ -300,38 +340,50 @@ export default class Index extends Component<any, IState> {
                     onClick={() => {
                       this.stick(index);
                     }}
-                    value='arrow-up'
-                    size='20'
-                    color='#009966'
+                    value="arrow-up"
+                    size="20"
+                    color="#009966"
                   ></AtIcon>
                 ) : (
                   <AtIcon
-                    className='hidden'
-                    value='arrow-up'
-                    size='20'
-                    color='#009966'
+                    className="hidden"
+                    value="arrow-up"
+                    size="20"
+                    color="#009966"
                   ></AtIcon>
                 )}
               </View>
             );
           })}
-        <View className='btn-list'>
+        <View className="btn-list">
           {ownRoom && !activeGame && (
-            <AtButton
-              className='menu-btn'
-              circle
-              type='primary'
-              size='normal'
-              onClick={() => {
-                this.startGame();
-              }}
-            >
-              开始
-            </AtButton>
+            <View>
+              <AtSwitch
+                title="房主不参与游戏"
+                className="red-switch"
+                color="#e6504b"
+                border={false}
+                checked={ownerQuitGame}
+                onChange={() => {
+                  this.handleOwnerInGame(!ownerQuitGame);
+                }}
+              />
+              <AtButton
+                className="menu-btn"
+                circle
+                type="primary"
+                size="normal"
+                onClick={() => {
+                  this.startGame();
+                }}
+              >
+                开始
+              </AtButton>
+            </View>
           )}
           {!!activeGame && (
             <FormIdBtn
-              text={over ? '回顾' : inGame ? '继续' : '旁观'}
+              text={over ? "回顾" : inGame ? "继续" : "旁观"}
               onClick={() => {
                 this.gotoGame();
               }}
@@ -339,40 +391,40 @@ export default class Index extends Component<any, IState> {
           )}
           {!inRoom && (
             <LoginBtn
-              text={'加入房间'}
-              className={'menu-btn'}
+              text={"加入房间"}
+              className={"menu-btn"}
               callback={() => {
                 this.joinRoom();
               }}
             />
           )}
           <AtButton
-            className='menu-btn'
+            className="menu-btn"
             circle
-            type='primary'
-            size='normal'
-            openType='share'
+            type="primary"
+            size="normal"
+            openType="share"
           >
             邀请朋友
           </AtButton>
           {inRoom && (ownRoom || !(inGame && activeGame)) && (
             <AtButton
-              className='menu-btn error-btn'
+              className="menu-btn error-btn"
               circle
-              type='primary'
-              size='normal'
+              type="primary"
+              size="normal"
               onClick={() => {
                 this.quitRoom();
               }}
             >
-              {ownRoom ? '解散房间' : '退出房间'}
+              {ownRoom ? "解散房间" : "退出房间"}
             </AtButton>
           )}
           <AtButton
-            className='menu-btn secondary'
+            className="menu-btn secondary"
             circle
-            type='primary'
-            size='normal'
+            type="primary"
+            size="normal"
             onClick={() => {
               this.gotoHome();
             }}
@@ -381,23 +433,23 @@ export default class Index extends Component<any, IState> {
           </AtButton>
         </View>
         <AtModal
-          className='game-tip'
+          className="game-tip"
           isOpened={isOpened}
-          cancelText='取消'
+          cancelText="取消"
           closeOnClickOverlay={false}
           onCancel={() => {
             this.handleCancel();
           }}
-          content='即将跳转到正在进行的...'
+          content="即将跳转到正在进行的..."
         />
       </View>
     ) : (
-      <View className='container'>
+      <View className="container">
         <AtButton
-          className='menu-btn secondary'
+          className="menu-btn secondary"
           circle
-          type='primary'
-          size='normal'
+          type="primary"
+          size="normal"
           onClick={() => {
             this.gotoHome();
           }}

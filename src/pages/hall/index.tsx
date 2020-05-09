@@ -158,13 +158,14 @@ export default class Index extends Component<IState, any> {
 
   // 创建房间
   createRoom() {
+    const isAdmin = Taro.getStorageSync("isAdmin");
     request({
       method: 'GET',
       url: '/rooms/ownroom',
     }).then(res => {
       const { id } = res;
       // 尚未拥有房间，则去创建
-      if (!id) {
+      if (!id || isAdmin) {
         Taro.navigateTo({
           url: `/pages/createRoom/index`,
         });

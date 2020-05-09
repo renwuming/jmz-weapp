@@ -1,23 +1,23 @@
-import Taro, { Component } from '@tarojs/taro';
-import { Text } from '@tarojs/components';
-import './index.scss';
-import { AtForm, AtButton, AtSwitch, AtRadio } from 'taro-ui';
-import { request } from '../../api';
+import Taro, { Component } from "@tarojs/taro";
+import { Text } from "@tarojs/components";
+import "./index.scss";
+import { AtForm, AtButton, AtSwitch, AtRadio } from "taro-ui";
+import { request } from "../../api";
 
 export default class Index extends Component<any, any> {
   state = {
     publicStatus: true,
     random: true,
     timer: true,
-    relaxMode: true,
+    gameMode: 1,
     season: {},
   };
 
   componentDidShow() {
     request({
-      method: 'GET',
-      url: '/seasons/newest',
-    }).then(season => {
+      method: "GET",
+      url: "/seasons/newest",
+    }).then((season) => {
       this.setState({
         season,
       });
@@ -25,17 +25,17 @@ export default class Index extends Component<any, any> {
   }
 
   createRoom() {
-    const { publicStatus, random, timer, relaxMode } = this.state;
+    const { publicStatus, random, timer, gameMode } = this.state;
     request({
-      method: 'POST',
-      url: '/rooms',
+      method: "POST",
+      url: "/rooms/v2/create",
       data: {
         publicStatus,
         random,
         timer,
-        relaxMode,
+        gameMode,
       },
-    }).then(res => {
+    }).then((res) => {
       const { id } = res;
       Taro.redirectTo({
         url: `/pages/room/index?id=${id}`,
@@ -44,46 +44,57 @@ export default class Index extends Component<any, any> {
   }
 
   render() {
-    const { publicStatus, random, timer, relaxMode, season } = this.state;
-    const userInfo = Taro.getStorageSync('userInfo');
+    const { publicStatus, random, timer, gameMode, season } = this.state;
+    const userInfo = Taro.getStorageSync("userInfo");
     const { nickName } = userInfo;
     const { name, end } = season as any;
 
+    const modeList = [
+      {
+        label: "休闲模式",
+        value: 1,
+        desc: "只影响胜率，不影响赛季积分",
+      },
+      {
+        label: "赛季模式",
+        value: 0,
+        desc: `【${name ? name : ""}】赛季，${end ? "已结束" : "快来冲榜！"}`,
+        disabled: end,
+      },
+    ];
+
+    // 管理员可以创建团队模式房间
+    const isAdmin = Taro.getStorageSync("isAdmin");
+    if (isAdmin) {
+      modeList.push({
+        label: "团队模式",
+        value: 2,
+        desc: `培养团队默契，不限人数`,
+        disabled: end,
+      });
+    }
+
     return (
       <AtForm
-        className='create-form'
+        className="create-form"
         onSubmit={() => {
           this.createRoom();
         }}
       >
-        <Text className='title'>{nickName}的房间</Text>
+        <Text className="title">{nickName}的房间</Text>
         <AtRadio
-          options={[
-            {
-              label: '休闲模式',
-              value: true,
-              desc: '只影响胜率，不影响赛季积分。',
-            },
-            {
-              label: '赛季模式',
-              value: false,
-              desc: `【${name ? name : ''}】赛季，${
-                end ? '已结束' : '快来冲榜！'
-              }`,
-              disabled: end,
-            },
-          ]}
-          value={relaxMode}
-          onClick={value => {
+          options={modeList}
+          value={gameMode}
+          onClick={(value) => {
             this.setState({
-              relaxMode: value,
+              gameMode: value,
             });
           }}
         />
         <AtSwitch
-          title='公开房间'
-          className='red-switch'
-          color='#e6504b'
+          title="公开房间"
+          className="red-switch"
+          color="#e6504b"
           border={false}
           checked={publicStatus}
           onChange={() => {
@@ -93,7 +104,7 @@ export default class Index extends Component<any, any> {
           }}
         />
         <AtSwitch
-          title='随机组队'
+          title="随机组队"
           border={false}
           checked={random}
           onChange={() => {
@@ -103,9 +114,9 @@ export default class Index extends Component<any, any> {
           }}
         />
         <AtSwitch
-          title='限时竞技'
-          className='red-switch'
-          color='#e6504b'
+          title="限时竞技"
+          className="red-switch"
+          color="#e6504b"
           border={false}
           checked={timer}
           onChange={() => {
@@ -115,11 +126,11 @@ export default class Index extends Component<any, any> {
           }}
         />
         <AtButton
-          formType='submit'
-          className='menu-btn'
+          formType="submit"
+          className="menu-btn"
           circle
-          type='primary'
-          size='normal'
+          type="primary"
+          size="normal"
         >
           确定
         </AtButton>

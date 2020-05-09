@@ -46,7 +46,7 @@ page {
   justify-content: center;
   align-items: center;
   height: 128px;
-  background: no-repeat url('http://cdn.renwuming.cn/static/jmz/result-bk.jpg')
+  background: no-repeat url("http://cdn.renwuming.cn/static/jmz/result-bk.jpg")
     0 0 / cover;
   text {
     color: #1f262c;
@@ -66,7 +66,7 @@ page {
   align-items: center;
   height: 128px;
   margin-bottom: 20px;
-  background: no-repeat url('http://cdn.renwuming.cn/static/jmz/result-bk.jpg')
+  background: no-repeat url("http://cdn.renwuming.cn/static/jmz/result-bk.jpg")
     0 0 / cover;
   font-family: yansong;
   .row {
@@ -88,7 +88,7 @@ page {
     background-color: transparent;
     padding: 0 6px;
     .at-countdown__time {
-      font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+      font-family: TrebuchetMS, "Microsoft YaHei", sans-serif;
       font-size: 60px;
     }
     &:after {
@@ -116,7 +116,7 @@ page {
   }
   text {
     font-size: 20px;
-    font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+    font-family: TrebuchetMS, "Microsoft YaHei", sans-serif;
     text-align: center;
     color: #242831;
   }
@@ -171,7 +171,7 @@ page {
 
 .battle-item.team1 {
   .at-card__header {
-    background: repeat url('http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg');
+    background: repeat url("http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg");
   }
 }
 .battle-item {
@@ -191,7 +191,7 @@ page {
     border-bottom: 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background: repeat url('http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg');
+    background: repeat url("http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg");
     text {
       font-family: yansong;
       color: #fff;
@@ -246,7 +246,7 @@ page {
 }
 // 提交按钮
 .submit-btn.team1 {
-  background: repeat url('http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg');
+  background: repeat url("http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg");
 }
 .submit-btn {
   height: 70px;
@@ -255,7 +255,7 @@ page {
   margin-bottom: 0;
   color: #fff;
   font-family: yansong;
-  background: repeat url('http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg');
+  background: repeat url("http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg");
   border: 0;
 }
 // 浮动按钮
@@ -341,7 +341,7 @@ page {
   border-bottom: 4px solid #b3b3b3;
 }
 .team-title.team1 .user-list {
-  background: url('http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg') !important;
+  background: url("http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg") !important;
 }
 .team-title {
   display: flex;
@@ -351,7 +351,7 @@ page {
   flex-direction: column;
   font-size: 30px;
   background: no-repeat
-    url('http://cdn.renwuming.cn/static/jmz/team-status-bk.jpg') 0 0 / cover;
+    url("http://cdn.renwuming.cn/static/jmz/team-status-bk.jpg") 0 0 / cover;
   color: #fff;
   .title-row {
     display: flex;
@@ -384,9 +384,19 @@ page {
       flex-grow: 1;
       flex-direction: column;
       background: repeat
-        url('http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg');
+        url("http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg");
       border-radius: 10px;
       padding-left: 14px;
+      &.team-user-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        max-width: 248px;
+        min-height: 180px;
+        padding: 0;
+      }
     }
     .score-list {
       width: 64px;
@@ -424,7 +434,7 @@ page {
 
 // 顶部标题
 .title-box.title1 {
-  background: repeat url('http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg');
+  background: repeat url("http://cdn.renwuming.cn/static/jmz/blue-bk-new.jpg");
 }
 .title-box {
   margin-top: 20px;
@@ -435,7 +445,7 @@ page {
   color: #fff;
   font-family: yansong;
   box-shadow: 2px 5px 5px #aaa;
-  background: repeat url('http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg');
+  background: repeat url("http://cdn.renwuming.cn/static/jmz/red-bk-new.jpg");
 }
 
 // 图例
@@ -469,7 +479,7 @@ page {
 
 // 提交提示窗口
 at-modal {
-  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+  font-family: TrebuchetMS, "Microsoft YaHei", sans-serif;
   .submit-tip text {
     color: #555;
   }
@@ -520,13 +530,13 @@ at-modal {
     width: 620px;
     height: 60px;
     margin-right: 20px;
-    background: no-repeat url('http://cdn.renwuming.cn/static/jmz/top-bk.png') 0
+    background: no-repeat url("http://cdn.renwuming.cn/static/jmz/top-bk.png") 0
       0 / cover;
   }
   .menu-btn {
     width: 70px;
     height: 70px;
-    background: no-repeat url('http://cdn.renwuming.cn/static/jmz/home-btn.png')
+    background: no-repeat url("http://cdn.renwuming.cn/static/jmz/home-btn.png")
       0 0 / cover;
   }
 }

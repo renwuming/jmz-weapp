@@ -4,7 +4,7 @@ import { validate } from './index'
 
 export function connectWs() {
   // 先关闭之前的websocket
-  // closeWs()
+  closeWs()
   validate().then(() => {
     const ticket = Taro.getStorageSync('ticket')
     wx.connectSocket({
