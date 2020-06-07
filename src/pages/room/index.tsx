@@ -22,6 +22,7 @@ interface IState {
   publicStatus: boolean;
   over: boolean;
   isOpened: boolean;
+  OpenThreeModeModal: boolean;
   userOnlineStatus: string[];
 }
 
@@ -43,6 +44,7 @@ export default class Index extends Component<any, IState> {
     publicStatus: false,
     over: false,
     isOpened: false,
+    OpenThreeModeModal: false,
     userOnlineStatus: [],
   };
 
@@ -252,6 +254,7 @@ export default class Index extends Component<any, IState> {
       teamMode, // 是否为团队模式
       over,
       isOpened,
+      OpenThreeModeModal,
       userOnlineStatus,
       random, // 是否随机组队
     } = this.state;
@@ -374,7 +377,13 @@ export default class Index extends Component<any, IState> {
                 type="primary"
                 size="normal"
                 onClick={() => {
-                  this.startGame();
+                  if (userList.length === 3) {
+                    this.setState({
+                      OpenThreeModeModal: true,
+                    });
+                  } else {
+                    this.startGame();
+                  }
                 }}
               >
                 开始
@@ -441,6 +450,21 @@ export default class Index extends Component<any, IState> {
             this.handleCancel();
           }}
           content="即将跳转到正在进行的..."
+        />
+        <AtModal
+          className="game-tip"
+          isOpened={OpenThreeModeModal}
+          confirmText="确定"
+          closeOnClickOverlay
+          onConfirm={() => {
+            this.startGame();
+          }}
+          onClose={() => {
+            this.setState({
+              OpenThreeModeModal: false,
+            });
+          }}
+          content="开始三人游戏？"
         />
       </View>
     ) : (

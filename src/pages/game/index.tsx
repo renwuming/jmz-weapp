@@ -422,6 +422,7 @@ export default class Index extends Component<any, IState> {
       music,
       userOnlineStatus,
       teamMode,
+      threeMode,
     } = this.state;
     // 处理倒计时
     if (countdownData) {
@@ -573,15 +574,21 @@ export default class Index extends Component<any, IState> {
         )}
         {gameMode && gameOver && (
           <View className={`over-card ${winner >= 0 ? "team" + winner : ""}`}>
-            <View
-              className="img-btn-box"
-              onClick={() => {
-                this.changePaper();
-              }}
-            >
-              <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
-              <Text>切换密电卡</Text>
-            </View>
+            {threeMode ? (
+              <View className="img-btn-box">
+                <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
+              </View>
+            ) : (
+              <View
+                className="img-btn-box"
+                onClick={() => {
+                  this.changePaper();
+                }}
+              >
+                <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
+                <Text>切换密电卡</Text>
+              </View>
+            )}
             <Text className="over-tip">{resultString}</Text>
             <View
               className="img-btn-box right"
@@ -596,15 +603,21 @@ export default class Index extends Component<any, IState> {
         )}
         {!gameOver && (
           <View className="stage-count-down-box">
-            <View
-              className="img-btn-box"
-              onClick={() => {
-                this.changePaper();
-              }}
-            >
-              <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
-              <Text>切换密电卡</Text>
-            </View>
+            {threeMode ? (
+              <View className="img-btn-box">
+                <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
+              </View>
+            ) : (
+              <View
+                className="img-btn-box"
+                onClick={() => {
+                  this.changePaper();
+                }}
+              >
+                <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
+                <Text>切换密电卡</Text>
+              </View>
+            )}
             {quickMode &&
               (countdownData.time > 0 ? (
                 <View className="row">
@@ -648,9 +661,13 @@ export default class Index extends Component<any, IState> {
                 <AtCard
                   className={`round-item battle-item team${paperIndex}`}
                   title={`第${roundNumber + 1}封 ${pageTitleMap[paperIndex]}卡`}
-                  extra={`点击右下圆形按钮翻面\n查看【${
-                    pageTitleMap[1 - paperIndex]
-                  }卡】`}
+                  extra={
+                    threeMode
+                      ? ""
+                      : `点击右下圆形按钮翻面\n查看【${
+                          pageTitleMap[1 - paperIndex]
+                        }卡】`
+                  }
                 >
                   <View className="round-container">
                     <View className="round-status">
@@ -703,43 +720,34 @@ export default class Index extends Component<any, IState> {
                         </View>
                       )}
                     </View>
-                    <View className="round-status right">
-                      <View className="row-tip">
-                        <Text className={`team${1 - paperIndex}`}>
-                          ▽ {paperIndex === teamIndex ? "敌方" : "我方"}密电进度
-                        </Text>
-                      </View>
-                      <View className="row">
-                        <UserItem nonick={true} data={desUser2}></UserItem>
-                        {jiamiStatus2 ? (
-                          <AtIcon
-                            value="check"
-                            size="20"
-                            color="#009966"
-                          ></AtIcon>
-                        ) : (
-                          <AtIcon
-                            className="hidden"
-                            value="check"
-                            size="20"
-                            color="#009966"
-                          ></AtIcon>
-                        )}
-                      </View>
-                      <View className="row">
-                        <UserItem nonick={true} data={jiemiUser2}></UserItem>
-                        {jiemiStatus2 && (
-                          <AtIcon
-                            value="check"
-                            size="20"
-                            color="#009966"
-                          ></AtIcon>
-                        )}
-                      </View>
-                      {lanjieUser2 && (
+                    {!threeMode && (
+                      <View className="round-status right">
+                        <View className="row-tip">
+                          <Text className={`team${1 - paperIndex}`}>
+                            ▽ {paperIndex === teamIndex ? "敌方" : "我方"}
+                            密电进度
+                          </Text>
+                        </View>
                         <View className="row">
-                          <UserItem nonick={true} data={lanjieUser2}></UserItem>
-                          {lanjieStatus2 && (
+                          <UserItem nonick={true} data={desUser2}></UserItem>
+                          {jiamiStatus2 ? (
+                            <AtIcon
+                              value="check"
+                              size="20"
+                              color="#009966"
+                            ></AtIcon>
+                          ) : (
+                            <AtIcon
+                              className="hidden"
+                              value="check"
+                              size="20"
+                              color="#009966"
+                            ></AtIcon>
+                          )}
+                        </View>
+                        <View className="row">
+                          <UserItem nonick={true} data={jiemiUser2}></UserItem>
+                          {jiemiStatus2 && (
                             <AtIcon
                               value="check"
                               size="20"
@@ -747,8 +755,23 @@ export default class Index extends Component<any, IState> {
                             ></AtIcon>
                           )}
                         </View>
-                      )}
-                    </View>
+                        {lanjieUser2 && (
+                          <View className="row">
+                            <UserItem
+                              nonick={true}
+                              data={lanjieUser2}
+                            ></UserItem>
+                            {lanjieStatus2 && (
+                              <AtIcon
+                                value="check"
+                                size="20"
+                                color="#009966"
+                              ></AtIcon>
+                            )}
+                          </View>
+                        )}
+                      </View>
+                    )}
                   </View>
 
                   <View>
@@ -863,22 +886,24 @@ export default class Index extends Component<any, IState> {
               </View>
             )}
           </View>
-          <View className="rotate-btn">
-            <AtFab
-              onClick={() => {
-                this.changePaper();
-              }}
-              size="small"
-            >
-              {this.news && this.news[1 - paperIndex] && !gameOver ? (
-                <AtBadge className="shake" value={"new"}>
+          {!threeMode && (
+            <View className="rotate-btn">
+              <AtFab
+                onClick={() => {
+                  this.changePaper();
+                }}
+                size="small"
+              >
+                {this.news && this.news[1 - paperIndex] && !gameOver ? (
+                  <AtBadge className="shake" value={"new"}>
+                    <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
+                  </AtBadge>
+                ) : (
                   <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
-                </AtBadge>
-              ) : (
-                <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
-              )}
-            </AtFab>
-          </View>
+                )}
+              </AtFab>
+            </View>
+          )}
         </View>
         <AD />
       </View>
