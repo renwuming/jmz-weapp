@@ -113,6 +113,7 @@ export default class Index extends Component<any, IState> {
     const { activeGame, over } = data;
     // 若已开始，则跳转
     if (activeGame && !over && !this.forbidAutoNavigate) {
+      this.forbidAutoNavigate = true;
       this.setState({
         isOpened: true,
       });
@@ -121,7 +122,7 @@ export default class Index extends Component<any, IState> {
         if (this.state.isOpened) {
           this.navigateTimer = setTimeout(() => {
             this.gotoGame(activeGame);
-          }, 1500);
+          }, 2000);
         }
       });
     }
@@ -214,7 +215,6 @@ export default class Index extends Component<any, IState> {
     this.setState({
       isOpened: false,
     });
-    this.forbidAutoNavigate = true;
   }
 
   // 改变房间的公开状态
