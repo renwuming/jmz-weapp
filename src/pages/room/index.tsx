@@ -1,12 +1,12 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Text } from "@tarojs/components";
-import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from "taro-ui";
-import "./index.scss";
-import { request } from "../../api";
-import { connectWs, getData, listeningWs } from "../../api/websocket";
-import LoginBtn from "../../components/loginBtn";
-import FormIdBtn from "../../components/FormIdBtn";
-import UserItem from "../../components/UserItem";
+import Taro, { Component } from '@tarojs/taro';
+import { View, Text } from '@tarojs/components';
+import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from 'taro-ui';
+import './index.scss';
+import { request } from '../../api';
+import { connectWs, getData, listeningWs } from '../../api/websocket';
+import LoginBtn from '../../components/loginBtn';
+import FormIdBtn from '../../components/FormIdBtn';
+import UserItem from '../../components/UserItem';
 
 let updateTimer;
 
@@ -33,12 +33,12 @@ export default class Index extends Component<any, IState> {
   requestTimes: number;
 
   state = {
-    id: "",
+    id: '',
     userList: [],
     ownRoom: false,
     inRoom: false,
     inGame: false,
-    activeGame: "",
+    activeGame: '',
     random: true,
     timer: true,
     publicStatus: false,
@@ -51,7 +51,7 @@ export default class Index extends Component<any, IState> {
   onShareAppMessage() {
     const { id } = this.$router.params;
     return {
-      title: "房间已开好，快来加入吧~",
+      title: '房间已开好，快来加入吧~',
       path: `/pages/room/index?id=${id}`,
     };
   }
@@ -85,12 +85,12 @@ export default class Index extends Component<any, IState> {
     // 若服务端报错
     if (data.code && this.requestTimes > 2) {
       this.setState({
-        id: "",
+        id: '',
       });
       clearInterval(updateTimer);
       Taro.showToast({
         title: data.message,
-        icon: "none",
+        icon: 'none',
         duration: 3000,
       });
     }
@@ -143,7 +143,7 @@ export default class Index extends Component<any, IState> {
   startGame() {
     const { id } = this.$router.params;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/v2/wx/${id}/start`,
     }).then((data) => {
       if (data.id) {
@@ -156,13 +156,13 @@ export default class Index extends Component<any, IState> {
   joinRoom() {
     const { id } = this.$router.params;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/${id}`,
     }).then((data) => {
       if (!data) {
         Taro.showToast({
-          title: "加入房间成功",
-          icon: "success",
+          title: '加入房间成功',
+          icon: 'success',
           duration: 1000,
         });
         this.updateRoomData();
@@ -174,14 +174,14 @@ export default class Index extends Component<any, IState> {
     const { id } = this.$router.params;
     const { ownRoom } = this.state;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/${id}/quit`,
     }).then((data) => {
-      const title = ownRoom ? "解散房间成功" : "退出房间成功";
+      const title = ownRoom ? '解散房间成功' : '退出房间成功';
       if (!data) {
         Taro.showToast({
           title,
-          icon: "success",
+          icon: 'success',
           duration: 1000,
         });
         Taro.navigateBack();
@@ -191,7 +191,7 @@ export default class Index extends Component<any, IState> {
 
   gotoHome() {
     Taro.reLaunch({
-      url: "/pages/home/index",
+      url: '/pages/home/index',
     });
   }
 
@@ -199,7 +199,7 @@ export default class Index extends Component<any, IState> {
   stick(index) {
     const { id } = this.$router.params;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/${id}/edituserlist/${index}`,
     }).then((data) => {
       if (!data) {
@@ -222,7 +222,7 @@ export default class Index extends Component<any, IState> {
     this.changeStatusTime = new Date().getTime();
     const { id } = this.$router.params;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/${id}/status`,
       data: status,
     });
@@ -232,7 +232,7 @@ export default class Index extends Component<any, IState> {
   handleOwnerInGame(ownerQuitGame) {
     const { id } = this.$router.params;
     request({
-      method: "POST",
+      method: 'POST',
       url: `/rooms/${id}/ownerQuitGame`,
       data: {
         ownerQuitGame,
@@ -261,14 +261,14 @@ export default class Index extends Component<any, IState> {
 
     return id ? (
       <View className="container">
-        <Text className={roomMode.red ? "title red" : "title"}>
+        <Text className={roomMode.red ? 'title red' : 'title'}>
           {roomMode.text}
         </Text>
         <View className="status-row">
           {tags.map((tag) => {
             const { text, red } = tag;
             return (
-              <AtTag className={red ? "red" : ""} type="primary" circle>
+              <AtTag className={red ? 'red' : ''} type="primary" circle>
                 {text}
               </AtTag>
             );
@@ -285,22 +285,22 @@ export default class Index extends Component<any, IState> {
             const extraSeat = ownerQuitGame ? 1 : 0;
             const _index = index + 1 - extraSeat;
 
-            const teamL = Math.ceil(userList.length / 2);
+            const teamL = Math.ceil((userList.length - extraSeat) / 2);
             return (
               <View
                 className={`row ${
                   (teamMode && index === 9 + extraSeat) ||
                   (!teamMode && index === 3 + extraSeat)
-                    ? "division"
-                    : ""
+                    ? 'division'
+                    : ''
                 } ${
                   !teamMode && !random && index - extraSeat <= 3
                     ? `team${Math.floor((index - extraSeat) / 2)}`
-                    : ""
+                    : ''
                 } ${
                   teamMode && !random && index - extraSeat <= 9
                     ? `team${Math.floor((index - extraSeat) / teamL)}`
-                    : ""
+                    : ''
                 }
                 `}
               >
@@ -308,15 +308,15 @@ export default class Index extends Component<any, IState> {
                   className={`index ${
                     (teamMode && index < 10 + extraSeat) ||
                     index < 4 + extraSeat
-                      ? "inGame"
-                      : ""
-                  } ${_index === 0 ? "red" : ""}`}
+                      ? 'inGame'
+                      : ''
+                  } ${_index === 0 ? 'red' : ''}`}
                 >
-                  {_index ? _index : ""}
+                  {_index ? _index : ''}
                 </Text>
                 <Text className="nick">{nickName}</Text>
                 {index === 0 ? (
-                  <AtBadge value={"房主"}>
+                  <AtBadge value={'房主'}>
                     <UserItem
                       nonick={true}
                       big={true}
@@ -377,7 +377,8 @@ export default class Index extends Component<any, IState> {
                 type="primary"
                 size="normal"
                 onClick={() => {
-                  if (userList.length === 3) {
+                  const threeLength = ownerQuitGame ? 4 : 3;
+                  if (userList.length === threeLength) {
                     this.setState({
                       OpenThreeModeModal: true,
                     });
@@ -392,7 +393,7 @@ export default class Index extends Component<any, IState> {
           )}
           {!!activeGame && (
             <FormIdBtn
-              text={over ? "回顾" : inGame ? "继续" : "旁观"}
+              text={over ? '回顾' : inGame ? '继续' : '旁观'}
               onClick={() => {
                 this.gotoGame();
               }}
@@ -400,8 +401,8 @@ export default class Index extends Component<any, IState> {
           )}
           {!inRoom && (
             <LoginBtn
-              text={"加入房间"}
-              className={"menu-btn"}
+              text={'加入房间'}
+              className={'menu-btn'}
               callback={() => {
                 this.joinRoom();
               }}
@@ -426,7 +427,7 @@ export default class Index extends Component<any, IState> {
                 this.quitRoom();
               }}
             >
-              {ownRoom ? "解散房间" : "退出房间"}
+              {ownRoom ? '解散房间' : '退出房间'}
             </AtButton>
           )}
           <AtButton

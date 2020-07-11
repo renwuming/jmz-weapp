@@ -1,75 +1,67 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import './index.scss'
-import { AtButton } from 'taro-ui'
-import AD from '../../components/AD'
+import Taro, { Component, Config } from '@tarojs/taro';
+import { View, Text } from '@tarojs/components';
+import './index.scss';
+import { AtButton } from 'taro-ui';
+import AD from '../../components/AD';
 
 // 在页面中定义插屏广告
-let interstitialAd = null
+let interstitialAd = null;
 export default class Index extends Component {
   config: Config = {
-    navigationBarTitleText: '更多'
-  }
+    navigationBarTitleText: '更多',
+  };
   componentDidHide() {}
   componentWillUnmount() {}
   componentDidShow() {
-    this.refreshAd()
+    this.refreshAd();
   }
 
   refreshAd() {
     // 在页面onLoad回调事件中创建插屏广告实例
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-053e651e2cd346f9'
-      })
-      interstitialAd.onLoad(() => {})
-      interstitialAd.onError(err => {})
+        adUnitId: 'adunit-053e651e2cd346f9',
+      });
+      interstitialAd.onLoad(() => {});
+      interstitialAd.onError((err) => {});
       interstitialAd.onClose(() => {
-        this.navigateToRule()
-      })
+        this.navigateToRule();
+      });
     }
   }
 
   gotoRule() {
     // 在适合的场景显示插屏广告
     if (interstitialAd) {
-      interstitialAd.show().catch(err => {
-        console.error(err)
-        this.navigateToRule()
-      })
+      interstitialAd.show().catch((err) => {
+        console.error(err);
+        this.navigateToRule();
+      });
     }
   }
 
   navigateToRule() {
     Taro.redirectTo({
-      url: `/pages/imglist/index?type=rule`
-    })
+      url: `/pages/imglist/index?type=rule`,
+    });
   }
 
   gotoAddword() {
     Taro.navigateTo({
-      url: `/pages/addword/index`
-    })
+      url: `/pages/addword/index`,
+    });
   }
 
   gotoGroup() {
     Taro.navigateTo({
-      url: `/pages/imglist/index?type=group`
-    })
-  }
-
-  dashang() {
-    this.gotoDashang()
+      url: `/pages/imglist/index?type=group`,
+    });
   }
 
   gotoDashang() {
-    // Taro.navigateTo({
-    //   url: `/pages/imglist/index?type=reward`
-    // })
-    wx.navigateToMiniProgram({
-      appId: 'wx18a2ac992306a5a4',
-      path: 'pages/apps/largess/detail?id=qml%2Fe4T5%2FpA%3D'
-    })
+    Taro.previewImage({
+      urls: ['https://cdn.renwuming.cn/static/reward.jpg'],
+    });
   }
 
   render() {
@@ -81,7 +73,7 @@ export default class Index extends Component {
           type="primary"
           size="normal"
           onClick={() => {
-            this.gotoAddword()
+            this.gotoAddword();
           }}
         >
           贡献词条
@@ -92,7 +84,7 @@ export default class Index extends Component {
           type="primary"
           size="normal"
           onClick={() => {
-            this.gotoRule()
+            this.gotoRule();
           }}
         >
           规则说明
@@ -103,7 +95,7 @@ export default class Index extends Component {
           type="primary"
           size="normal"
           onClick={() => {
-            this.dashang()
+            this.gotoDashang();
           }}
         >
           打赏作者
@@ -122,11 +114,11 @@ export default class Index extends Component {
         } */}
         <View
           style={{
-            flexGrow: 1
+            flexGrow: 1,
           }}
         ></View>
         <AD />
       </View>
-    )
+    );
   }
 }

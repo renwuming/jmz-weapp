@@ -39,10 +39,7 @@ class App extends Component {
       navigationBarTitleText: '截码战',
       navigationBarTextStyle: 'black',
     },
-    navigateToMiniProgramAppIdList: [
-      'wx18a2ac992306a5a4',
-      'wx78bc21b55d1cc0c5',
-    ],
+    navigateToMiniProgramAppIdList: ['wx78bc21b55d1cc0c5'],
   };
 
   componentDidShow() {
