@@ -60,7 +60,7 @@ export default class Index extends Component {
 
   gotoDashang() {
     Taro.previewImage({
-      urls: ['https://cdn.renwuming.cn/static/reward.jpg'],
+      urls: ['http://cdn.renwuming.cn/static/reward.jpg'],
     });
   }
 
