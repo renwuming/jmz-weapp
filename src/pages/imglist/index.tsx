@@ -15,7 +15,7 @@ export default class Index extends Component {
   componentDidShow() {}
 
   getImgList(type) {
-    const groupList = ['https://cdn.renwuming.cn/static/jmz/group.jpg'];
+    const groupList = ['http://cdn.renwuming.cn/static/jmz/group.jpg'];
     const ruleList = [
       'https://mmbiz.qpic.cn/mmbiz_jpg/jncq0QtTwwqLS5RwkDiciaA30RJlZOcOFVk6t7UgJUjW6MxyJv38qMhZlWBzYJVICJibYVqmcFLys4PJTTzC5iawqw/0?wx_fmt=jpeg',
       'https://mmbiz.qpic.cn/mmbiz_jpg/jncq0QtTwwqLS5RwkDiciaA30RJlZOcOFVNXgkSRAh6o6UPDks9GnqaCpHaF5KL79uK5Xyic29cNuV0atrLg9oiaaQ/0?wx_fmt=jpeg',
@@ -30,7 +30,7 @@ export default class Index extends Component {
       'https://mmbiz.qpic.cn/mmbiz_jpg/jncq0QtTwwqLS5RwkDiciaA30RJlZOcOFVjwxGts2fnNROVNptPso8pkThhx1nzNbDmowpCty0cg05zSyJhWiaAibQ/0?wx_fmt=jpeg',
       'https://mmbiz.qpic.cn/mmbiz_jpg/jncq0QtTwwqLS5RwkDiciaA30RJlZOcOFVKjrWp3yhwibq1LrZMYiasLYFYJJVWvQQhksGZw73ZB8BAd1OialiaVTqLQ/0?wx_fmt=jpeg',
     ];
-    const rewardList = ['https://cdn.renwuming.cn/static/reward.jpg'];
+    const rewardList = ['http://cdn.renwuming.cn/static/reward.jpg'];
 
     const imgList =
       type === 'rule' ? ruleList : type === 'reward' ? rewardList : groupList;
