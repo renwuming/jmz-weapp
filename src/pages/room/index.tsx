@@ -1,6 +1,15 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { AtModal, AtButton, AtSwitch, AtBadge, AtIcon, AtTag } from 'taro-ui';
+import {
+  AtModal,
+  AtButton,
+  AtSwitch,
+  AtBadge,
+  AtIcon,
+  AtTag,
+  AtActionSheet,
+  AtActionSheetItem,
+} from 'taro-ui';
 import './index.scss';
 import { request } from '../../api';
 import { connectWs, getData, listeningWs } from '../../api/websocket';
@@ -12,7 +21,7 @@ let updateTimer;
 
 interface IState {
   id: string;
-  userList: Array<Object>;
+  userList: Array<any>;
   ownRoom: boolean;
   inRoom: boolean;
   inGame: boolean;
@@ -24,6 +33,8 @@ interface IState {
   isOpened: boolean;
   OpenThreeModeModal: boolean;
   userOnlineStatus: string[];
+  openHandlePlayerAction: boolean;
+  handlePlayer: any;
 }
 
 export default class Index extends Component<any, IState> {
@@ -46,6 +57,8 @@ export default class Index extends Component<any, IState> {
     isOpened: false,
     OpenThreeModeModal: false,
     userOnlineStatus: [],
+    openHandlePlayerAction: false,
+    handlePlayer: {},
   };
 
   onShareAppMessage() {
@@ -58,9 +71,11 @@ export default class Index extends Component<any, IState> {
 
   componentDidHide() {
     clearInterval(updateTimer);
+    this.handleCancel();
   }
   componentWillUnmount() {
     clearInterval(updateTimer);
+    this.handleCancel();
   }
 
   componentDidShow() {
@@ -196,12 +211,38 @@ export default class Index extends Component<any, IState> {
     });
   }
 
+  handlePlayerAction(value) {
+    this.setState({
+      openHandlePlayerAction: value,
+    });
+  }
+
+  handlePlayer(index) {
+    const { userList } = this.state;
+    this.setState({
+      handlePlayer: { ...(userList[index] as any), index },
+    });
+  }
+
   // 将玩家置顶
   stick(index) {
     const { id } = this.$router.params;
     request({
       method: 'POST',
       url: `/rooms/${id}/edituserlist/${index}`,
+    }).then((data) => {
+      if (!data) {
+        this.updateRoomData();
+      }
+    });
+  }
+
+  // 踢出玩家
+  kickout(index) {
+    const { id } = this.$router.params;
+    request({
+      method: 'POST',
+      url: `/rooms/${id}/edituserlist/delete/${index}`,
     }).then((data) => {
       if (!data) {
         this.updateRoomData();
@@ -257,6 +298,8 @@ export default class Index extends Component<any, IState> {
       OpenThreeModeModal,
       userOnlineStatus,
       random, // 是否随机组队
+      openHandlePlayerAction,
+      handlePlayer,
     } = this.state;
 
     return id ? (
@@ -338,19 +381,20 @@ export default class Index extends Component<any, IState> {
                     }}
                   ></UserItem>
                 )}
-                {ownRoom && index > 1 ? (
+                {ownRoom && index > 0 ? (
                   <AtIcon
                     onClick={() => {
-                      this.stick(index);
+                      this.handlePlayerAction(true);
+                      this.handlePlayer(index);
                     }}
-                    value="arrow-up"
+                    value="settings"
                     size="20"
                     color="#009966"
                   ></AtIcon>
                 ) : (
                   <AtIcon
                     className="hidden"
-                    value="arrow-up"
+                    value="settings"
                     size="20"
                     color="#009966"
                   ></AtIcon>
@@ -467,6 +511,35 @@ export default class Index extends Component<any, IState> {
           }}
           content="开始三人游戏？"
         />
+
+        <AtActionSheet
+          isOpened={openHandlePlayerAction}
+          cancelText="取消"
+          title={handlePlayer.userInfo && handlePlayer.userInfo.nickName}
+          onCancel={() => {
+            this.handlePlayerAction(false);
+          }}
+          onClose={() => {
+            this.handlePlayerAction(false);
+          }}
+        >
+          <AtActionSheetItem
+            onClick={() => {
+              this.stick(handlePlayer.index);
+              this.handlePlayerAction(false);
+            }}
+          >
+            移到顶部
+          </AtActionSheetItem>
+          <AtActionSheetItem
+            onClick={() => {
+              this.kickout(handlePlayer.index);
+              this.handlePlayerAction(false);
+            }}
+          >
+            踢出
+          </AtActionSheetItem>
+        </AtActionSheet>
       </View>
     ) : (
       <View className="container">
