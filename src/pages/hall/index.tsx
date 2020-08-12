@@ -60,7 +60,7 @@ export default class Index extends Component<IState, any> {
       method: 'GET',
       url: `/rooms/v3/list/${this.page2}`,
     })
-      .then(res => {
+      .then((res) => {
         const { roomList } = this.state;
         this.setState({
           roomList: roomList.concat(res),
@@ -80,13 +80,13 @@ export default class Index extends Component<IState, any> {
       method: 'GET',
       url: `/rooms/hall/list/${this.page1}`,
     })
-      .then(res => {
+      .then((res) => {
         let { list, hallTimeRange } = res;
         const mode = Taro.getStorageSync('mode');
         const { hallList } = this.state;
         // 非游戏模式下，只显示自己的房间
         if (mode !== 'game') {
-          list = list.filter(item => item.inRoom);
+          list = list.filter((item) => item.inRoom);
         }
         this.setState({
           hallList: hallList.concat(list),
@@ -158,22 +158,14 @@ export default class Index extends Component<IState, any> {
 
   // 创建房间
   createRoom() {
-    const isAdmin = Taro.getStorageSync("isAdmin");
-    request({
-      method: 'GET',
-      url: '/rooms/ownroom',
-    }).then(res => {
-      const { id } = res;
-      // 尚未拥有房间，则去创建
-      if (!id || isAdmin) {
-        Taro.navigateTo({
-          url: `/pages/createRoom/index`,
-        });
-      } else {
-        Taro.navigateTo({
-          url: `/pages/room/index?id=${id}`,
-        });
-      }
+    // request({
+    //   method: 'GET',
+    //   url: '/rooms/ownroom',
+    // }).then((res) => {
+    //   const { id } = res;
+    // });
+    Taro.navigateTo({
+      url: `/pages/createRoom/index`,
     });
   }
 
@@ -189,11 +181,11 @@ export default class Index extends Component<IState, any> {
     // 玩家是否有过历史游戏，用于判断是否要进行创建房间提示
     const history = Taro.getStorageSync('history');
     return (
-      <View className='container'>
-        <View className='tabs'>
+      <View className="container">
+        <View className="tabs">
           <AtSegmentedControl
             values={['大厅', '我的房间']}
-            onClick={index => {
+            onClick={(index) => {
               this.changeTab(index);
             }}
             current={tabIndex}
@@ -222,47 +214,47 @@ export default class Index extends Component<IState, any> {
               return (
                 <View
                   key={_id}
-                  className='row'
+                  className="row"
                   onClick={() => {
                     this.enterRoom(_id);
                   }}
                 >
-                  <Text className='index'>{index + 1}</Text>
-                  <View className='avatar-box'>
-                    {list.map(user =>
+                  <Text className="index">{index + 1}</Text>
+                  <View className="avatar-box">
+                    {list.map((user) =>
                       user.userInfo ? (
                         <AtAvatar
-                          className='avatar'
+                          className="avatar"
                           circle
                           image={user.userInfo.avatarUrl}
                         ></AtAvatar>
                       ) : (
                         ''
-                      ),
+                      )
                     )}
                   </View>
-                  <View className='column-right'>
+                  <View className="column-right">
                     {ownRoom ? (
-                      <AtTag className={'room-own'} size='small' circle>
+                      <AtTag className={'room-own'} size="small" circle>
                         我是房主
                       </AtTag>
                     ) : (
                       !activeGame &&
                       (ownerActive ? (
-                        <AtTag className={'room-online'} size='small' circle>
+                        <AtTag className={'room-online'} size="small" circle>
                           房主在线
                         </AtTag>
                       ) : (
-                        <View className='column-right'>
-                          <Text className='time-status'>上次在线</Text>
-                          <Text className='time-status'>{timeStr}</Text>
+                        <View className="column-right">
+                          <Text className="time-status">上次在线</Text>
+                          <Text className="time-status">{timeStr}</Text>
                         </View>
                       ))
                     )}
                     {activeGame ? (
-                      <Text className='room-status gaming'>进行中</Text>
+                      <Text className="room-status gaming">进行中</Text>
                     ) : (
-                      <Text className='room-status'>未开始</Text>
+                      <Text className="room-status">未开始</Text>
                     )}
                   </View>
                 </View>
@@ -272,11 +264,11 @@ export default class Index extends Component<IState, any> {
               <AtDivider
                 className={hallList.length > 0 ? '' : 'middle'}
                 content={`只显示最近${hallTimeRange}的活跃房间`}
-                fontColor='#999'
-                lineColor='#ccc'
+                fontColor="#999"
+                lineColor="#ccc"
               />
             ) : (
-              <View className='at-icon at-icon-loading-3 loading-box'></View>
+              <View className="at-icon at-icon-loading-3 loading-box"></View>
             )}
           </ScrollView>
         )}
@@ -304,7 +296,7 @@ export default class Index extends Component<IState, any> {
               return (
                 <View
                   key={_id}
-                  className='row'
+                  className="row"
                   onClick={() => {
                     if (teams) {
                       this.enterGame2(_id);
@@ -313,46 +305,46 @@ export default class Index extends Component<IState, any> {
                     }
                   }}
                 >
-                  <Text className='index'>{index + 1}</Text>
-                  <View className='avatar-box'>
-                    {list.map(user =>
+                  <Text className="index">{index + 1}</Text>
+                  <View className="avatar-box">
+                    {list.map((user) =>
                       user.userInfo ? (
                         <AtAvatar
-                          className='avatar'
+                          className="avatar"
                           circle
                           image={user.userInfo.avatarUrl}
                         ></AtAvatar>
                       ) : (
                         ''
-                      ),
+                      )
                     )}
                   </View>
 
-                  <View className='column-right'>
+                  <View className="column-right">
                     {ownRoom ? (
-                      <AtTag className={'room-own'} size='small' circle>
+                      <AtTag className={'room-own'} size="small" circle>
                         我是房主
                       </AtTag>
                     ) : (
                       !teams &&
                       !observe &&
                       (ownerActive ? (
-                        <AtTag className={'room-online'} size='small' circle>
+                        <AtTag className={'room-online'} size="small" circle>
                           房主在线
                         </AtTag>
                       ) : (
-                        <View className='column-right'>
-                          <Text className='time-status'>上次在线</Text>
-                          <Text className='time-status'>{timeStr}</Text>
+                        <View className="column-right">
+                          <Text className="time-status">上次在线</Text>
+                          <Text className="time-status">{timeStr}</Text>
                         </View>
                       ))
                     )}
                     {teams ? (
-                      <Text className='room-status gaming'>进行中</Text>
+                      <Text className="room-status gaming">进行中</Text>
                     ) : observe ? (
-                      <Text className='room-status gaming'>旁观中</Text>
+                      <Text className="room-status gaming">旁观中</Text>
                     ) : (
-                      <Text className='room-status'>未开始</Text>
+                      <Text className="room-status">未开始</Text>
                     )}
                   </View>
                 </View>
@@ -361,38 +353,38 @@ export default class Index extends Component<IState, any> {
             {end2 ? (
               <AtDivider
                 className={roomList.length > 0 ? '' : 'middle'}
-                content='没有更多了'
-                fontColor='#999'
-                lineColor='#ccc'
+                content="没有更多了"
+                fontColor="#999"
+                lineColor="#ccc"
               />
             ) : (
-              <View className='at-icon at-icon-loading-3 loading-box'></View>
+              <View className="at-icon at-icon-loading-3 loading-box"></View>
             )}
           </ScrollView>
         )}
 
-        <View className='fab-btn create-room'>
+        <View className="fab-btn create-room">
           <AtFab
             onClick={() => {
               this.createRoom();
             }}
           >
             {history ? (
-              <Text className='at-fab__icon at-icon at-icon-add'></Text>
+              <Text className="at-fab__icon at-icon at-icon-add"></Text>
             ) : (
-              <AtBadge className='shake' value={'点我创建房间'}>
-                <Text className='at-fab__icon at-icon at-icon-add'></Text>
+              <AtBadge className="shake" value={'点我创建房间'}>
+                <Text className="at-fab__icon at-icon at-icon-add"></Text>
               </AtBadge>
             )}
           </AtFab>
         </View>
-        <View className='fab-btn reload'>
+        <View className="fab-btn reload">
           <AtFab
             onClick={() => {
               this.reloadHall();
             }}
           >
-            <Text className='at-fab__icon at-icon at-icon-reload'></Text>
+            <Text className="at-fab__icon at-icon at-icon-reload"></Text>
           </AtFab>
         </View>
       </View>

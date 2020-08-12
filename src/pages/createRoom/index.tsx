@@ -1,8 +1,8 @@
-import Taro, { Component } from "@tarojs/taro";
-import { Text } from "@tarojs/components";
-import "./index.scss";
-import { AtForm, AtButton, AtSwitch, AtRadio } from "taro-ui";
-import { request } from "../../api";
+import Taro, { Component } from '@tarojs/taro';
+import { Text } from '@tarojs/components';
+import './index.scss';
+import { AtForm, AtButton, AtSwitch, AtRadio } from 'taro-ui';
+import { request } from '../../api';
 
 export default class Index extends Component<any, any> {
   state = {
@@ -15,8 +15,8 @@ export default class Index extends Component<any, any> {
 
   componentDidShow() {
     request({
-      method: "GET",
-      url: "/seasons/newest",
+      method: 'GET',
+      url: '/seasons/newest',
     }).then((season) => {
       this.setState({
         season,
@@ -27,8 +27,8 @@ export default class Index extends Component<any, any> {
   createRoom() {
     const { publicStatus, random, timer, gameMode } = this.state;
     request({
-      method: "POST",
-      url: "/rooms/v2/create",
+      method: 'POST',
+      url: '/rooms/v2/create',
       data: {
         publicStatus,
         random,
@@ -45,34 +45,28 @@ export default class Index extends Component<any, any> {
 
   render() {
     const { publicStatus, random, timer, gameMode, season } = this.state;
-    const userInfo = Taro.getStorageSync("userInfo");
+    const userInfo = Taro.getStorageSync('userInfo');
     const { nickName } = userInfo;
     const { name, end } = season as any;
 
     const modeList = [
       {
-        label: "休闲模式",
+        label: '休闲模式',
         value: 1,
-        desc: "只影响胜率，不影响赛季积分",
+        desc: '只影响胜率，不影响赛季积分',
       },
       {
-        label: "赛季模式",
+        label: '赛季模式',
         value: 0,
-        desc: `【${name ? name : ""}】赛季，${end ? "已结束" : "快来冲榜！"}`,
+        desc: `【${name ? name : ''}】赛季，${end ? '已结束' : '快来冲榜！'}`,
         disabled: end,
       },
-    ];
-
-    // 管理员可以创建团队模式房间
-    const isAdmin = Taro.getStorageSync("isAdmin");
-    if (isAdmin) {
-      modeList.push({
-        label: "团队模式",
+      {
+        label: '团队模式',
         value: 2,
         desc: `培养团队默契，不限人数`,
-        disabled: end,
-      });
-    }
+      },
+    ];
 
     return (
       <AtForm
