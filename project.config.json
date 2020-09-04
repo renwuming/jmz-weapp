@@ -17,6 +17,7 @@
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
 		"babelSetting": {
 			"ignore": [],
 			"disablePlugins": [],
@@ -24,8 +25,7 @@
 		},
 		"useIsolateContext": true,
 		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": false,
-		"compileHotReLoad": false
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
@@ -53,13 +53,6 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
-				{
-					"id": 0,
-					"name": "pages/room/index",
-					"pathName": "pages/room/index",
-					"query": "id=5ea03b890ed16b01fcf55110",
-					"scene": null
-				},
 				{
 					"id": 1,
 					"name": "pages/game/index",
@@ -89,10 +82,10 @@
 					"scene": null
 				},
 				{
-					"id": 5,
+					"id": 4,
 					"name": "local 测试 room",
 					"pathName": "pages/room/index",
-					"query": "id=5f095e960511b634a773f8f7",
+					"query": "id=5e13e43f7792d05646cf074d",
 					"scene": null
 				},
 				{
@@ -135,6 +128,13 @@
 					"name": "排行榜",
 					"pathName": "pages/ranking/index",
 					"query": "id=5e738ffde35530d2e57c47f1",
+					"scene": null
+				},
+				{
+					"id": 11,
+					"name": "pages/room/index",
+					"pathName": "pages/room/index",
+					"query": "id=5f43aa9a4cb2070da9b0d549",
 					"scene": null
 				}
 			]

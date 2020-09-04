@@ -9,6 +9,8 @@ import {
   AtTag,
   AtActionSheet,
   AtActionSheetItem,
+  AtFab,
+  AtAvatar,
 } from 'taro-ui';
 import './index.scss';
 import { request } from '../../api';
@@ -16,6 +18,7 @@ import { connectWs, getData, listeningWs } from '../../api/websocket';
 import LoginBtn from '../../components/loginBtn';
 import FormIdBtn from '../../components/FormIdBtn';
 import UserItem from '../../components/UserItem';
+import moment from 'moment';
 
 let updateTimer;
 
@@ -35,6 +38,12 @@ interface IState {
   userOnlineStatus: string[];
   openHandlePlayerAction: boolean;
   handlePlayer: any;
+  ownerQuitGame: boolean; // 房主是否参与游戏
+  tags: any[];
+  roomMode: any;
+  teamMode: boolean; // 是否为团队模式
+  gameHistory: any[]; // 游戏历史记录
+  openHandleHistory: boolean;
 }
 
 export default class Index extends Component<any, IState> {
@@ -59,6 +68,12 @@ export default class Index extends Component<any, IState> {
     userOnlineStatus: [],
     openHandlePlayerAction: false,
     handlePlayer: {},
+    ownerQuitGame: false, // 房主是否参与游戏
+    tags: [],
+    roomMode: {},
+    teamMode: false, // 是否为团队模式
+    gameHistory: [], // 游戏历史记录
+    openHandleHistory: false,
   };
 
   onShareAppMessage() {
@@ -217,6 +232,12 @@ export default class Index extends Component<any, IState> {
     });
   }
 
+  handleHistoryAction(value) {
+    this.setState({
+      openHandleHistory: value,
+    });
+  }
+
   handlePlayer(index) {
     const { userList } = this.state;
     this.setState({
@@ -289,10 +310,6 @@ export default class Index extends Component<any, IState> {
       inRoom,
       inGame,
       activeGame,
-      ownerQuitGame, // 房主是否参与游戏
-      tags,
-      roomMode,
-      teamMode, // 是否为团队模式
       over,
       isOpened,
       OpenThreeModeModal,
@@ -300,6 +317,12 @@ export default class Index extends Component<any, IState> {
       random, // 是否随机组队
       openHandlePlayerAction,
       handlePlayer,
+      ownerQuitGame, // 房主是否参与游戏
+      tags,
+      roomMode,
+      teamMode, // 是否为团队模式
+      gameHistory, // 游戏历史记录
+      openHandleHistory,
     } = this.state;
 
     return id ? (
@@ -452,15 +475,6 @@ export default class Index extends Component<any, IState> {
               }}
             />
           )}
-          <AtButton
-            className="menu-btn"
-            circle
-            type="primary"
-            size="normal"
-            openType="share"
-          >
-            邀请朋友
-          </AtButton>
           {inRoom && (ownRoom || !(inGame && activeGame)) && (
             <AtButton
               className="menu-btn error-btn"
@@ -474,17 +488,6 @@ export default class Index extends Component<any, IState> {
               {ownRoom ? '解散房间' : '退出房间'}
             </AtButton>
           )}
-          <AtButton
-            className="menu-btn secondary"
-            circle
-            type="primary"
-            size="normal"
-            onClick={() => {
-              this.gotoHome();
-            }}
-          >
-            回首页
-          </AtButton>
         </View>
         <AtModal
           className="game-tip"
@@ -540,20 +543,92 @@ export default class Index extends Component<any, IState> {
             踢出
           </AtActionSheetItem>
         </AtActionSheet>
+
+        <AtActionSheet
+          isOpened={openHandleHistory}
+          title="游戏历史"
+          onClose={() => {
+            this.handleHistoryAction(false);
+          }}
+        >
+          {gameHistory.map((game) => {
+            const { _id, userList, timeStamp } = game;
+            const time = moment(timeStamp).format('MM/DD HH:mm');
+            return (
+              <AtActionSheetItem
+                onClick={() => {
+                  this.gotoGame(_id);
+                  this.handleHistoryAction(false);
+                }}
+              >
+                <View className="game-history-item">
+                  <Text className="time-text">{time}</Text>
+                  <View className="avatar-box">
+                    {(userList as Array<any>).map((user) =>
+                      user.userInfo ? (
+                        <AtAvatar
+                          className="avatar"
+                          circle
+                          image={user.userInfo.avatarUrl}
+                        ></AtAvatar>
+                      ) : (
+                        ''
+                      )
+                    )}
+                  </View>
+                </View>
+              </AtActionSheetItem>
+            );
+          })}
+        </AtActionSheet>
+
+        {gameHistory.length > 0 && (
+          <View className="history-btn">
+            <AtFab
+              onClick={() => {
+                this.handleHistoryAction(true);
+              }}
+              size="small"
+            >
+              游戏历史
+            </AtFab>
+          </View>
+        )}
+        <View className="invite-btn">
+          <AtFab
+            onClick={() => {
+              // this.changePaper();
+            }}
+            size="small"
+          >
+            <AtButton size="normal" openType="share">
+              邀请朋友
+            </AtButton>
+          </AtFab>
+        </View>
+        <View className="home-btn">
+          <AtFab
+            onClick={() => {
+              this.gotoHome();
+            }}
+            size="small"
+          >
+            回首页
+          </AtFab>
+        </View>
       </View>
     ) : (
       <View className="container">
-        <AtButton
-          className="menu-btn secondary"
-          circle
-          type="primary"
-          size="normal"
-          onClick={() => {
-            this.gotoHome();
-          }}
-        >
-          回首页
-        </AtButton>
+        <View className="home-btn">
+          <AtFab
+            onClick={() => {
+              this.gotoHome();
+            }}
+            size="small"
+          >
+            回首页
+          </AtFab>
+        </View>
       </View>
     );
   }
