@@ -122,23 +122,27 @@
 // 浮动按钮
 .history-btn .at-fab {
   position: fixed;
-  right: 50px;
-  bottom: 220px;
+  right: -4px;
+  bottom: 250px;
   z-index: 900;
-  width: 160px;
+  width: 200px;
   height: 80px;
-  border-radius: 40px;
+  border-radius: 0;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
   background-color: #fff;
   color: #6190e8;
 }
 .invite-btn .at-fab {
   position: fixed;
-  right: 50px;
-  bottom: 120px;
+  right: -4px;
+  bottom: 150px;
   z-index: 900;
-  width: 160px;
+  width: 200px;
   height: 80px;
-  border-radius: 40px;
+  border-radius: 0;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
   background-color: #fff;
   .at-button {
     width: 160px;
@@ -150,12 +154,14 @@
 }
 .home-btn .at-fab {
   position: fixed;
-  right: 50px;
-  bottom: 20px;
+  right: -4px;
+  bottom: 50px;
   z-index: 900;
-  width: 160px;
+  width: 200px;
   height: 80px;
-  border-radius: 40px;
+  border-radius: 0;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
   background-color: #fff;
   color: #6190e8;
 }
