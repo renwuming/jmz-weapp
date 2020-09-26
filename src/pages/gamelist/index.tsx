@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import { AtAvatar, AtSegmentedControl, AtDivider } from 'taro-ui';
 import './index.scss';
 import { request } from '../../api';
+import Dayjs from 'dayjs';
 
 interface UserInfo {
   nickName: string;
@@ -43,7 +44,7 @@ export default class Index extends Component<any, any> {
       method: 'GET',
       url: `/users/v2/history/games/${this.page2}`,
     })
-      .then(res => {
+      .then((res) => {
         const { historyList } = this.state;
         this.setState({
           historyList: historyList.concat(res),
@@ -62,7 +63,7 @@ export default class Index extends Component<any, any> {
     request({
       method: 'GET',
       url: `/users/gamedata/self`,
-    }).then(res => {
+    }).then((res) => {
       this.setState({
         userDetail: res,
       });
@@ -98,7 +99,7 @@ export default class Index extends Component<any, any> {
     if (this.loading) return;
     this.loading = true;
     const { end2 } = this.state;
-    if (index === 1 && !end2) {
+    if (index === 0 && !end2) {
       this.page2++;
       this.updateData2();
     } else {
@@ -110,39 +111,39 @@ export default class Index extends Component<any, any> {
     const { historyList, tabIndex, end2, userDetail } = this.state;
     const { winRate, Sum, pingSum, winSum } = userDetail as any;
     return (
-      <View className='container'>
-        <View className='tabs'>
+      <View className="container">
+        <View className="tabs">
           <AtSegmentedControl
-            values={['我的成就', '历史记录']}
-            onClick={index => {
+            values={['历史记录', '我的成就']}
+            onClick={(index) => {
               this.changeTab(index);
             }}
             current={tabIndex}
           />
         </View>
-        {tabIndex === 0 && (
-          <View className='achievement-box'>
-            <View className='detail-row'>
-              <Text className='left win-rate'>胜率</Text>
-              <Text className='win-rate'>
+        {tabIndex === 1 && (
+          <View className="achievement-box">
+            <View className="detail-row">
+              <Text className="left win-rate">胜率</Text>
+              <Text className="win-rate">
                 {winRate || winRate === 0 ? winRate + '%' : ''}
               </Text>
             </View>
-            <View className='detail-row'>
-              <Text className='left'>获胜局数</Text>
-              <Text className='info'>{winSum}</Text>
+            <View className="detail-row">
+              <Text className="left">获胜局数</Text>
+              <Text className="info">{winSum}</Text>
             </View>
-            <View className='detail-row'>
-              <Text className='left'>平局数</Text>
-              <Text className='info'>{pingSum}</Text>
+            <View className="detail-row">
+              <Text className="left">平局数</Text>
+              <Text className="info">{pingSum}</Text>
             </View>
-            <View className='detail-row'>
-              <Text className='left'>总局数</Text>
-              <Text className='info'>{Sum}</Text>
+            <View className="detail-row">
+              <Text className="left">总局数</Text>
+              <Text className="info">{Sum}</Text>
             </View>
           </View>
         )}
-        {tabIndex === 1 && (
+        {tabIndex === 0 && (
           <ScrollView
             scrollY={true}
             enableBackToTop={true}
@@ -151,46 +152,48 @@ export default class Index extends Component<any, any> {
             }}
           >
             {historyList.map((game, index) => {
-              const { userList, status } = game;
+              const { userList, status, timeStamp } = game;
               const list = (userList as Array<User>).slice(0, 4);
               const statusClass =
                 status === '胜利' ? 'success' : status === '失败' ? 'fail' : '';
+              const date = Dayjs(timeStamp).format('MM/DD');
               return (
                 <View
-                  className='row'
+                  className="row"
                   onClick={() => {
                     this.enterGame((game as any)._id);
                   }}
                 >
-                  <Text className='index'>{index + 1}</Text>
-                  <View className='column'>
+                  <Text className="index">{index + 1}</Text>
+                  <View className="column">
                     <Text className={`status ${statusClass}`}>{status}</Text>
-                    <View className='avatar-box'>
-                      {list.map(user =>
+                    <View className="avatar-box">
+                      {list.map((user) =>
                         user.userInfo ? (
                           <AtAvatar
-                            className='avatar'
+                            className="avatar"
                             circle
                             image={user.userInfo.avatarUrl}
                           ></AtAvatar>
                         ) : (
                           ''
-                        ),
+                        )
                       )}
                     </View>
                   </View>
+                  <Text className="status date">{date}</Text>
                 </View>
               );
             })}
             {end2 ? (
               <AtDivider
                 className={historyList.length > 0 ? '' : 'middle'}
-                content='没有更多了'
-                fontColor='#999'
-                lineColor='#ccc'
+                content="没有更多了"
+                fontColor="#999"
+                lineColor="#ccc"
               />
             ) : (
-              <View className='at-icon at-icon-loading-3 loading-box'></View>
+              <View className="at-icon at-icon-loading-3 loading-box"></View>
             )}
           </ScrollView>
         )}

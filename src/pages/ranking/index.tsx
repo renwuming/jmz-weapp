@@ -18,7 +18,7 @@ export default class Index extends Component<any, any> {
     request({
       method: 'GET',
       url: '/seasons/newest',
-    }).then(res => {
+    }).then((res) => {
       const { name } = res;
       this.setState({
         seasonName: name,
@@ -28,7 +28,7 @@ export default class Index extends Component<any, any> {
     request({
       method: 'GET',
       url: '/seasons/newest/rank',
-    }).then(rank => {
+    }).then((rank) => {
       this.setState({
         rank,
       });
@@ -39,35 +39,35 @@ export default class Index extends Component<any, any> {
     const { seasonName, rank } = this.state;
 
     return (
-      <View className='container'>
-        <View className='title-box'>
-          <View className='img-btn-box'>
-            <Image src='http://cdn.renwuming.cn/static/jmz/left-rotate.jpg' />
+      <View className="container">
+        <View className="title-box">
+          <View className="img-btn-box">
+            <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
           </View>
           {seasonName && (
             <View>
-              <Text className='title'>{seasonName}</Text>
+              <Text className="title">{seasonName}</Text>
               <Text>赛季排行榜</Text>
             </View>
           )}
-          <View className='img-btn-box right'>
-            <Image src='http://cdn.renwuming.cn/static/jmz/music.png' />
+          <View className="img-btn-box right">
+            <Image src="http://cdn.renwuming.cn/static/jmz/music.png" />
           </View>
         </View>
         <ScrollView scrollY={true}>
           {rank.map((item, index) => {
             const { userInfo, score } = item;
             return (
-              <View key='rank' className='rank-row'>
+              <View key="rank" className="rank-row">
                 <Text className={'index ' + (index < 3 ? 'top' : '')}>
                   {index + 1}
                 </Text>
-                <View className='user-box'>
+                <View className="user-box">
                   <UserItem big data={userInfo}></UserItem>
                 </View>
-                <View className='column-right'>
-                  <Text className='score'>赛季积分</Text>
-                  <Text className='score'>{score}</Text>
+                <View className="column-right">
+                  <Text className="score-title">赛季积分</Text>
+                  <Text className="score">{score}</Text>
                 </View>
               </View>
             );

@@ -2,7 +2,7 @@ export const version = 'v6.5.0';
 
 let env = 'prod';
 // env = 'dev';
-const devIP = 'localhost';
+const devIP = '10.221.96.144';
 
 export const baseUrl =
   env === 'dev' ? `http://${devIP}:9995` : 'https://www.renwuming.cn/jmz';

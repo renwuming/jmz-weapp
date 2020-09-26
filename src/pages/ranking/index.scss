@@ -103,9 +103,13 @@ scroll-view {
     align-items: center;
     justify-content: center;
     min-width: 130px;
+    .score-title,
     .score {
       color: #333;
       font-family: yansong;
+    }
+    .score {
+      font-family: TrebuchetMS;
     }
   }
 }

@@ -1,5 +1,5 @@
-import Taro, { Component, Config } from "@tarojs/taro";
-import { View, Text, Image, Button } from "@tarojs/components";
+import Taro, { Component, Config } from '@tarojs/taro';
+import { View, Text, Image, Button } from '@tarojs/components';
 import {
   AtCard,
   AtButton,
@@ -11,22 +11,22 @@ import {
   AtModal,
   AtModalContent,
   AtModalAction,
-} from "taro-ui";
-import RoundItem from "../../components/RoundItem";
-import Word from "../../components/Word";
-import UserItem from "../../components/UserItem";
-import AD from "../../components/AD";
-import "./index.scss";
-import { request } from "../../api";
-import { connectWs, getData, listeningWs } from "../../api/websocket";
+} from 'taro-ui';
+import RoundItem from '../../components/RoundItem';
+import Word from '../../components/Word';
+import UserItem from '../../components/UserItem';
+import AD from '../../components/AD';
+import './index.scss';
+import { request } from '../../api';
+import { connectWs, getData, listeningWs } from '../../api/websocket';
 
 let updateTimer;
 
 const submitTextMap = {
-  加密: "传递情报",
-  解密: "破译",
-  拦截: "识破",
-  等待: "等待",
+  加密: '传递情报',
+  解密: '破译',
+  拦截: '识破',
+  等待: '等待',
 };
 
 interface BattleRow {
@@ -81,11 +81,11 @@ let changePaperTimer;
 
 export default class Index extends Component<any, IState> {
   config: Config = {
-    navigationBarBackgroundColor: "#eee",
+    navigationBarBackgroundColor: '#eee',
   };
 
   state = {
-    mode: "tool", // 模式
+    mode: 'tool', // 模式
     battle: [] as Array<BattleRow>,
     battleData: {
       jiemiStatus: [],
@@ -123,9 +123,9 @@ export default class Index extends Component<any, IState> {
   onShareAppMessage() {
     const { id } = this.$router.params;
     return {
-      title: "我们正在玩截码战，速来围观！",
+      title: '我们正在玩截码战，速来围观！',
       path: `/pages/game/index?id=${id}`,
-      imageUrl: "http://cdn.renwuming.cn/static/jmz/share.jpg",
+      imageUrl: 'http://cdn.renwuming.cn/static/jmz/share.jpg',
     };
   }
 
@@ -154,7 +154,7 @@ export default class Index extends Component<any, IState> {
     this.initMode(data.userList.length);
 
     data.types.forEach((type, teamIndex) => {
-      if (type === "解密" || type === "拦截") {
+      if (type === '解密' || type === '拦截') {
         if (this.waiting[teamIndex]) {
           this.waiting[teamIndex] = false;
           this.news[teamIndex] = true;
@@ -165,7 +165,7 @@ export default class Index extends Component<any, IState> {
             : -1;
         });
         this.jiami[teamIndex] = false;
-      } else if (type === "加密") {
+      } else if (type === '加密') {
         if (this.waiting[teamIndex]) {
           this.waiting[teamIndex] = false;
           this.news[teamIndex] = true;
@@ -176,7 +176,7 @@ export default class Index extends Component<any, IState> {
           battle[teamIndex].forEach((item, index) => {
             item.question = this.state.battle[teamIndex]
               ? this.state.battle[teamIndex][index].question
-              : "";
+              : '';
           });
         }
       } else {
@@ -222,6 +222,30 @@ export default class Index extends Component<any, IState> {
     });
     this.updateGameData();
   }
+  // 在限时模式下，监听滚动事件，判断countDownBox是否处于可视区
+  onPageScroll(e) {
+    const { quickMode, showFloatCountDown } = this.state;
+    if (!quickMode) return;
+    const { windowHeight } = Taro.getSystemInfoSync();
+    const $ = Taro.createSelectorQuery();
+    const countDownBox = $.select('#countDownBox');
+    countDownBox
+      .boundingClientRect((rect) => {
+        if (!rect) return;
+        const { top } = rect as any;
+        const visible = top < windowHeight && top > 0;
+        if (!visible && !showFloatCountDown) {
+          this.setState({
+            showFloatCountDown: true,
+          });
+        } else if (visible && showFloatCountDown) {
+          this.setState({
+            showFloatCountDown: false,
+          });
+        }
+      })
+      .exec();
+  }
 
   getMusicStatus(fn = () => {}) {
     wx.getBackgroundAudioPlayerState({
@@ -250,8 +274,8 @@ export default class Index extends Component<any, IState> {
       } else {
         // 播放背景音乐
         wx.playBackgroundAudio({
-          dataUrl: "http://cdn.renwuming.cn/static/jmz/music2.mp3",
-          title: "截码战-music",
+          dataUrl: 'http://cdn.renwuming.cn/static/jmz/music2.mp3',
+          title: '截码战-music',
         });
         this.setState({
           music: 1,
@@ -261,7 +285,7 @@ export default class Index extends Component<any, IState> {
   }
 
   initMode(length) {
-    const mode = length > 1 ? "game" : "tool";
+    const mode = length > 1 ? 'game' : 'tool';
     this.setState({
       mode,
     });
@@ -271,13 +295,13 @@ export default class Index extends Component<any, IState> {
     const { battle, types, paperIndex } = this.state;
     const currentBattle = battle[paperIndex];
     const type = types[paperIndex];
-    if (type === "解密" || type === "拦截") {
+    if (type === '解密' || type === '拦截') {
       const answerList = currentBattle.map((item) => item.answer);
       // 若有未填写数字 or 有重复数字
       if (new Set(answerList.filter((n) => n >= 0)).size < 3) {
         Taro.atMessage({
-          message: "请正确填写!",
-          type: "warning",
+          message: '请正确填写!',
+          type: 'warning',
         });
         return;
       }
@@ -290,8 +314,8 @@ export default class Index extends Component<any, IState> {
       // 若有未填写的加密
       if (questionList.filter((n) => !!n).length < 3) {
         Taro.atMessage({
-          message: "请正确填写!",
-          type: "warning",
+          message: '请正确填写!',
+          type: 'warning',
         });
         return;
       }
@@ -320,9 +344,9 @@ export default class Index extends Component<any, IState> {
     });
 
     // 处理提交内容
-    if (type === "解密" || type === "拦截") {
+    if (type === '解密' || type === '拦截') {
       currentBattle.forEach((item) => {
-        item.question = "";
+        item.question = '';
       });
     } else {
       currentBattle.forEach((item) => {
@@ -331,7 +355,7 @@ export default class Index extends Component<any, IState> {
     }
 
     request({
-      method: "POST",
+      method: 'POST',
       url: `/games/wx/${id}/submit`,
       data: {
         battle: currentBattle,
@@ -385,7 +409,7 @@ export default class Index extends Component<any, IState> {
 
   gotoHome() {
     Taro.reLaunch({
-      url: "/pages/home/index",
+      url: '/pages/home/index',
     });
   }
 
@@ -423,6 +447,7 @@ export default class Index extends Component<any, IState> {
       userOnlineStatus,
       teamMode,
       threeMode,
+      showFloatCountDown, // 是否显示悬浮倒计时
     } = this.state;
     // 处理倒计时
     if (countdownData) {
@@ -436,8 +461,8 @@ export default class Index extends Component<any, IState> {
     const showHistory = teamIndex === paperIndex ? history : historyEnemy;
     const pageTitleMap = [`${teamNames[0]}密电`, `${teamNames[1]}密电`];
     const resultString =
-      winner >= 0 ? `${teamNames[winner]}获得胜利！` : "双方战成平局！";
-    const gameMode = mode === "game";
+      winner >= 0 ? `${teamNames[winner]}获得胜利！` : '双方战成平局！';
+    const gameMode = mode === 'game';
     const desUser = userList[desUsers[paperIndex]];
     const jiemiUser = userList[jiemiUsers[paperIndex]];
     const lanjieUser = userList[lanjieUsers[paperIndex]];
@@ -445,12 +470,12 @@ export default class Index extends Component<any, IState> {
     const jiemiUser2 = userList[jiemiUsers[1 - paperIndex]];
     const lanjieUser2 = userList[lanjieUsers[1 - paperIndex]];
     const type = types[paperIndex];
-    const jiemiStatus = battleData["jiemiStatus"][paperIndex];
-    const lanjieStatus = battleData["lanjieStatus"][paperIndex];
-    const jiamiStatus = battleData["jiamiStatus"][paperIndex];
-    const jiemiStatus2 = battleData["jiemiStatus"][1 - paperIndex];
-    const lanjieStatus2 = battleData["lanjieStatus"][1 - paperIndex];
-    const jiamiStatus2 = battleData["jiamiStatus"][1 - paperIndex];
+    const jiemiStatus = battleData['jiemiStatus'][paperIndex];
+    const lanjieStatus = battleData['lanjieStatus'][paperIndex];
+    const jiamiStatus = battleData['jiamiStatus'][paperIndex];
+    const jiemiStatus2 = battleData['jiemiStatus'][1 - paperIndex];
+    const lanjieStatus2 = battleData['lanjieStatus'][1 - paperIndex];
+    const jiamiStatus2 = battleData['jiamiStatus'][1 - paperIndex];
     const currentBattle = battle[paperIndex] || [];
 
     return (
@@ -470,8 +495,8 @@ export default class Index extends Component<any, IState> {
               <View className="detail-row">
                 <Text className="left">{item.question}</Text>
                 <Text className="right">
-                  {item.answer + 1}{" "}
-                  {paperIndex === teamIndex ? teamWords[item.answer] : ""}
+                  {item.answer + 1}{' '}
+                  {paperIndex === teamIndex ? teamWords[item.answer] : ''}
                 </Text>
               </View>
             ))}
@@ -515,7 +540,7 @@ export default class Index extends Component<any, IState> {
 
               const teamUserList = userList.slice(
                 index * teamL,
-                (index + 1) * teamL,
+                (index + 1) * teamL
               );
               return (
                 <View className={`team-title team${index}`}>
@@ -529,7 +554,7 @@ export default class Index extends Component<any, IState> {
                     {teamMode ? (
                       <View
                         className={
-                          "user-list " + (teamMode ? "team-user-list" : "")
+                          'user-list ' + (teamMode ? 'team-user-list' : '')
                         }
                       >
                         {teamUserList.map((item) => {
@@ -560,7 +585,7 @@ export default class Index extends Component<any, IState> {
                       <Text className="sum-score">{result.sum}</Text>
                       <Text className="score">失误：</Text>
                       <Text className="score right">
-                        {result.black > 0 ? "-" : ""}
+                        {result.black > 0 ? '-' : ''}
                         {result.black}
                       </Text>
                       <Text className="score">拦截：</Text>
@@ -573,7 +598,7 @@ export default class Index extends Component<any, IState> {
           </View>
         )}
         {gameMode && gameOver && (
-          <View className={`over-card ${winner >= 0 ? "team" + winner : ""}`}>
+          <View className={`over-card ${winner >= 0 ? 'team' + winner : ''}`}>
             {threeMode ? (
               <View className="img-btn-box">
                 <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
@@ -597,12 +622,12 @@ export default class Index extends Component<any, IState> {
               }}
             >
               <Image src="http://cdn.renwuming.cn/static/jmz/music.png" />
-              <Text>音乐 {music === 1 ? "开" : "关"}</Text>
+              <Text>音乐 {music === 1 ? '开' : '关'}</Text>
             </View>
           </View>
         )}
         {!gameOver && (
-          <View className="stage-count-down-box">
+          <View id="countDownBox" className="stage-count-down-box">
             {threeMode ? (
               <View className="img-btn-box">
                 <Image src="http://cdn.renwuming.cn/static/jmz/left-rotate.jpg" />
@@ -623,7 +648,6 @@ export default class Index extends Component<any, IState> {
                 <View className="row">
                   <Text className="title">{countdownData.name}</Text>
                   <AtCountdown
-                    className="count-down"
                     isCard
                     minutes={countdownData.minute}
                     seconds={countdownData.second}
@@ -645,12 +669,12 @@ export default class Index extends Component<any, IState> {
               }}
             >
               <Image src="http://cdn.renwuming.cn/static/jmz/music.png" />
-              <Text>音乐 {music === 1 ? "开" : "关"}</Text>
+              <Text>音乐 {music === 1 ? '开' : '关'}</Text>
             </View>
           </View>
         )}
         <View className="padding-container">
-          <View className={changePaper ? "rotate-container" : ""}>
+          <View className={changePaper ? 'rotate-container' : ''}>
             {gameOver && teamNames[0] && (
               <View className={`title-box title${paperIndex}`}>
                 <Text>{pageTitleMap[paperIndex]}</Text>
@@ -663,7 +687,7 @@ export default class Index extends Component<any, IState> {
                   title={`第${roundNumber + 1}封 ${pageTitleMap[paperIndex]}卡`}
                   extra={
                     threeMode
-                      ? ""
+                      ? ''
                       : `点击右下圆形按钮翻面\n查看【${
                           pageTitleMap[1 - paperIndex]
                         }卡】`
@@ -674,7 +698,7 @@ export default class Index extends Component<any, IState> {
                       <View className="row-tip">
                         <Image src="http://cdn.renwuming.cn/static/jmz/mid-bk.png"></Image>
                         <Text className={`team${paperIndex}`}>
-                          ▽ {paperIndex === teamIndex ? "我方" : "敌方"}密电进度
+                          ▽ {paperIndex === teamIndex ? '我方' : '敌方'}密电进度
                         </Text>
                       </View>
                       <View className="row">
@@ -724,7 +748,7 @@ export default class Index extends Component<any, IState> {
                       <View className="round-status right">
                         <View className="row-tip">
                           <Text className={`team${1 - paperIndex}`}>
-                            ▽ {paperIndex === teamIndex ? "敌方" : "我方"}
+                            ▽ {paperIndex === teamIndex ? '敌方' : '我方'}
                             密电进度
                           </Text>
                         </View>
@@ -783,7 +807,7 @@ export default class Index extends Component<any, IState> {
                         {submitTextMap[type]}】
                       </Text>
                     )}
-                    <View style={{ marginTop: "6px" }}>
+                    <View style={{ marginTop: '6px' }}>
                       {(currentBattle as Array<BattleRow>).map(
                         (data, wordIndex) => (
                           <RoundItem
@@ -797,9 +821,9 @@ export default class Index extends Component<any, IState> {
                             }}
                             type={type}
                           ></RoundItem>
-                        ),
+                        )
                       )}
-                      {type !== "等待" &&
+                      {type !== '等待' &&
                         (!countdownData ||
                           (countdownData && countdownData.time > 0)) && (
                           <AtButton
@@ -824,7 +848,7 @@ export default class Index extends Component<any, IState> {
             <View className={`result-talbe team${paperIndex}`}>
               {showTable.map((item, index) => (
                 <AtCard
-                  className={`table-item ${index % 2 === 1 ? "grey" : ""}`}
+                  className={`table-item ${index % 2 === 1 ? 'grey' : ''}`}
                   title={`情报${index + 1}`}
                   extra={
                     paperIndex === teamIndex
@@ -843,7 +867,7 @@ export default class Index extends Component<any, IState> {
             {gameMode && (
               <View
                 style={{
-                  minHeight: "100px",
+                  minHeight: '100px',
                 }}
               >
                 <View className={`round-list team${paperIndex}`}>
@@ -851,8 +875,8 @@ export default class Index extends Component<any, IState> {
                     <AtCard
                       className="round-item"
                       title={`第${index + 1}封密电`}
-                      note={`${item.black ? "·失误" : ""} ${
-                        item.red ? "·被拦截" : ""
+                      note={`${item.black ? '·失误' : ''} ${
+                        item.red ? '·被拦截' : ''
                       }`}
                     >
                       {(item.list as Array<BattleRow>).map(
@@ -861,7 +885,7 @@ export default class Index extends Component<any, IState> {
                             data={{ teamIndex: paperIndex, ...data }}
                             index={wordIndex}
                           ></RoundItem>
-                        ),
+                        )
                       )}
                     </AtCard>
                   ))}
@@ -895,13 +919,23 @@ export default class Index extends Component<any, IState> {
                 size="small"
               >
                 {this.news && this.news[1 - paperIndex] && !gameOver ? (
-                  <AtBadge className="shake" value={"new"}>
+                  <AtBadge className="shake" value={'new'}>
                     <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
                   </AtBadge>
                 ) : (
                   <Image src="http://cdn.renwuming.cn/static/jmz/rotate-btn.png" />
                 )}
               </AtFab>
+            </View>
+          )}
+
+          {showFloatCountDown && countdownData && (
+            <View className="stage-count-down-box float">
+              <AtCountdown
+                isCard
+                minutes={countdownData.minute}
+                seconds={countdownData.second}
+              />
             </View>
           )}
         </View>
