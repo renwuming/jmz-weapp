@@ -24,8 +24,8 @@ let updateTimer;
 
 const submitTextMap = {
   加密: '传递情报',
-  解密: '破译',
-  拦截: '识破',
+  解密: '解密',
+  拦截: '拦截',
   等待: '等待',
 };
 
@@ -930,7 +930,11 @@ export default class Index extends Component<any, IState> {
           )}
 
           {showFloatCountDown && countdownData && (
-            <View className="stage-count-down-box float">
+            <View
+              className={
+                'stage-count-down-box float ' + (threeMode ? 'right' : '')
+              }
+            >
               <AtCountdown
                 isCard
                 minutes={countdownData.minute}

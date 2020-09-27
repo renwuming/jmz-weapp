@@ -9,8 +9,7 @@ page {
 }
 .padding-container {
   padding: 0 15px;
-  padding-bottom: 60px;
-  // transform-style: preserve-3d;
+  padding-bottom: 120px;
   text {
     backface-visibility: hidden;
   }
@@ -103,18 +102,23 @@ page {
   }
   &.float {
     position: fixed;
-    right: 0;
-    bottom: 250px;
-    z-index: 900;
-    padding-right: 20px;
+    right: 100px;
+    bottom: 280px;
+    z-index: 800;
+    padding-right: 80px;
     padding-left: 20px;
-    height: 90px;
-    background-color: rgba(255, 255, 208, 0.9);
+    height: 110px;
+    background-color: #f1f9fc;
     background-image: none;
-    border-top-left-radius: 90px;
-    border-bottom-left-radius: 90px;
-    border: 1px solid #e35654;
+    border-top-left-radius: 120px;
+    border-bottom-left-radius: 120px;
+    border: 4px solid #a8aab6;
     border-right: 0;
+    margin: 0;
+  }
+  &.right {
+    right: 0;
+    padding-right: 20px;
   }
 }
 
@@ -277,7 +281,7 @@ page {
 .rotate-btn .at-fab {
   position: fixed;
   right: 50px;
-  bottom: 100px;
+  bottom: 280px;
   z-index: 900;
   width: 120px;
   height: 120px;

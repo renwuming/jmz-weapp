@@ -158,12 +158,6 @@ export default class Index extends Component<IState, any> {
 
   // 创建房间
   createRoom() {
-    // request({
-    //   method: 'GET',
-    //   url: '/rooms/ownroom',
-    // }).then((res) => {
-    //   const { id } = res;
-    // });
     Taro.navigateTo({
       url: `/pages/createRoom/index`,
     });

@@ -323,6 +323,7 @@ export default class Index extends Component<any, IState> {
       teamMode, // 是否为团队模式
       gameHistory, // 游戏历史记录
       openHandleHistory,
+      owner,
     } = this.state;
 
     return id ? (
@@ -404,19 +405,12 @@ export default class Index extends Component<any, IState> {
                     }}
                   ></UserItem>
                 )}
-                {ownRoom && index > 0 ? (
+                {ownRoom && (
                   <AtIcon
                     onClick={() => {
                       this.handlePlayerAction(true);
                       this.handlePlayer(index);
                     }}
-                    value="settings"
-                    size="20"
-                    color="#009966"
-                  ></AtIcon>
-                ) : (
-                  <AtIcon
-                    className="hidden"
                     value="settings"
                     size="20"
                     color="#009966"
@@ -428,16 +422,6 @@ export default class Index extends Component<any, IState> {
         <View className="btn-list">
           {ownRoom && !activeGame && (
             <View>
-              <AtSwitch
-                title="房主不参与游戏"
-                className="red-switch"
-                color="#e6504b"
-                border={false}
-                checked={ownerQuitGame}
-                onChange={() => {
-                  this.handleOwnerInGame(!ownerQuitGame);
-                }}
-              />
               <AtButton
                 className="menu-btn"
                 circle
@@ -534,14 +518,16 @@ export default class Index extends Component<any, IState> {
           >
             移到顶部
           </AtActionSheetItem>
-          <AtActionSheetItem
-            onClick={() => {
-              this.kickout(handlePlayer.index);
-              this.handlePlayerAction(false);
-            }}
-          >
-            踢出
-          </AtActionSheetItem>
+          {owner !== handlePlayer.id && (
+            <AtActionSheetItem
+              onClick={() => {
+                this.kickout(handlePlayer.index);
+                this.handlePlayerAction(false);
+              }}
+            >
+              踢出
+            </AtActionSheetItem>
+          )}
         </AtActionSheet>
 
         <AtActionSheet
