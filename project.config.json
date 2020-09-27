@@ -75,17 +75,17 @@
 					"scene": null
 				},
 				{
-					"id": 4,
+					"id": 3,
 					"name": "local 测试 game - 旁观",
 					"pathName": "pages/game/index",
-					"query": "id=5e747bbf42e0bb2e366c4719",
+					"query": "id=5f6f701014a285374369c4c1",
 					"scene": null
 				},
 				{
 					"id": 4,
 					"name": "local 测试 room",
 					"pathName": "pages/room/index",
-					"query": "id=5e13e43f7792d05646cf074d",
+					"query": "id=5f70585923a641844ed2318c",
 					"scene": null
 				},
 				{

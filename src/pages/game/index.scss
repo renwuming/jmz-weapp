@@ -103,16 +103,16 @@ page {
   &.float {
     position: fixed;
     right: 100px;
-    bottom: 280px;
+    bottom: 295px;
     z-index: 800;
     padding-right: 80px;
     padding-left: 20px;
-    height: 110px;
+    height: 80px;
     background-color: #f1f9fc;
     background-image: none;
     border-top-left-radius: 120px;
     border-bottom-left-radius: 120px;
-    border: 4px solid #a8aab6;
+    border: 14px solid #a8aab6;
     border-right: 0;
     margin: 0;
   }
