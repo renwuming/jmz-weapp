@@ -279,18 +279,6 @@ export default class Index extends Component<any, IState> {
     });
   }
 
-  // 改变房间的公开状态
-  changeRoomStatus(status) {
-    this.changeStatusTime = new Date().getTime();
-    const { id } = this.$router.params;
-    request({
-      method: 'POST',
-      url: `/rooms/${id}/status`,
-      data: status,
-    });
-    this.setState(status);
-  }
-
   handleOwnerInGame(ownerQuitGame) {
     const { id } = this.$router.params;
     request({
@@ -324,7 +312,10 @@ export default class Index extends Component<any, IState> {
       gameHistory, // 游戏历史记录
       openHandleHistory,
       owner,
+      specialRules,
     } = this.state;
+
+    const { singleWord } = specialRules || {};
 
     return id ? (
       <View className="container">
@@ -340,7 +331,13 @@ export default class Index extends Component<any, IState> {
               </AtTag>
             );
           })}
+          {singleWord && (
+            <AtTag className="yellow" type="primary" circle>
+              单字规则
+            </AtTag>
+          )}
         </View>
+
         {userList &&
           userList.map((user, index) => {
             const { userInfo, id } = user;

@@ -9,8 +9,9 @@ export default class Index extends Component<any, any> {
     publicStatus: true,
     random: true,
     timer: true,
-    gameMode: 1,
+    gameMode: '1',
     season: {},
+    singleWordRule: false,
   };
 
   componentDidShow() {
@@ -25,7 +26,16 @@ export default class Index extends Component<any, any> {
   }
 
   createRoom() {
-    const { publicStatus, random, timer, gameMode } = this.state;
+    const {
+      publicStatus,
+      random,
+      timer,
+      gameMode,
+      singleWordRule,
+    } = this.state;
+    const specialRules = {
+      singleWord: singleWordRule,
+    };
     request({
       method: 'POST',
       url: '/rooms/v2/create',
@@ -33,7 +43,8 @@ export default class Index extends Component<any, any> {
         publicStatus,
         random,
         timer,
-        gameMode,
+        gameMode: +gameMode,
+        specialRules,
       },
     }).then((res) => {
       const { id } = res;
@@ -44,7 +55,14 @@ export default class Index extends Component<any, any> {
   }
 
   render() {
-    const { publicStatus, random, timer, gameMode, season } = this.state;
+    const {
+      publicStatus,
+      random,
+      timer,
+      gameMode,
+      season,
+      singleWordRule,
+    } = this.state;
     const userInfo = Taro.getStorageSync('userInfo');
     const { nickName } = userInfo;
     const { name, end } = season as any;
@@ -52,18 +70,18 @@ export default class Index extends Component<any, any> {
     const modeList = [
       {
         label: '休闲模式',
-        value: 1,
+        value: '1',
         desc: '只影响胜率，不影响赛季积分',
       },
       {
         label: '赛季模式',
-        value: 0,
+        value: '0',
         desc: `【${name ? name : ''}】赛季，${end ? '已结束' : '快来冲榜！'}`,
         disabled: end,
       },
       {
         label: '团队模式',
-        value: 2,
+        value: '2',
         desc: `培养团队默契，不限人数`,
       },
     ];
@@ -116,6 +134,18 @@ export default class Index extends Component<any, any> {
           onChange={() => {
             this.setState({
               timer: !timer,
+            });
+          }}
+        />
+        <AtSwitch
+          title="特殊规则：单字规则"
+          className="green-switch"
+          color="#ff9933"
+          border={false}
+          checked={singleWordRule}
+          onChange={() => {
+            this.setState({
+              singleWordRule: !singleWordRule,
             });
           }}
         />
