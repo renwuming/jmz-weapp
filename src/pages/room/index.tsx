@@ -130,7 +130,12 @@ export default class Index extends Component<any, IState> {
     }
     // 更新除了status之外的数据
     const { publicStatus, random, timer, ...otherData } = data;
-    this.setState(otherData);
+    // 处理 userList，房主可能不在里面
+    const { owner, ownerQuitGame, userList } = data;
+    const playerList = ownerQuitGame
+      ? userList.filter((e) => e.id !== owner)
+      : userList;
+    this.setState({ ...otherData, userList: playerList });
     // status数据的更新，要进行防抖
     const current = new Date().getTime();
     if (current > this.changeStatusTime + 2000) {
@@ -261,9 +266,11 @@ export default class Index extends Component<any, IState> {
   // 踢出玩家
   kickout(index) {
     const { id } = this.$router.params;
+    const { userList } = this.state;
+    const player = userList[index];
     request({
       method: 'POST',
-      url: `/rooms/${id}/edituserlist/delete/${index}`,
+      url: `/rooms/${id}/edituserlist/delete/${player.id}`,
     }).then((data) => {
       if (!data) {
         this.updateRoomData();
@@ -346,40 +353,35 @@ export default class Index extends Component<any, IState> {
             if (!activeGame) {
               online = userOnlineStatus[index];
             }
-            const extraSeat = ownerQuitGame ? 1 : 0;
-            const _index = index + 1 - extraSeat;
-
-            const teamL = Math.ceil((userList.length - extraSeat) / 2);
+            const _index = index + 1;
+            const isOwner = owner === id;
+            const teamL = Math.ceil(userList.length / 2);
             return (
               <View
                 className={`row ${
-                  (teamMode && index === 9 + extraSeat) ||
-                  (!teamMode && index === 3 + extraSeat)
+                  (teamMode && index === 9) || (!teamMode && index === 3)
                     ? 'division'
                     : ''
                 } ${
-                  !teamMode && !random && index - extraSeat <= 3
-                    ? `team${Math.floor((index - extraSeat) / 2)}`
+                  !teamMode && !random && index <= 3
+                    ? `team${Math.floor(index / 2)}`
                     : ''
                 } ${
-                  teamMode && !random && index - extraSeat <= 9
-                    ? `team${Math.floor((index - extraSeat) / teamL)}`
+                  teamMode && !random && index <= 9
+                    ? `team${Math.floor(index / teamL)}`
                     : ''
                 }
                 `}
               >
                 <Text
                   className={`index ${
-                    (teamMode && index < 10 + extraSeat) ||
-                    index < 4 + extraSeat
-                      ? 'inGame'
-                      : ''
-                  } ${_index === 0 ? 'red' : ''}`}
+                    (teamMode && index < 10) || index < 4 ? 'inGame' : ''
+                  }`}
                 >
-                  {_index ? _index : ''}
+                  {_index}
                 </Text>
                 <Text className="nick">{nickName}</Text>
-                {index === 0 ? (
+                {isOwner ? (
                   <AtBadge value={'房主'}>
                     <UserItem
                       nonick={true}
@@ -419,14 +421,23 @@ export default class Index extends Component<any, IState> {
         <View className="btn-list">
           {ownRoom && !activeGame && (
             <View>
+              <AtSwitch
+                title="房主不参与游戏"
+                className="red-switch"
+                color="#e6504b"
+                border={false}
+                checked={ownerQuitGame}
+                onChange={() => {
+                  this.handleOwnerInGame(!ownerQuitGame);
+                }}
+              />
               <AtButton
                 className="menu-btn"
                 circle
                 type="primary"
                 size="normal"
                 onClick={() => {
-                  const threeLength = ownerQuitGame ? 4 : 3;
-                  if (userList.length === threeLength) {
+                  if (userList.length === 3) {
                     this.setState({
                       OpenThreeModeModal: true,
                     });
