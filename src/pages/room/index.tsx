@@ -270,9 +270,11 @@ export default class Index extends Component<any, IState> {
   // 将玩家置顶
   stick(index) {
     const { id } = this.$router.params;
+    const { userList } = this.state;
+    const player = userList[index];
     request({
       method: 'POST',
-      url: `/rooms/${id}/edituserlist/${index}`,
+      url: `/rooms/${id}/edituserlist/${player.id}`,
     }).then((data) => {
       if (!data) {
         this.updateRoomData();
