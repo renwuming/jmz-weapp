@@ -131,11 +131,29 @@ export default class Index extends Component<any, IState> {
     // 更新除了status之外的数据
     const { publicStatus, random, timer, ...otherData } = data;
     // 处理 userList，房主可能不在里面
-    const { owner, ownerQuitGame, userList } = data;
+    const {
+      owner,
+      ownerQuitGame,
+      userList,
+      userOnlineStatus,
+      activeGame,
+      over,
+    } = data;
     const playerList = ownerQuitGame
       ? userList.filter((e) => e.id !== owner)
       : userList;
-    this.setState({ ...otherData, userList: playerList });
+    const ownerData = userList.find((data, index) => {
+      if (data.id === owner) {
+        data.index = index;
+        return true;
+      }
+      return false;
+    });
+    if (ownerQuitGame) {
+      const ownerOnlineStatus = userOnlineStatus.splice(ownerData.index, 1);
+      ownerData.online = activeGame ? undefined : ownerOnlineStatus;
+    }
+    this.setState({ ...otherData, userList: playerList, ownerData });
     // status数据的更新，要进行防抖
     const current = new Date().getTime();
     if (current > this.changeStatusTime + 2000) {
@@ -145,7 +163,6 @@ export default class Index extends Component<any, IState> {
         timer,
       });
     }
-    const { activeGame, over } = data;
     // 若已开始，则跳转
     if (activeGame && !over && !this.forbidAutoNavigate) {
       this.forbidAutoNavigate = true;
@@ -319,11 +336,11 @@ export default class Index extends Component<any, IState> {
       gameHistory, // 游戏历史记录
       openHandleHistory,
       owner,
+      ownerData,
       specialRules,
     } = this.state;
 
     const { singleWord } = specialRules || {};
-
     return id ? (
       <View className="container">
         <Text className={roomMode.red ? 'title red' : 'title'}>
@@ -344,6 +361,28 @@ export default class Index extends Component<any, IState> {
             </AtTag>
           )}
         </View>
+
+        {ownerQuitGame && (
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '30px',
+            }}
+          >
+            <AtBadge value={'房主'}>
+              <UserItem
+                nonick={true}
+                big={true}
+                data={{
+                  id,
+                  ...(ownerData.userInfo as any),
+                  online: ownerData.online,
+                }}
+              ></UserItem>
+            </AtBadge>
+          </View>
+        )}
 
         {userList &&
           userList.map((user, index) => {
