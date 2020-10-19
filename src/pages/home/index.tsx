@@ -19,7 +19,7 @@ export default class Index extends Component<IProps, any> {
   };
 
   componentDidShow() {
-    validate().then(res => {
+    validate().then((res) => {
       const { mode, onlineMatch } = res;
       this.setState({
         mode,
@@ -79,17 +79,17 @@ export default class Index extends Component<IProps, any> {
   }
 
   render() {
-    const { mode } = this.state;
+    // const { mode } = this.state;
     return (
-      <View className='container'>
+      <View className="container">
         <Image
-          className='logo'
-          mode='scaleToFill'
-          src='http://cdn.renwuming.cn/static/jmz/logo.png'
+          className="logo"
+          mode="scaleToFill"
+          src="http://cdn.renwuming.cn/static/jmz/logo.png"
         />
-        <Text className='version'>{version}</Text>
-        <View className='menu'>
-          <View className='user-info'>
+        <Text className="version">{version}</Text>
+        <View className="menu">
+          <View className="user-info">
             <GameDataView></GameDataView>
           </View>
           {/* {mode === 'game' && (
@@ -104,33 +104,31 @@ export default class Index extends Component<IProps, any> {
             </AtBadge>
           )} */}
           <LoginBtn
-            text='房间大厅'
-            className='menu-btn'
+            text="房间大厅"
+            className="menu-btn"
             callback={() => {
               this.gotoHall();
             }}
           />
-          {mode === 'game' && (
-            <LoginBtn
-              text='排行榜'
-              className='menu-btn'
-              callback={() => {
-                this.gotoRanking();
-              }}
-            />
-          )}
           <LoginBtn
-            text='成就·历史'
-            className='menu-btn'
+            text="排行榜"
+            className="menu-btn"
+            callback={() => {
+              this.gotoRanking();
+            }}
+          />
+          <LoginBtn
+            text="成就·历史"
+            className="menu-btn"
             callback={() => {
               this.gotoGameList();
             }}
           />
           <AtButton
-            className='menu-btn secondary'
+            className="menu-btn secondary"
             circle
-            type='primary'
-            size='normal'
+            type="primary"
+            size="normal"
             onClick={() => {
               this.gotoAbout();
             }}
@@ -148,32 +146,30 @@ export default class Index extends Component<IProps, any> {
           >
             Let's 古堡探险！
           </AtButton> */}
-          {mode === 'game' && (
-            <AtButton
-              className='menu-btn secondary'
-              circle
-              type='primary'
-              size='normal'
-              onClick={() => {
-                this.gotoGroup();
-              }}
-            >
-              加群交流
-            </AtButton>
-          )}
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoGroup();
+            }}
+          >
+            加群交流
+          </AtButton>
         </View>
         <View
           style={{
             flexGrow: 1,
           }}
         ></View>
-        <View className='statement'>
-          <Text className='top'>
+        <View className="statement">
+          <Text className="top">
             {
               '■ 本小程序为桌游《Decrypto》的线上体验版本，仅供您线上免费试玩。如果您感觉不错，请购买正版桌游，享受《Decrypto》的快乐。'
             }
           </Text>
-          <Text className='bottom'>
+          <Text className="bottom">
             {
               '■ 欢迎您添加微信 ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。'
             }
