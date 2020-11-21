@@ -1,0 +1,43 @@
+.container {
+  box-sizing: border-box;
+  padding: 10px 50px;
+  padding-bottom: 40px;
+  background-color: #eef5ff;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.turnplate-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  align-items: center;
+  justify-content: center;
+  .scores {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/scores.jpg');
+    background-size: contain;
+    &.rotating {
+      animation: rotate 0.3s linear infinite;
+    }
+  }
+  .turnplate {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/turnplate-1.jpg');
+    background-size: contain;
+  }
+}
+// 旋转动画
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

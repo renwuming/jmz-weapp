@@ -28,7 +28,7 @@ export default class Index extends Component<any, any> {
     end2: false,
   };
   config: Config = {
-    navigationBarTitleText: '我的房间',
+    navigationBarTitleText: '历史·成就',
   };
 
   componentDidShow() {

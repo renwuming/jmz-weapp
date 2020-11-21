@@ -43,9 +43,6 @@ export default class Index extends Component<IState, any> {
     end2: false,
     hallTimeRange: '',
   };
-  config: Config = {
-    navigationBarTitleText: '我的房间',
-  };
 
   componentDidShow() {
     if (!this.init) {

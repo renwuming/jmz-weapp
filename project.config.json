@@ -1,143 +1,142 @@
 {
-	"miniprogramRoot": "dist/",
-	"projectname": "jmz",
-	"description": "截码战小程序",
-	"appid": "wxfe74b714bde12b3f",
-	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"enhance": false,
-		"postcss": false,
-		"minified": false,
-		"newFeature": true,
-		"coverView": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": false
-	},
-	"compileType": "miniprogram",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": 1,
-					"name": "pages/game/index",
-					"pathName": "pages/game/index",
-					"query": "id=5e9a72870ed16b01fcf54f86",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "关于",
-					"pathName": "pages/about/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "room列表",
-					"pathName": "pages/gamelist/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "local 测试 game - 旁观",
-					"pathName": "pages/game/index",
-					"query": "id=5f6f701014a285374369c4c1",
-					"scene": null
-				},
-				{
-					"id": 4,
-					"name": "local 测试 room",
-					"pathName": "pages/room/index",
-					"query": "id=5f70585923a641844ed2318c",
-					"scene": null
-				},
-				{
-					"id": 7,
-					"name": "game2",
-					"pathName": "pages/game/index",
-					"query": "id=5e219993fc0c87c90e6412a5",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "在线组局",
-					"pathName": "pages/onlineMatch/index",
-					"query": "id=5e1fe931c00059c74b8b9a79",
-					"scene": null
-				},
-				{
-					"id": 8,
-					"name": "pages/teach/index",
-					"pathName": "pages/teach/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "房间大厅",
-					"pathName": "pages/hall/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "创建房间",
-					"pathName": "pages/createRoom/index",
-					"query": "id=5e64f3fa623a13699e2189f7",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "排行榜",
-					"pathName": "pages/ranking/index",
-					"query": "id=5e738ffde35530d2e57c47f1",
-					"scene": null
-				},
-				{
-					"id": 11,
-					"name": "pages/room/index",
-					"pathName": "pages/room/index",
-					"query": "id=5f43aa9a4cb2070da9b0d549",
-					"scene": null
-				}
-			]
-		}
-	}
+  "miniprogramRoot": "dist/",
+  "projectname": "jmz",
+  "description": "截码战小程序",
+  "appid": "wxfe74b714bde12b3f",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": 1,
+          "name": "pages/game/index",
+          "pathName": "pages/game/index",
+          "query": "id=5e9a72870ed16b01fcf54f86",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "关于",
+          "pathName": "pages/about/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "room列表",
+          "pathName": "pages/gamelist/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 3,
+          "name": "local 测试 game - 旁观",
+          "pathName": "pages/game/index",
+          "query": "id=5f6f701014a285374369c4c1",
+          "scene": null
+        },
+        {
+          "name": "local 测试 room",
+          "pathName": "pages/room/index",
+          "query": "id=5f8d9cddffcb574a2b09cb17",
+          "scene": null
+        },
+        {
+          "id": 7,
+          "name": "game2",
+          "pathName": "pages/game/index",
+          "query": "id=5e219993fc0c87c90e6412a5",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "在线组局",
+          "pathName": "pages/onlineMatch/index",
+          "query": "id=5e1fe931c00059c74b8b9a79",
+          "scene": null
+        },
+        {
+          "id": 8,
+          "name": "pages/teach/index",
+          "pathName": "pages/teach/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "房间大厅",
+          "pathName": "pages/hall/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "创建房间",
+          "pathName": "pages/createRoom/index",
+          "query": "id=5e64f3fa623a13699e2189f7",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "排行榜",
+          "pathName": "pages/ranking/index",
+          "query": "id=5e738ffde35530d2e57c47f1",
+          "scene": null
+        },
+        {
+          "id": 11,
+          "name": "pages/room/index",
+          "pathName": "pages/room/index",
+          "query": "id=5f43aa9a4cb2070da9b0d549",
+          "scene": null
+        },
+        {
+          "name": "电波同步",
+          "pathName": "pages/WaveLength/game/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

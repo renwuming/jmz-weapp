@@ -1,4 +1,4 @@
-export const version = 'v6.9.0';
+export const version = 'v7.0.0';
 
 let env = 'prod';
 // env = 'dev';

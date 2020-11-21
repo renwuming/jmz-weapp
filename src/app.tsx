@@ -32,6 +32,7 @@ class App extends Component {
       'pages/hall/index',
       'pages/createRoom/index',
       'pages/ranking/index',
+      'pages/WaveLength/game/index',
     ],
     window: {
       backgroundTextStyle: 'light',

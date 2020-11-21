@@ -72,6 +72,12 @@ export default class Index extends Component<IProps, any> {
     });
   }
 
+  gotoWaveLength() {
+    Taro.navigateTo({
+      url: `/pages/WaveLength/game/index`,
+    });
+  }
+
   gotoRanking() {
     Taro.navigateTo({
       url: `/pages/ranking/index`,
@@ -118,7 +124,7 @@ export default class Index extends Component<IProps, any> {
             }}
           />
           <LoginBtn
-            text="成就·历史"
+            text="历史·成就"
             className="menu-btn"
             callback={() => {
               this.gotoGameList();
@@ -156,6 +162,17 @@ export default class Index extends Component<IProps, any> {
             }}
           >
             加群交流
+          </AtButton>
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoWaveLength();
+            }}
+          >
+            新作：电波同步
           </AtButton>
         </View>
         <View
