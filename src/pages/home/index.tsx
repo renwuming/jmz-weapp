@@ -74,7 +74,7 @@ export default class Index extends Component<IProps, any> {
 
   gotoWaveLength() {
     Taro.navigateTo({
-      url: `/pages/WaveLength/game/index`,
+      url: `/pages/WaveLength/home/index`,
     });
   }
 

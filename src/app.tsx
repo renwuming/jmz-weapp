@@ -32,6 +32,8 @@ class App extends Component {
       'pages/hall/index',
       'pages/createRoom/index',
       'pages/ranking/index',
+      // 波长
+      'pages/WaveLength/home/index',
       'pages/WaveLength/game/index',
     ],
     window: {

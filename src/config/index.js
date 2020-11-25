@@ -2,6 +2,7 @@ export const version = 'v7.0.0';
 
 let env = 'prod';
 // env = 'dev';
+export const ENV = env;
 const devIP = '10.221.96.144';
 
 export const baseUrl =

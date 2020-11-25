@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-bottom: 50px;
+  min-height: 100%;
+  background-color: #e9c7d0;
+}
+.version {
+  margin-top: 20px;
+  color: #999;
+}
+.logo {
+  width: 750px;
+  height: 750px;
+}
+.menu {
+  margin-top: 50px;
+  min-height: 450px;
+}
+.menu-btn {
+  position: relative;
+  width: 450px;
+  margin-top: 30px;
+  background-color: #e6504b;
+  border: 2px #e6504b solid;
+}
+.icon {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+.menu-btn.secondary {
+  color: #e6504b;
+  background-color: transparent;
+}
+.menu-btn.strong {
+  // background-color: #3a5274;
+  // border: 2px #3a5274 solid;
+}
+.menu {
+  .at-badge .at-badge__num {
+    top: -12px;
+    right: 0;
+    background-color: #ffcc00;
+    font-size: 24px;
+  }
+}
+// 广告
+.ad-box {
+  margin-top: 240px;
+  width: 100%;
+}
+.statement {
+  display: flex;
+  flex-direction: column;
+  margin-top: 150px;
+  color: #6190e8;
+  bottom: 50px;
+  padding: 0 50px;
+  font-size: 20px;
+}
+.statement text {
+  color: #e6504b;
+  font-weight: bold;
+  padding: 10px 0;
+}
+.statement .top {
+  color: #3a5274;
+}
+.statement .bottom {
+  border-top: 2px solid #707070;
+}
