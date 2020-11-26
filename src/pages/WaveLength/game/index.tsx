@@ -1,9 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Text, Input } from '@tarojs/components';
-import { AtBadge, AtButton, AtSlider, AtFab } from 'taro-ui';
+import { AtBadge, AtButton, AtSlider, AtFab, AtFloatLayout } from 'taro-ui';
 import './index.scss';
 import UserItem from '../../../components/UserItem';
 import LoginBtn from '../../../components/loginBtn';
+import RoundHistoryItem from '../../../components/WaveLength/RoundHistoryItem';
 import { request } from '../../../api/wavelength';
 import { GameData, IState, Player, Round, Team } from './interface';
 
@@ -24,13 +25,14 @@ export default class Index extends Component<any, IState> {
       question: '',
       guessDirection: -1,
       gameData: null,
+      showHistory: false,
     };
   }
 
   onShareAppMessage() {
     const { id } = this.$router.params;
     return {
-      title: '快来体验新作品，电波同步！',
+      title: '电波同步中，看看我们是否在同一频率！',
       path: `/pages/WaveLength/game/index?id=${id}`,
       imageUrl: 'https://cdn.renwuming.cn/static/wavelength/imgs/share.jpg',
     };
@@ -58,7 +60,20 @@ export default class Index extends Component<any, IState> {
       url: `/games/${id}`,
     });
 
+    // 根据回合状态重置一些参数
+    const {
+      round: { status },
+    } = gameData;
+    let resetState: any = {};
+    if (status !== 0) {
+      resetState.question = '';
+      resetState.selectIndex = 0;
+    }
+    if (status !== 1) {
+      resetState.answer = 0;
+    }
     this.setState({
+      ...resetState,
       gameData: {
         answer: 0, // 重置指针
         ...gameData,
@@ -223,6 +238,11 @@ export default class Index extends Component<any, IState> {
       player: playerMap[status] || {},
     };
   }
+  handleHistory(visible: boolean) {
+    this.setState({
+      showHistory: visible,
+    });
+  }
 
   render() {
     const {
@@ -232,6 +252,7 @@ export default class Index extends Component<any, IState> {
       question,
       guessDirection,
       gameData,
+      showHistory,
     } = this.state;
     const {
       teams,
@@ -239,6 +260,7 @@ export default class Index extends Component<any, IState> {
       start,
       players,
       owner,
+      roundHistory,
       isOwner,
       inGame,
       role,
@@ -252,7 +274,6 @@ export default class Index extends Component<any, IState> {
       answer: realAnswer,
       otherGuessDirection,
       selectWords,
-      // guessDirection: realGuessDirection,
     } = round || {};
 
     const guessDirectionResult = start
@@ -260,6 +281,7 @@ export default class Index extends Component<any, IState> {
       : [];
 
     const stageData = start ? this.handleStageText(round, teams) : null;
+
     return gameData ? (
       <View className="wrapper">
         {start ? (
@@ -365,7 +387,7 @@ export default class Index extends Component<any, IState> {
               {status === 3 && (
                 <View className="turnplate-container">
                   <View
-                    className={`scores ${rotating ? 'rotating' : ''}`}
+                    className="scores"
                     style={{
                       transform: `rotate(${target}deg)`,
                     }}
@@ -515,6 +537,57 @@ export default class Index extends Component<any, IState> {
                 </View>
               )}
             </View>
+            {(winner || winner === 0) && (
+              <View className="history-box">
+                {roundHistory
+                  .concat()
+                  .reverse()
+                  .map((round, index) => (
+                    <RoundHistoryItem
+                      index={roundHistory.length - index}
+                      round={round}
+                      teams={teams}
+                    />
+                  ))}
+              </View>
+            )}
+            <View className="invite-btn">
+              <AtFab size="small">
+                <AtButton size="normal" openType="share">
+                  邀请旁观
+                </AtButton>
+              </AtFab>
+            </View>
+            {winner || winner === 0 ? null : (
+              <View className="home-btn">
+                <AtFab
+                  onClick={() => {
+                    this.handleHistory(true);
+                  }}
+                  size="small"
+                >
+                  回合列表
+                </AtFab>
+              </View>
+            )}
+            <AtFloatLayout
+              isOpened={showHistory}
+              title="回合列表"
+              onClose={() => {
+                this.handleHistory(false);
+              }}
+            >
+              {roundHistory
+                .concat()
+                .reverse()
+                .map((round, index) => (
+                  <RoundHistoryItem
+                    index={roundHistory.length - index}
+                    round={round}
+                    teams={teams}
+                  />
+                ))}
+            </AtFloatLayout>
           </View>
         ) : (
           <View className="room-container">
@@ -577,14 +650,8 @@ export default class Index extends Component<any, IState> {
                 退出房间
               </AtButton>
             )}
-
             <View className="invite-btn">
-              <AtFab
-                onClick={() => {
-                  // this.changePaper();
-                }}
-                size="small"
-              >
+              <AtFab size="small">
                 <AtButton size="normal" openType="share">
                   邀请朋友
                 </AtButton>

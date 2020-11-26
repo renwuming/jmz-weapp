@@ -5,6 +5,7 @@ export interface IState {
   question: string;
   guessDirection: number;
   gameData: GameData | null;
+  showHistory: boolean;
 }
 
 export interface GameData {

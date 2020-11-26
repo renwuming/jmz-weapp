@@ -33,6 +33,9 @@
   height: 60px;
   border-radius: 60px;
   margin-right: 10px;
+  &.strong {
+    border: 5px solid #ed6849;
+  }
 }
 // 玩家游戏数据
 at-modal {

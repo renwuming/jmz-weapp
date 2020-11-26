@@ -44,7 +44,7 @@
   position: fixed;
   right: -4px;
   bottom: 150px;
-  z-index: 900;
+  z-index: 100;
   width: 200px;
   height: 80px;
   border-radius: 0;
@@ -63,7 +63,7 @@
   position: fixed;
   right: -4px;
   bottom: 50px;
-  z-index: 900;
+  z-index: 100;
   width: 200px;
   height: 80px;
   border-radius: 0;
@@ -133,36 +133,42 @@
 .turnplate-container {
   position: relative;
   width: 600px;
-  height: 570px;
+  height: 600px;
+  margin-bottom: 10px;
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  margin-bottom: 30px;
   .scores {
     position: absolute;
-    left: 15px;
-    top: 15px;
-    width: 570px;
-    height: 570px;
-    background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/scores.png');
+    left: 5%;
+    top: 5%;
+    width: 90%;
+    height: 90%;
+    background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/scores-2.png');
     background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
     &.rotating {
       animation: rotate 0.3s linear infinite;
     }
   }
   .turnplate {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/turnplate-3.png');
     background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
   .pointer {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/pointer.jpg');
     background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
   }
 }
 .card {
@@ -277,6 +283,12 @@
       width: 200px;
     }
   }
+}
+
+.history-box {
+  border-top: 1px solid #f2f2f2;
+  margin-top: 40px;
+  padding-top: 20px;
 }
 
 // 旋转动画

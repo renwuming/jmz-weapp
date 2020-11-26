@@ -630,12 +630,7 @@ export default class Index extends Component<any, IState> {
           </View>
         )}
         <View className="invite-btn">
-          <AtFab
-            onClick={() => {
-              // this.changePaper();
-            }}
-            size="small"
-          >
+          <AtFab size="small">
             <AtButton size="normal" openType="share">
               邀请朋友
             </AtButton>
