@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import './index.scss';
 import { Player, Round, Team } from 'src/pages/WaveLength/game/interface';
-import UserItem from '../../../components/UserItem';
+import UserItem from '../../../components/WaveLength/UserItem';
 
 interface IProps {
   index: number;
@@ -61,7 +61,9 @@ export default class Index extends Component<IProps, any> {
     const guessmanUser = teams[1 - team].teamPlayers[guessman];
     return (
       <View className="row-col container">
-        <Text className="title">第 {index} 回合</Text>
+        <Text className="title">
+          第 <Text className="score">{index}</Text> 回合
+        </Text>
         <View className="row">
           <View className="turnplate-container">
             <View

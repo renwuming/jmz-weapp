@@ -1,0 +1,142 @@
+.container {
+  box-sizing: border-box;
+  padding: 0 50px;
+  padding-top: 100px;
+  padding-bottom: 40px;
+  background-color: #eef5ff;
+  height: 100%;
+  overflow: scroll;
+}
+.row {
+  display: flex;
+  align-items: center;
+  padding: 30px 20px;
+  border-top: 1px #ccc solid;
+}
+.row:first-child {
+  border-top: 0;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
+.column-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+}
+.index {
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 5px 5px 5px #aaa;
+}
+.avatar-box {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin-left: -20px;
+  border: 1px #fff solid;
+}
+.tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 50px;
+  background-color: #eef5ff;
+  z-index: 100;
+}
+.status {
+  margin-bottom: 20px;
+  color: #666;
+  font-family: yansong;
+}
+.status.fail {
+  color: #333;
+}
+.status.success {
+  color: #e6504b;
+}
+
+.room-status {
+  margin-top: 20px;
+  color: #666;
+  font-family: yansong;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+.time-status {
+  font-size: 26px;
+  color: #666;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+}
+.room-status.gaming {
+  color: #e6504b;
+}
+// 滚动view
+scroll-view {
+  height: 100%;
+}
+.loading-box {
+  margin-top: 20px;
+  text-align: center;
+  display: block;
+  font-size: 56px;
+  animation: rotate 0.5s linear infinite;
+}
+// 旋转动画
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+// 底部分隔符
+.at-divider.middle {
+  // margin-top: 40%;
+}
+.at-divider__content {
+  background-color: #eef5ff;
+}
+
+// 浮动按钮
+.fab-btn {
+  position: fixed;
+  right: 50px;
+  bottom: 100px;
+  z-index: 900;
+  &.reload {
+    bottom: 100px;
+  }
+  &.create-room {
+    bottom: 240px;
+    .at-badge__num {
+      padding: 8px;
+      top: -100px;
+      right: -32px;
+    }
+    .shake.at-badge {
+      animation: shake 1.5s linear infinite;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 90px;
+}
+.row.big .useritem-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
+.short-nick {
+  width: 150px;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.short-nick.long {
+  width: 250px;
+}
+.short-nick.big {
+  margin-left: 20px;
+  width: 220px;
+  font-size: 36px;
+  font-family: yansong;
+}
+.current {
+  // color: #e6504b;
+}
+.useritem-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  margin-right: 10px;
+  &.strong {
+    border: 5px solid #ed6849;
+  }
+}
+// 玩家游戏数据
+at-modal {
+  font-weight: bold;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+}
+at-modal text {
+  color: #555;
+}
+at-modal-content .detail-row {
+  margin-top: 10px;
+}
+at-modal-content .left {
+  display: inline-block;
+  width: 150px;
+}
+at-modal-content .win-rate {
+  color: #e6504b;
+}
+
+// 在线离线状态
+.online-box {
+  position: absolute;
+  left: -5rpx;
+  bottom: -2rpx;
+  &.big {
+    left: 0;
+    bottom: -24rpx;
+  }
+}

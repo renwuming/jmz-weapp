@@ -1,6 +1,5 @@
 .wrapper {
   min-height: 100%;
-  background-color: #e9c7d0;
 }
 // 未开始状态
 .room-container {
@@ -59,6 +58,7 @@
     border: 0;
   }
 }
+.history-btn .at-fab,
 .home-btn .at-fab {
   position: fixed;
   right: -4px;
@@ -71,6 +71,28 @@
   border-bottom-left-radius: 40px;
   background-color: #fff;
   color: #6190e8;
+}
+.invite-btn.gaming .at-fab {
+  right: initial;
+  left: -30px;
+  top: 400px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+.home-btn.gaming .at-fab {
+  right: initial;
+  left: -30px;
+  top: 500px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+.history-btn .at-fab {
+  right: -30px;
+  top: 400px;
 }
 
 // 游戏状态
@@ -127,6 +149,10 @@
   align-items: center;
   text {
     margin-right: 20px;
+  }
+  .score {
+    color: #eb6a4a;
+    font-size: 40px;
   }
 }
 
@@ -233,6 +259,9 @@
   border-radius: 10px;
   margin-bottom: 40px;
 }
+.slider-box {
+  margin-bottom: 40px;
+}
 .slider {
   width: 500px;
   height: 60px;
@@ -286,9 +315,12 @@
 }
 
 .history-box {
-  border-top: 1px solid #f2f2f2;
+  border-top: 1px solid #ccc;
   margin-top: 40px;
   padding-top: 20px;
+}
+.score {
+  font-family: TrebuchetMS;
 }
 
 // 旋转动画

@@ -73,7 +73,7 @@ export default class Index extends Component<IProps, any> {
   }
 
   gotoWaveLength() {
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: `/pages/WaveLength/home/index`,
     });
   }
@@ -141,17 +141,6 @@ export default class Index extends Component<IProps, any> {
           >
             更多
           </AtButton>
-          {/* <AtButton
-            className='menu-btn secondary'
-            circle
-            type='primary'
-            size='normal'
-            onClick={() => {
-              this.openGbts();
-            }}
-          >
-            Let's 古堡探险！
-          </AtButton> */}
           <AtButton
             className="menu-btn secondary"
             circle
@@ -172,7 +161,20 @@ export default class Index extends Component<IProps, any> {
               this.gotoWaveLength();
             }}
           >
-            新作：电波同步
+            <Image src="https://cdn.renwuming.cn/static/wavelength/imgs/icon.png"></Image>
+            电波同步
+          </AtButton>
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.openGbts();
+            }}
+          >
+            <Image src="https://cdn.renwuming.cn/static/escape/icon.jpg"></Image>
+            古堡逃亡
           </AtButton>
         </View>
         <View

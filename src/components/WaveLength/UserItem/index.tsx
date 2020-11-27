@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { AtModal, AtModalHeader, AtModalContent, AtTag } from 'taro-ui';
 import { View, Text, Image } from '@tarojs/components';
 import './index.scss';
-import { request } from '../../api';
+import { request } from '../../../api/wavelength';
 
 interface UserInfo {
   nickName: string;
@@ -48,7 +48,7 @@ export default class Index extends Component<IProps, any> {
     const { id } = data;
     request({
       method: 'GET',
-      url: `/users/gamedata/${id}`,
+      url: `/games/achievement/${id}`,
     }).then((res) => {
       this.setState({
         userDetail: res,
@@ -122,7 +122,7 @@ export default class Index extends Component<IProps, any> {
             <View className="detail-row">
               <Text className="left win-rate">胜率</Text>
               {userDetail.winRate !== undefined && (
-                <Text className="win-rate">{userDetail.winRate}%</Text>
+                <Text className="win-rate">{userDetail.winRate}</Text>
               )}
             </View>
             <View className="detail-row">
@@ -131,11 +131,11 @@ export default class Index extends Component<IProps, any> {
             </View>
             <View className="detail-row">
               <Text className="left">平局数</Text>
-              <Text className="info">{userDetail.pingSum}</Text>
+              <Text className="info">{userDetail.drawSum}</Text>
             </View>
             <View className="detail-row">
               <Text className="left">总局数</Text>
-              <Text className="info">{userDetail.Sum}</Text>
+              <Text className="info">{userDetail.gameSum}</Text>
             </View>
           </AtModalContent>
         </AtModal>

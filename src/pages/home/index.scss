@@ -25,6 +25,16 @@
   margin-top: 30px;
   background-color: #e6504b;
   border: 2px #e6504b solid;
+  image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: 88px;
+    vertical-align: middle;
+    background-color: #ffcc00;
+  }
 }
 .icon {
   position: absolute;

@@ -1,0 +1,132 @@
+.container {
+  box-sizing: border-box;
+  padding: 0 50px;
+  padding-top: 100px;
+  padding-bottom: 40px;
+  background-color: #eef5ff;
+  height: 100%;
+  overflow: scroll;
+}
+.row {
+  display: flex;
+  align-items: center;
+  padding: 30px 0;
+  border-top: 1px #ccc solid;
+}
+.row:first-child {
+  border-top: 0;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
+.index {
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 5px 5px 5px #aaa;
+}
+.avatar-box {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: center;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin-left: -20px;
+  border: 1px #fff solid;
+}
+.tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 50px;
+  background-color: #eef5ff;
+  z-index: 100;
+}
+.status {
+  margin-bottom: 20px;
+  color: #666;
+  font-family: yansong;
+}
+.status.fail {
+  color: #333;
+}
+.status.success {
+  color: #e6504b;
+}
+.status.date {
+  font-family: TrebuchetMS;
+  margin: 0;
+}
+
+.room-status {
+  color: #666;
+  font-family: yansong;
+}
+.room-status.gaming {
+  color: #e6504b;
+}
+// 滚动view
+scroll-view {
+  height: 100%;
+}
+.loading-box {
+  margin-top: 20px;
+  text-align: center;
+  display: block;
+  font-size: 56px;
+  animation: rotate 0.5s linear infinite;
+}
+// 旋转动画
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+// 底部分隔符
+.at-divider.middle {
+  // margin-top: 40%;
+}
+.at-divider__content {
+  background-color: #eef5ff;
+}
+
+// 成就部分
+.achievement-box {
+  margin-top: 100px;
+  font-weight: bold;
+  font-size: 36px;
+  font-family: TrebuchetMS, 'Microsoft YaHei', sans-serif;
+  text {
+    color: #555;
+    width: 100px;
+  }
+  .detail-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .left {
+    display: inline-block;
+    width: 200px;
+    margin-right: 50px;
+  }
+  .win-rate {
+    color: #e6504b;
+  }
+}

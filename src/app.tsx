@@ -35,6 +35,8 @@ class App extends Component {
       // 波长
       'pages/WaveLength/home/index',
       'pages/WaveLength/game/index',
+      'pages/WaveLength/hall/index',
+      'pages/WaveLength/achievement/index',
     ],
     window: {
       backgroundTextStyle: 'light',

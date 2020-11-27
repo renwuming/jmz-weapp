@@ -23,6 +23,8 @@ export interface GameData {
   isOwner: boolean;
   inGame: boolean;
   role: RoundRole;
+  onlineStatus: Map<string, boolean>;
+  countdown: number;
 }
 
 /**

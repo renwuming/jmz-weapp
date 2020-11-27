@@ -39,6 +39,16 @@ export default class Index extends Component<any, IState> {
       url: `/pages/WaveLength/game/index?id=${id}`,
     });
   }
+  gotoHall() {
+    Taro.navigateTo({
+      url: `/pages/WaveLength/hall/index`,
+    });
+  }
+  gotoAchievement() {
+    Taro.navigateTo({
+      url: `/pages/WaveLength/achievement/index`,
+    });
+  }
   gotoHome() {
     Taro.reLaunch({
       url: `/pages/home/index`,
@@ -70,10 +80,33 @@ export default class Index extends Component<any, IState> {
             type="primary"
             size="normal"
             onClick={() => {
+              this.gotoHall();
+            }}
+          >
+            房间大厅
+          </AtButton>
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
+              this.gotoAchievement();
+            }}
+          >
+            历史·成就
+          </AtButton>
+          <AtButton
+            className="menu-btn secondary"
+            circle
+            type="primary"
+            size="normal"
+            onClick={() => {
               this.gotoHome();
             }}
           >
-            回到首页
+            <Image src="https://cdn.renwuming.cn/static/jmz/icon.jpg"></Image>
+            截码战
           </AtButton>
         </View>
         <View

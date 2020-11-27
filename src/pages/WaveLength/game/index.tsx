@@ -2,7 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Text, Input } from '@tarojs/components';
 import { AtBadge, AtButton, AtSlider, AtFab, AtFloatLayout } from 'taro-ui';
 import './index.scss';
-import UserItem from '../../../components/UserItem';
+import UserItem from '../../../components/WaveLength/UserItem';
 import LoginBtn from '../../../components/loginBtn';
 import RoundHistoryItem from '../../../components/WaveLength/RoundHistoryItem';
 import { request } from '../../../api/wavelength';
@@ -50,7 +50,7 @@ export default class Index extends Component<any, IState> {
 
     this.updateGameDataTimer = setInterval(() => {
       this.updateGameData();
-    }, 1500);
+    }, 1000);
   }
 
   async updateGameData() {
@@ -61,16 +61,17 @@ export default class Index extends Component<any, IState> {
     });
 
     // 根据回合状态重置一些参数
-    const {
-      round: { status },
-    } = gameData;
+    const { start, round } = gameData;
     let resetState: any = {};
-    if (status !== 0) {
-      resetState.question = '';
-      resetState.selectIndex = 0;
-    }
-    if (status !== 1) {
-      resetState.answer = 0;
+    if (start) {
+      const { status } = round;
+      if (status !== 0) {
+        resetState.question = '';
+        resetState.selectIndex = 0;
+      }
+      if (status !== 1) {
+        resetState.answer = 0;
+      }
     }
     this.setState({
       ...resetState,
@@ -265,6 +266,8 @@ export default class Index extends Component<any, IState> {
       inGame,
       role,
       winner,
+      onlineStatus,
+      countdown,
     } = gameData as GameData;
     const {
       status,
@@ -288,28 +291,40 @@ export default class Index extends Component<any, IState> {
           <View className="game-container">
             <View className="team-list">
               <View className="team-item team-left">
-                <Text>分数：{teams[0].score}</Text>
+                <Text>
+                  分数：<Text className="score">{teams[0].score}</Text>
+                </Text>
                 <View className="team-box">
                   {teams[0].teamPlayers.map((player) => {
                     const { userInfo, _id } = player;
                     return (
                       <UserItem
                         nonick
-                        data={{ id: _id, ...userInfo, online: true }}
+                        data={{
+                          id: _id,
+                          ...userInfo,
+                          online: onlineStatus[_id],
+                        }}
                       ></UserItem>
                     );
                   })}
                 </View>
               </View>
               <View className="team-item team-right">
-                <Text>分数：{teams[1].score}</Text>
+                <Text>
+                  分数：<Text className="score">{teams[1].score}</Text>
+                </Text>
                 <View className="team-box">
                   {teams[1].teamPlayers.map((player) => {
                     const { userInfo, _id } = player;
                     return (
                       <UserItem
                         nonick
-                        data={{ id: _id, ...userInfo, online: true }}
+                        data={{
+                          id: _id,
+                          ...userInfo,
+                          online: onlineStatus[_id],
+                        }}
                       ></UserItem>
                     );
                   })}
@@ -325,7 +340,7 @@ export default class Index extends Component<any, IState> {
                     return (
                       <UserItem
                         nonick
-                        data={{ id: _id, ...userInfo, online: true }}
+                        data={{ id: _id, ...userInfo }}
                       ></UserItem>
                     );
                   })}
@@ -333,16 +348,25 @@ export default class Index extends Component<any, IState> {
               </View>
             ) : (
               stageData && (
-                <View className="notice-box">
-                  <Text>{stageData.text}</Text>
-                  <UserItem
-                    nonick
-                    data={{
-                      id: stageData.player._id,
-                      ...stageData.player.userInfo,
-                      online: true,
-                    }}
-                  ></UserItem>
+                <View>
+                  <View className="notice-box">
+                    <Text>{stageData.text}</Text>
+                    <UserItem
+                      nonick
+                      data={{
+                        id: stageData.player._id,
+                        ...stageData.player.userInfo,
+                      }}
+                    ></UserItem>
+                  </View>
+                  <View className="notice-box">
+                    <Text>
+                      <Text className="score">
+                        {countdown.toString().padStart(2, '0')}
+                      </Text>
+                      秒
+                    </Text>
+                  </View>
                 </View>
               )
             )}
@@ -401,6 +425,91 @@ export default class Index extends Component<any, IState> {
                   ></View>
                 </View>
               )}
+              {status === 1 && [1, 3].includes(role) && (
+                <View className="slider-box">
+                  <AtSlider
+                    className="slider"
+                    step={1}
+                    min={-76}
+                    max={76}
+                    value={answer}
+                    onChanging={(e) => {
+                      this.changePointer(e);
+                    }}
+                    onChange={(e) => {
+                      this.changePointer(e);
+                    }}
+                  ></AtSlider>
+                  <AtButton
+                    type="primary"
+                    className="submit-btn"
+                    onClick={() => {
+                      this.submitPointer();
+                    }}
+                  >
+                    确定
+                  </AtButton>
+                </View>
+              )}
+              {status === 2 && (
+                <View className="guess-box">
+                  <View className="token-box">
+                    <View className="token-item">
+                      <View
+                        className={`token ${
+                          guessDirection === 1 ? 'selected' : ''
+                        }`}
+                        onClick={() => {
+                          this.changeGuessDirection(1);
+                        }}
+                      ></View>
+                      <View className="team-box">
+                        {guessDirectionResult[0].map((player) => {
+                          const { userInfo, _id } = player;
+                          return (
+                            <UserItem
+                              nonick
+                              data={{ id: _id, ...userInfo }}
+                            ></UserItem>
+                          );
+                        })}
+                      </View>
+                    </View>
+                    <View className="token-item right">
+                      <View className="team-box">
+                        {guessDirectionResult[1].map((player) => {
+                          const { userInfo, _id } = player;
+                          return (
+                            <UserItem
+                              nonick
+                              data={{ id: _id, ...userInfo }}
+                            ></UserItem>
+                          );
+                        })}
+                      </View>
+                      <View
+                        className={`token ${
+                          guessDirection === 2 ? 'selected' : ''
+                        }`}
+                        onClick={() => {
+                          this.changeGuessDirection(2);
+                        }}
+                      ></View>
+                    </View>
+                  </View>
+                  {[2, 4].includes(role) && (
+                    <AtButton
+                      type="primary"
+                      className="submit-btn"
+                      onClick={() => {
+                        this.submitGuess();
+                      }}
+                    >
+                      确定
+                    </AtButton>
+                  )}
+                </View>
+              )}
               {words ? (
                 <View
                   className={`card ${selectIndex === 1 ? 'back' : ''}`}
@@ -447,94 +556,7 @@ export default class Index extends Component<any, IState> {
                 </View>
               )}
               {status && status >= 1 && (
-                <View>
-                  <View className="question">{realQuestion}</View>
-                </View>
-              )}
-              {status === 1 && [1, 3].includes(role) && (
-                <View>
-                  <AtSlider
-                    className="slider"
-                    step={1}
-                    min={-76}
-                    max={76}
-                    value={answer}
-                    onChanging={(e) => {
-                      this.changePointer(e);
-                    }}
-                    onChange={(e) => {
-                      this.changePointer(e);
-                    }}
-                  ></AtSlider>
-                  <AtButton
-                    type="primary"
-                    className="submit-btn"
-                    onClick={() => {
-                      this.submitPointer();
-                    }}
-                  >
-                    确定
-                  </AtButton>
-                </View>
-              )}
-              {status === 2 && (
-                <View className="guess-box">
-                  <View className="token-box">
-                    <View className="token-item">
-                      <View
-                        className={`token ${
-                          guessDirection === 1 ? 'selected' : ''
-                        }`}
-                        onClick={() => {
-                          this.changeGuessDirection(1);
-                        }}
-                      ></View>
-                      <View className="team-box">
-                        {guessDirectionResult[0].map((player) => {
-                          const { userInfo, _id } = player;
-                          return (
-                            <UserItem
-                              nonick
-                              data={{ id: _id, ...userInfo, online: true }}
-                            ></UserItem>
-                          );
-                        })}
-                      </View>
-                    </View>
-                    <View className="token-item right">
-                      <View className="team-box">
-                        {guessDirectionResult[1].map((player) => {
-                          const { userInfo, _id } = player;
-                          return (
-                            <UserItem
-                              nonick
-                              data={{ id: _id, ...userInfo, online: true }}
-                            ></UserItem>
-                          );
-                        })}
-                      </View>
-                      <View
-                        className={`token ${
-                          guessDirection === 2 ? 'selected' : ''
-                        }`}
-                        onClick={() => {
-                          this.changeGuessDirection(2);
-                        }}
-                      ></View>
-                    </View>
-                  </View>
-                  {[2, 4].includes(role) && (
-                    <AtButton
-                      type="primary"
-                      className="submit-btn"
-                      onClick={() => {
-                        this.submitGuess();
-                      }}
-                    >
-                      确定
-                    </AtButton>
-                  )}
-                </View>
+                <View className="question">{realQuestion}</View>
               )}
             </View>
             {(winner || winner === 0) && (
@@ -551,15 +573,25 @@ export default class Index extends Component<any, IState> {
                   ))}
               </View>
             )}
-            <View className="invite-btn">
+            <View className="invite-btn gaming">
               <AtFab size="small">
                 <AtButton size="normal" openType="share">
                   邀请旁观
                 </AtButton>
               </AtFab>
             </View>
-            {winner || winner === 0 ? null : (
-              <View className="home-btn">
+            <View className="home-btn gaming">
+              <AtFab
+                onClick={() => {
+                  this.gotoHome();
+                }}
+                size="small"
+              >
+                回首页
+              </AtFab>
+            </View>
+            {!(winner || winner === 0) && roundHistory.length > 0 && (
+              <View className="history-btn">
                 <AtFab
                   onClick={() => {
                     this.handleHistory(true);
@@ -602,13 +634,21 @@ export default class Index extends Component<any, IState> {
                       <AtBadge value={'房主'}>
                         <UserItem
                           big={true}
-                          data={{ id: _id, ...userInfo, online: true }}
+                          data={{
+                            id: _id,
+                            ...userInfo,
+                            online: onlineStatus[_id],
+                          }}
                         ></UserItem>
                       </AtBadge>
                     ) : (
                       <UserItem
                         big={true}
-                        data={{ id: _id, ...userInfo, online: true }}
+                        data={{
+                          id: _id,
+                          ...userInfo,
+                          online: onlineStatus[_id],
+                        }}
                       ></UserItem>
                     )}
                   </View>
