@@ -9,6 +9,7 @@ export interface IState {
 }
 
 export interface GameData {
+  _id: string;
   players: Player[];
   owner: string;
   start: boolean;
@@ -19,14 +20,20 @@ export interface GameData {
   teams: Team[];
   round: Round;
   roundHistory: Round[];
+  gameMode: string; // 游戏模式，1 竞争，2 合作
   // 额外属性
   isOwner: boolean;
   inGame: boolean;
   role: RoundRole;
   onlineStatus: Map<string, boolean>;
   countdown: number;
+  tags: Tag[];
 }
 
+export class Tag {
+  text: string;
+  red: boolean;
+}
 /**
  * 在一回合中的角色
  * -1 不在游戏中
@@ -49,9 +56,9 @@ export interface Round {
   selectWords?: number;
   question?: string; // 超能力者的提示
   answer?: number; // 队友猜测的角度值
-  otherAnswers: number[]; // 其他队友猜测的角度值数组
+  otherAnswers: Map<string, number>; // 其他队友猜测的角度值数组
   guessDirection?: number; // 对方猜测的方向，1 左侧，2 右侧
-  otherGuessDirection: number[]; // 其他队友猜测的方向数组
+  otherGuessDirection: Map<string, number>; // 其他队友猜测的方向数组
   combo?: boolean; // 是否为连续的回合
   updateScores?: number[]; // 本回合产生的分数变化
 }

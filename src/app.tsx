@@ -34,6 +34,7 @@ class App extends Component {
       'pages/ranking/index',
       // 波长
       'pages/WaveLength/home/index',
+      'pages/WaveLength/createPage/index',
       'pages/WaveLength/game/index',
       'pages/WaveLength/hall/index',
       'pages/WaveLength/achievement/index',

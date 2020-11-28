@@ -1,36 +1,36 @@
-import Taro, { Component } from '@tarojs/taro'
-import { AtModal, AtModalHeader, AtModalContent, AtAvatar } from 'taro-ui'
-import { View, OpenData, Text } from '@tarojs/components'
-import './index.scss'
-import { request } from '../../api'
+import Taro, { Component } from '@tarojs/taro';
+import { AtModal, AtModalHeader, AtModalContent, AtAvatar } from 'taro-ui';
+import { View, OpenData, Text } from '@tarojs/components';
+import './index.scss';
+import { request } from '../../api';
 
-export default class Index extends Component {
+export default class Index extends Component<any, any> {
   showUserDetail() {
     this.setState({
-      isOpened: true
-    })
+      isOpened: true,
+    });
     request({
       method: 'GET',
-      url: `/users/gamedata/self`
-    }).then(res => {
+      url: `/users/gamedata/self`,
+    }).then((res) => {
       this.setState({
-        userDetail: res
-      })
-    })
+        userDetail: res,
+      });
+    });
   }
   handleConfirm() {
     this.setState({
-      isOpened: false
-    })
+      isOpened: false,
+    });
   }
 
   render() {
-    const { isOpened, userDetail } = this.state
+    const { isOpened, userDetail } = this.state;
     return (
       <View
         className="user-info"
         onClick={() => {
-          this.showUserDetail()
+          this.showUserDetail();
         }}
       >
         <AtAvatar circle openData={{ type: 'userAvatarUrl' }}></AtAvatar>
@@ -55,7 +55,7 @@ export default class Index extends Component {
               )}
             </View>
             <View className="detail-row">
-              <Text className="left">获胜局数</Text>
+              <Text className="left">胜利局数</Text>
               <Text className="info">{userDetail.winSum}</Text>
             </View>
             <View className="detail-row">
@@ -69,6 +69,6 @@ export default class Index extends Component {
           </AtModalContent>
         </AtModal>
       </View>
-    )
+    );
   }
 }

@@ -1,13 +1,15 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import './index.scss';
-import { Player, Round, Team } from 'src/pages/WaveLength/game/interface';
+import { Round, Team } from 'src/pages/WaveLength/game/interface';
 import UserItem from '../../../components/WaveLength/UserItem';
 
 interface IProps {
   index: number;
   round: Round;
   teams: Team[];
+  CoMode: boolean; // 是否合作模式
+  handleGuessDirectionResult: Function;
 }
 
 export default class Index extends Component<IProps, any> {
@@ -15,26 +17,14 @@ export default class Index extends Component<IProps, any> {
   componentWillUnmount() {}
   componentDidShow() {}
 
-  handleGuessDirectionResult(
-    otherGuessDirection: number[],
-    round: Round,
-    teams: Team[]
-  ): Player[][] {
-    const { team } = round;
-    const result: Player[][] = [[], []];
-    otherGuessDirection.forEach((direction, index) => {
-      const player = teams[1 - team].teamPlayers[index];
-      if (direction === 1) {
-        result[0].push(player);
-      } else if (direction === 2) {
-        result[1].push(player);
-      }
-    });
-    return result;
-  }
-
   render() {
-    const { index, round, teams } = this.props;
+    const {
+      index,
+      round,
+      teams,
+      CoMode,
+      handleGuessDirectionResult,
+    } = this.props;
     const {
       answer,
       target,
@@ -50,7 +40,7 @@ export default class Index extends Component<IProps, any> {
       updateScores,
     } = round;
 
-    const guessDirectionResult = this.handleGuessDirectionResult(
+    const guessDirectionResult = handleGuessDirectionResult(
       otherGuessDirection,
       round,
       teams
@@ -110,84 +100,88 @@ export default class Index extends Component<IProps, any> {
               ></UserItem>
               <Text className="score">+{(updateScores as number[])[team]}</Text>
             </View>
-            <View className="row score-box">
-              <Text className="text">最终拦截者</Text>
-              <UserItem
-                nonick
-                data={{
-                  id: guessmanUser._id,
-                  ...guessmanUser.userInfo,
-                  online: true,
-                }}
-              ></UserItem>
-              <Text className="score">
-                +{(updateScores as number[])[1 - team]}
-              </Text>
-            </View>
+            {!CoMode && (
+              <View className="row score-box">
+                <Text className="text">最终拦截者</Text>
+                <UserItem
+                  nonick
+                  data={{
+                    id: guessmanUser._id,
+                    ...guessmanUser.userInfo,
+                    online: true,
+                  }}
+                ></UserItem>
+                <Text className="score">
+                  +{(updateScores as number[])[1 - team]}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
-        <View className="row guess-box">
-          <View className="token-box">
-            <View className="token-item">
-              <View
-                className={`token ${guessDirection === 1 ? 'selected' : ''}`}
-              ></View>
-              <View className="team-box">
-                {guessDirection === 1 && (
-                  <View className="border">
-                    <UserItem
-                      strong={true}
-                      nonick
-                      data={{
-                        id: guessmanUser._id,
-                        ...guessmanUser.userInfo,
-                        online: true,
-                      }}
-                    ></UserItem>
-                  </View>
-                )}
-                {guessDirectionResult[0].map((player) => {
-                  const { userInfo, _id } = player;
-                  return (
-                    <UserItem
-                      nonick
-                      data={{ id: _id, ...userInfo, online: true }}
-                    ></UserItem>
-                  );
-                })}
+        {!CoMode && (
+          <View className="row guess-box">
+            <View className="token-box">
+              <View className="token-item">
+                <View
+                  className={`token ${guessDirection === 1 ? 'selected' : ''}`}
+                ></View>
+                <View className="team-box">
+                  {guessDirection === 1 && (
+                    <View className="border">
+                      <UserItem
+                        strong={true}
+                        nonick
+                        data={{
+                          id: guessmanUser._id,
+                          ...guessmanUser.userInfo,
+                          online: true,
+                        }}
+                      ></UserItem>
+                    </View>
+                  )}
+                  {guessDirectionResult[0].map((player) => {
+                    const { userInfo, _id } = player;
+                    return (
+                      <UserItem
+                        nonick
+                        data={{ id: _id, ...userInfo, online: true }}
+                      ></UserItem>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
-            <View className="token-item right">
-              <View className="team-box">
-                {guessDirection === 2 && (
-                  <View className="border">
-                    <UserItem
-                      strong={true}
-                      nonick
-                      data={{
-                        id: guessmanUser._id,
-                        ...guessmanUser.userInfo,
-                        online: true,
-                      }}
-                    ></UserItem>
-                  </View>
-                )}
-                {guessDirectionResult[1].map((player) => {
-                  const { userInfo, _id } = player;
-                  return (
-                    <UserItem
-                      nonick
-                      data={{ id: _id, ...userInfo, online: true }}
-                    ></UserItem>
-                  );
-                })}
+              <View className="token-item right">
+                <View className="team-box">
+                  {guessDirection === 2 && (
+                    <View className="border">
+                      <UserItem
+                        strong={true}
+                        nonick
+                        data={{
+                          id: guessmanUser._id,
+                          ...guessmanUser.userInfo,
+                          online: true,
+                        }}
+                      ></UserItem>
+                    </View>
+                  )}
+                  {guessDirectionResult[1].map((player) => {
+                    const { userInfo, _id } = player;
+                    return (
+                      <UserItem
+                        nonick
+                        data={{ id: _id, ...userInfo, online: true }}
+                      ></UserItem>
+                    );
+                  })}
+                </View>
+                <View
+                  className={`token ${guessDirection === 2 ? 'selected' : ''}`}
+                ></View>
               </View>
-              <View
-                className={`token ${guessDirection === 2 ? 'selected' : ''}`}
-              ></View>
             </View>
           </View>
-        </View>
+        )}
       </View>
     );
   }

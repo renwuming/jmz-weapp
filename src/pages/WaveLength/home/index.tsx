@@ -3,7 +3,6 @@ import { View, Text, Image } from '@tarojs/components';
 import './index.scss';
 import { version } from '../../../config/wavelength';
 import LoginBtn from '../../../components/loginBtn';
-import { request } from '../../../api/wavelength';
 import { IState } from './interface';
 import { AtButton } from 'taro-ui';
 
@@ -30,13 +29,8 @@ export default class Index extends Component<any, IState> {
   componentDidShow() {}
 
   async createGame() {
-    const { id } = await request({
-      method: 'POST',
-      url: '/games',
-    });
-
     Taro.navigateTo({
-      url: `/pages/WaveLength/game/index?id=${id}`,
+      url: `/pages/WaveLength/createPage/index`,
     });
   }
   gotoHall() {
@@ -75,7 +69,7 @@ export default class Index extends Component<any, IState> {
             }}
           />
           <AtButton
-            className="menu-btn secondary"
+            className="menu-btn primary"
             circle
             type="primary"
             size="normal"
@@ -86,7 +80,7 @@ export default class Index extends Component<any, IState> {
             房间大厅
           </AtButton>
           <AtButton
-            className="menu-btn secondary"
+            className="menu-btn primary"
             circle
             type="primary"
             size="normal"
@@ -122,7 +116,7 @@ export default class Index extends Component<any, IState> {
           </Text>
           <Text className="bottom">
             {
-              '■ 欢迎您添加微信 ren-wuming，加入波长玩家交流群，和五湖四海的波长爱好者共同交流心得体会，并提出宝贵的建议。'
+              '■ 欢迎您添加微信 ren-wuming，加入玩家交流群，和五湖四海的桌游爱好者共同交流心得体会，并提出宝贵的建议。'
             }
           </Text>
         </View>

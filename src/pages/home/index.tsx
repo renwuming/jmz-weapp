@@ -190,7 +190,7 @@ export default class Index extends Component<IProps, any> {
           </Text>
           <Text className="bottom">
             {
-              '■ 欢迎您添加微信 ren-wuming，加入截码战玩家交流群，和五湖四海的截码战爱好者共同交流心得体会，并提出宝贵的建议。'
+              '■ 欢迎您添加微信 ren-wuming，加入玩家交流群，和五湖四海的桌游爱好者共同交流心得体会，并提出宝贵的建议。'
             }
           </Text>
         </View>

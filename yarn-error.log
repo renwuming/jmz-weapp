@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/renwuming/.nvm/versions/node/v12.18.2/bin/node /usr/local/Cellar/yarn/1.17.0/libexec/bin/yarn.js add src/pages/WaveLength/game/index.scss --silent --no-progress
+  /Users/renwuming/.nvm/versions/node/v12.18.2/bin/node /usr/local/Cellar/yarn/1.17.0/libexec/bin/yarn.js add src/api/wavelength --silent --no-progress
 
 PATH: 
   /Users/renwuming/.nvm/versions/node/v12.18.2/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/renwuming/projects/jmz/node_modules/.bin:/Users/renwuming/.nvm/versions/node/v12.18.2/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/renwuming/projects/jmz/node_modules/.bin:/Users/renwuming/.autojump/bin:/Users/renwuming/.autojump/bin:/usr/local/mongodb/bin:/Users/renwuming/.nvm/versions/node/v12.18.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/Documents/flutter/bin:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/sbin:/Users/renwuming/Library/Android/sdk/tools:/Users/renwuming/Library/Android/sdk/tools/bin:/Users/renwuming/Library/Android/sdk/platform-tools:/Users/renwuming/Library/Android/sdk/emulator:/Users/renwuming/Library/Android/sdk/build-tools/28.0.3:/Users/renwuming/.rvm/bin:/Users/renwuming/.rvm/bin
@@ -14,15 +14,15 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npm.taobao.org/src%2fpages/WaveLength/game/index.scss: [not_found] document not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:66823:18)
+  Error: https://registry.npm.taobao.org/src%2fapi/wavelength: Request "https://registry.npm.taobao.org/src%2fapi/wavelength" returned a 405
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:66832:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:140439:22)
       at Request.emit (events.js:315:20)
       at Request.<anonymous> (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:141411:10)
       at Request.emit (events.js:315:20)
-      at Gunzip.<anonymous> (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:141333:12)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.17.0/libexec/lib/cli.js:141333:12)
       at Object.onceWrapper (events.js:421:28)
-      at Gunzip.emit (events.js:327:22)
+      at IncomingMessage.emit (events.js:327:22)
       at endReadableNT (_stream_readable.js:1221:12)
       at processTicksAndRejections (internal/process/task_queues.js:84:21)
 

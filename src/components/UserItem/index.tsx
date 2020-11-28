@@ -126,7 +126,7 @@ export default class Index extends Component<IProps, any> {
               )}
             </View>
             <View className="detail-row">
-              <Text className="left">获胜局数</Text>
+              <Text className="left">胜利局数</Text>
               <Text className="info">{userDetail.winSum}</Text>
             </View>
             <View className="detail-row">

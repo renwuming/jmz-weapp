@@ -133,13 +133,8 @@ export default class Index extends Component<IState, any> {
 
   // 创建房间
   async createGame() {
-    const { id } = await request({
-      method: 'POST',
-      url: '/games',
-    });
-
     Taro.navigateTo({
-      url: `/pages/WaveLength/game/index?id=${id}`,
+      url: `/pages/WaveLength/createPage/index`,
     });
   }
 

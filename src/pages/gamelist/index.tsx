@@ -130,7 +130,7 @@ export default class Index extends Component<any, any> {
               </Text>
             </View>
             <View className="detail-row">
-              <Text className="left">获胜局数</Text>
+              <Text className="left">胜利局数</Text>
               <Text className="info">{winSum}</Text>
             </View>
             <View className="detail-row">
