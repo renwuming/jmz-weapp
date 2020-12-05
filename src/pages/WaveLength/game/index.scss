@@ -238,6 +238,9 @@
     &.rotating {
       animation: rotate 0.3s linear infinite;
     }
+    &.co-scores {
+      background-image: url('https://cdn.renwuming.cn/static/wavelength/imgs/co-scores.png');
+    }
   }
   .turnplate {
     position: absolute;

@@ -9,6 +9,7 @@
     "css": "sass"
   },
   "scripts": {
+    "commit": "git-cz",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
@@ -69,6 +70,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-taro": "1.3.12",
+    "git-cz": "^4.7.5",
     "stylelint": "9.3.0",
     "stylelint-config-taro-rn": "1.3.12",
     "stylelint-taro-rn": "1.3.12",

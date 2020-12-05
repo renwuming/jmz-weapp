@@ -305,6 +305,7 @@ export default class Index extends Component<any, IState> {
       countdown,
       gameMode,
       tags,
+      roundCount,
     } = gameData as GameData;
     const {
       status,
@@ -339,7 +340,7 @@ export default class Index extends Component<any, IState> {
                 <View className="co-team-box">
                   <Text>
                     回合数：<Text className="score">{roundIndex}</Text>
-                    <Text className="score"> / 7</Text>
+            <Text className="score"> / {roundCount}</Text>
                   </Text>
                   <Text>
                     分数：<Text className="score">{teams[0].score}</Text>
@@ -469,7 +470,9 @@ export default class Index extends Component<any, IState> {
                 <View className="turnplate-container">
                   {role === 0 && (
                     <View
-                      className={`scores ${rotating ? 'rotating' : ''}`}
+                      className={`scores ${CoMode ? 'co-scores' : ''} ${
+                        rotating ? 'rotating' : ''
+                      }`}
                       style={{
                         transform: `rotate(${target}deg)`,
                       }}
@@ -503,7 +506,7 @@ export default class Index extends Component<any, IState> {
               {status === 3 && (
                 <View className="turnplate-container">
                   <View
-                    className="scores"
+                    className={`scores ${CoMode ? 'co-scores' : ''}`}
                     style={{
                       transform: `rotate(${target}deg)`,
                     }}

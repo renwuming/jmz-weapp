@@ -28,6 +28,8 @@ export interface GameData {
   onlineStatus: Map<string, boolean>;
   countdown: number;
   tags: Tag[];
+  // 合作模式
+  roundCount: number;
 }
 
 export class Tag {

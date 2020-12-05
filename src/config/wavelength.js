@@ -1,4 +1,4 @@
-export const version = 'v1.0.0';
+export const version = 'v2.0.0';
 import { ENV as env } from './index';
 
 const devIP = '10.221.96.144';
@@ -6,7 +6,7 @@ const devIP = '10.221.96.144';
 export const baseUrl =
   env === 'dev'
     ? `http://${devIP}:3000`
-    : 'https://www.renwuming.cn/wavelength/v2';
+    : 'https://www.renwuming.cn/wavelength/';
 
 export const baseUrlAuth =
   env === 'dev' ? `http://${devIP}:5555` : 'https://www.renwuming.cn/auth';
