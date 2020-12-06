@@ -30,6 +30,7 @@ export interface GameData {
   tags: Tag[];
   // 合作模式
   roundCount: number;
+  coComment: string;
 }
 
 export class Tag {
@@ -63,6 +64,7 @@ export interface Round {
   otherGuessDirection: Map<string, number>; // 其他队友猜测的方向数组
   combo?: boolean; // 是否为连续的回合
   updateScores?: number[]; // 本回合产生的分数变化
+  startAt: Date[];
 }
 export interface Team {
   teamPlayers: Player[];

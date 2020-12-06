@@ -13,11 +13,13 @@ import UserItem from '../../../components/WaveLength/UserItem';
 import LoginBtn from '../../../components/loginBtn';
 import RoundHistoryItem from '../../../components/WaveLength/RoundHistoryItem';
 import PlayerHandler from '../../../components/WaveLength/PlayerHandler';
+import LongText from '../../../components/LongText';
 import { request } from '../../../api/wavelength';
 import { GameData, IState, Player, Round, Team } from './interface';
 
 export default class Index extends Component<any, IState> {
   updateGameDataTimer;
+  stopUpdateGameDataFlag: boolean = false;
   rotatingFlag: boolean = false;
 
   config: Config = {
@@ -62,11 +64,28 @@ export default class Index extends Component<any, IState> {
   }
 
   async updateGameData() {
+    // 游戏已结束，则不在请求
+    const { gameData: _gameData } = this.state;
+    if (_gameData && _gameData.end) this.stopUpdateGameDataFlag = true;
+
+    if (this.stopUpdateGameDataFlag) return;
+
     const { id } = this.$router.params;
     const gameData = await request({
       method: 'GET',
       url: `/games/${id}`,
     });
+
+    // 请求失败
+    const { statusCode, message } = gameData;
+    if (statusCode >= 400) {
+      Taro.showToast({
+        title: message,
+        icon: 'none',
+        duration: 2000,
+      });
+      return;
+    }
 
     // 根据回合状态重置一些参数
     const { start, round } = gameData;
@@ -99,6 +118,26 @@ export default class Index extends Component<any, IState> {
     });
   }
   async startGame() {
+    const { gameData } = this.state;
+    const { onlineStatus } = gameData as GameData;
+    const allOnline =
+      Object.keys(onlineStatus).filter((key) => !onlineStatus[key]).length ===
+      0;
+
+    if (allOnline) {
+      this.realStartGame();
+    } else {
+      Taro.showModal({
+        content: '有玩家离线，确定开始吗？',
+        success: (res) => {
+          if (res.confirm) {
+            this.realStartGame();
+          }
+        },
+      });
+    }
+  }
+  async realStartGame() {
     const { id } = this.$router.params;
     const res = await request({
       method: 'POST',
@@ -115,9 +154,20 @@ export default class Index extends Component<any, IState> {
   }
   async quitGame() {
     const { id } = this.$router.params;
-    await request({
-      method: 'POST',
-      url: `/games/${id}/quit`,
+    const { gameData } = this.state;
+    const { isOwner } = gameData as GameData;
+    Taro.showModal({
+      content: isOwner ? '确定解散房间吗？' : '确定退出房间吗？',
+      success: (res) => {
+        if (res.confirm) {
+          request({
+            method: 'POST',
+            url: `/games/${id}/quit`,
+          }).then((_) => {
+            if (isOwner) this.gotoHome();
+          });
+        }
+      },
     });
   }
   gotoHome() {
@@ -217,9 +267,16 @@ export default class Index extends Component<any, IState> {
   }
 
   async changeGuessDirection(direction) {
-    this.setState({
-      guessDirection: direction,
-    });
+    const { gameData } = this.state;
+    const role = (gameData as GameData).role;
+    this.setState(
+      {
+        guessDirection: direction,
+      },
+      () => {
+        if ([2, 4].includes(role)) this.submitGuess();
+      }
+    );
   }
 
   changePointer(e) {
@@ -247,6 +304,32 @@ export default class Index extends Component<any, IState> {
       } else if (direction === 2) {
         result[1].push(player);
       }
+    });
+    return result;
+  }
+  handleAnswersResult(
+    otherAnswers: Map<string, number> = new Map<string, number>(),
+    round: Round,
+    teams: Team[]
+  ): {
+    player: Player;
+    answer: number;
+  }[] {
+    const { team } = round;
+    const result: {
+      player: Player;
+      answer: number;
+    }[] = [];
+    Object.keys(otherAnswers).forEach((id) => {
+      const answer = otherAnswers[id];
+      const player = teams[team].teamPlayers.find(
+        (player) => player._id === id
+      );
+      if (!player) return;
+      result.push({
+        player,
+        answer,
+      });
     });
     return result;
   }
@@ -306,14 +389,18 @@ export default class Index extends Component<any, IState> {
       gameMode,
       tags,
       roundCount,
-    } = gameData as GameData;
+      coComment,
+    } = (gameData as GameData) || { players: null };
     const {
       status,
+      team,
+      answerman,
       target,
       words,
       question: realQuestion,
       answer: realAnswer,
       otherGuessDirection,
+      otherAnswers,
       selectWords,
     } = round || {};
 
@@ -323,14 +410,22 @@ export default class Index extends Component<any, IState> {
       ? this.handleGuessDirectionResult(otherGuessDirection, round, teams)
       : [];
 
+    const answerDirectionResult = start
+      ? this.handleAnswersResult(otherAnswers, round, teams)
+      : [];
+    const answermanUser = start ? teams[team].teamPlayers[answerman] : null;
+
     const stageData = start ? this.handleStageText(round, teams) : null;
 
     const teamPlayers0 = start ? teams[0].teamPlayers : [];
     const teamPlayers1 = start ? teams[1].teamPlayers : [];
     const winTeam = end && winner >= 0 ? teams[winner] : null;
-    const roundIndex = roundHistory.length;
-
-    return gameData ? (
+    const roundIndex = start
+      ? end
+        ? roundHistory.length
+        : roundHistory.length + 1
+      : -1;
+    return players ? (
       <View className="wrapper">
         {start ? (
           <View className="game-container">
@@ -339,8 +434,8 @@ export default class Index extends Component<any, IState> {
                 <View className="img"></View>
                 <View className="co-team-box">
                   <Text>
-                    回合数：<Text className="score">{roundIndex}</Text>
-            <Text className="score"> / {roundCount}</Text>
+                    当前回合：<Text className="score">{roundIndex}</Text>
+                    <Text className="score"> / {roundCount}</Text>
                   </Text>
                   <Text>
                     分数：<Text className="score">{teams[0].score}</Text>
@@ -352,6 +447,7 @@ export default class Index extends Component<any, IState> {
                       return (
                         <UserItem
                           nonick
+                          showAchievement
                           data={{
                             id: _id,
                             ...userInfo,
@@ -376,6 +472,7 @@ export default class Index extends Component<any, IState> {
                       return (
                         <UserItem
                           nonick
+                          showAchievement
                           data={{
                             id: _id,
                             ...userInfo,
@@ -396,6 +493,7 @@ export default class Index extends Component<any, IState> {
                       return (
                         <UserItem
                           nonick
+                          showAchievement
                           data={{
                             id: _id,
                             ...userInfo,
@@ -410,16 +508,17 @@ export default class Index extends Component<any, IState> {
             )}
             {winner || winner === 0 ? (
               CoMode ? (
-                <View className="notice-box result-box">
+                <View className="notice-box co-result-box">
                   {winner === 0 ? (
                     <Text className="success">胜利</Text>
                   ) : (
                     <Text>失败</Text>
                   )}
+                  <Text className="co-comment">{coComment}</Text>
                 </View>
               ) : winTeam ? (
                 <View className="notice-box">
-                  <Text className="success">胜利队伍</Text>
+                  <Text className="success m-r">胜利队伍</Text>
                   <View className="team-box">
                     {winTeam.teamPlayers.map((player) => {
                       const { userInfo, _id } = player;
@@ -484,6 +583,23 @@ export default class Index extends Component<any, IState> {
               {status === 1 && (
                 <View className="turnplate-container">
                   <View className="turnplate"></View>
+                  {answerDirectionResult.map((item) => {
+                    const { player, answer } = item;
+                    return (
+                      <View
+                        className="other-answers"
+                        style={{
+                          transform: `rotate(${answer}deg)`,
+                        }}
+                      >
+                        <UserItem
+                          nonick
+                          data={{ id: player._id, ...player.userInfo }}
+                        ></UserItem>
+                        <View className="line"></View>
+                      </View>
+                    );
+                  })}
                   <View
                     className="pointer"
                     style={{
@@ -495,12 +611,45 @@ export default class Index extends Component<any, IState> {
               {!CoMode && status === 2 && (
                 <View className="turnplate-container">
                   <View className="turnplate"></View>
+                  {answerDirectionResult.map((item) => {
+                    const { player, answer } = item;
+                    return (
+                      <View
+                        className="other-answers"
+                        style={{
+                          transform: `rotate(${answer}deg)`,
+                        }}
+                      >
+                        <UserItem
+                          nonick
+                          data={{ id: player._id, ...player.userInfo }}
+                        ></UserItem>
+                        <View className="line"></View>
+                      </View>
+                    );
+                  })}
                   <View
                     className="pointer"
                     style={{
                       transform: `rotate(${realAnswer}deg)`,
                     }}
                   ></View>
+                  {answermanUser && (
+                    <View
+                      className="other-answers"
+                      style={{
+                        transform: `rotate(${realAnswer}deg)`,
+                      }}
+                    >
+                      <UserItem
+                        nonick
+                        data={{
+                          id: answermanUser._id,
+                          ...answermanUser.userInfo,
+                        }}
+                      ></UserItem>
+                    </View>
+                  )}
                 </View>
               )}
               {status === 3 && (
@@ -520,11 +669,16 @@ export default class Index extends Component<any, IState> {
                   ></View>
                 </View>
               )}
-              {status === 1 && role === 1 && (
+              {status === 1 && [1, 3].includes(role) && (
                 <View className="slider-box">
+                  <Text className="gaming-tip">
+                    {CoMode
+                      ? '根据描述，拨动指针，推测星星所在的位置'
+                      : '根据描述，拨动指针，推测4分所在的位置'}
+                  </Text>
                   <AtSlider
                     className="slider"
-                    step={1}
+                    step={0.1}
                     min={-76}
                     max={76}
                     value={answer}
@@ -548,6 +702,9 @@ export default class Index extends Component<any, IState> {
               )}
               {!CoMode && status === 2 && (
                 <View className="guess-box">
+                  <Text className="gaming-tip">
+                    根据描述，推测4分应该在当前指针的左or右
+                  </Text>
                   <View className="token-box">
                     <View className="token-item">
                       <View
@@ -592,17 +749,6 @@ export default class Index extends Component<any, IState> {
                       ></View>
                     </View>
                   </View>
-                  {[2, 4].includes(role) && (
-                    <AtButton
-                      type="primary"
-                      className="submit-btn"
-                      onClick={() => {
-                        this.submitGuess();
-                      }}
-                    >
-                      确定
-                    </AtButton>
-                  )}
                 </View>
               )}
               {words ? (
@@ -622,6 +768,9 @@ export default class Index extends Component<any, IState> {
                       ? words[selectIndex][1]
                       : words[selectWords as number][1]}
                   </View>
+                  {status === 0 && (
+                    <AtBadge className="words-tip" value={'点击翻面'}></AtBadge>
+                  )}
                 </View>
               ) : (
                 <View className={`card ${selectIndex === 1 ? 'back' : ''}`}>
@@ -631,6 +780,9 @@ export default class Index extends Component<any, IState> {
               )}
               {status === 0 && role === 0 && (
                 <View>
+                  <Text className="gaming-tip">
+                    根据表盘上4分的位置，描述卡片上的词语
+                  </Text>
                   <Input
                     className="question-input"
                     type="text"
@@ -651,7 +803,9 @@ export default class Index extends Component<any, IState> {
                 </View>
               )}
               {status && status >= 1 && (
-                <View className="question">{realQuestion}</View>
+                <View className="question">
+                  <LongText text={realQuestion} />
+                </View>
               )}
             </View>
             {(winner || winner === 0) && (
@@ -661,6 +815,7 @@ export default class Index extends Component<any, IState> {
                   .reverse()
                   .map((round, index) => (
                     <RoundHistoryItem
+                      key="*this"
                       index={roundHistory.length - index}
                       round={round}
                       teams={teams}
@@ -668,6 +823,7 @@ export default class Index extends Component<any, IState> {
                       handleGuessDirectionResult={
                         this.handleGuessDirectionResult
                       }
+                      handleAnswersResult={this.handleAnswersResult}
                     />
                   ))}
               </View>
@@ -713,11 +869,13 @@ export default class Index extends Component<any, IState> {
                 .reverse()
                 .map((round, index) => (
                   <RoundHistoryItem
+                    key="*this"
                     index={roundHistory.length - index}
                     round={round}
                     teams={teams}
                     CoMode={CoMode}
                     handleGuessDirectionResult={this.handleGuessDirectionResult}
+                    handleAnswersResult={this.handleAnswersResult}
                   />
                 ))}
             </AtFloatLayout>
@@ -746,6 +904,7 @@ export default class Index extends Component<any, IState> {
                         <View className="row">
                           <UserItem
                             big={true}
+                            showAchievement
                             data={{
                               id: _id,
                               ...userInfo,
@@ -765,6 +924,7 @@ export default class Index extends Component<any, IState> {
                       <View className="row">
                         <UserItem
                           big={true}
+                          showAchievement
                           data={{
                             id: _id,
                             ...userInfo,
@@ -806,9 +966,9 @@ export default class Index extends Component<any, IState> {
                 }}
               />
             )}
-            {inGame && !isOwner && (
+            {inGame && (
               <AtButton
-                className="menu-btn"
+                className="menu-btn error-btn"
                 circle
                 type="primary"
                 size="normal"
@@ -816,7 +976,7 @@ export default class Index extends Component<any, IState> {
                   this.quitGame();
                 }}
               >
-                退出房间
+                {isOwner ? '解散房间' : '退出房间'}
               </AtButton>
             )}
             <View className="invite-btn">

@@ -28,9 +28,11 @@
     "useIsolateContext": true,
     "useCompilerModule": false,
     "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "bundle": false
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",
@@ -133,7 +135,7 @@
         {
           "name": "电波同步",
           "pathName": "pages/WaveLength/game/index",
-          "query": "id=7e8c3d14-000d-45ad-a328-349f20bc22be",
+          "query": "id=74dc1a7d-c3eb-4b8d-b36f-75763b8281c3",
           "scene": null
         },
         {
@@ -145,7 +147,7 @@
         {
           "name": "电波同步 - prod",
           "pathName": "pages/WaveLength/game/index",
-          "query": "id=775169d8-04b2-449e-91f2-c5da4c7c74d0",
+          "query": "id=6f3658b1-bc97-4170-8621-a9a0ed9e9a04",
           "scene": null
         }
       ]

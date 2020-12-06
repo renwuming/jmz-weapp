@@ -3,6 +3,7 @@ import { View, Text } from '@tarojs/components';
 import './index.scss';
 import { Round, Team } from 'src/pages/WaveLength/game/interface';
 import UserItem from '../../../components/WaveLength/UserItem';
+import LongText from '../../../components/LongText';
 
 interface IProps {
   index: number;
@@ -10,6 +11,7 @@ interface IProps {
   teams: Team[];
   CoMode: boolean; // 是否合作模式
   handleGuessDirectionResult: Function;
+  handleAnswersResult: Function;
 }
 
 export default class Index extends Component<IProps, any> {
@@ -24,6 +26,7 @@ export default class Index extends Component<IProps, any> {
       teams,
       CoMode,
       handleGuessDirectionResult,
+      handleAnswersResult,
     } = this.props;
     const {
       answer,
@@ -36,12 +39,20 @@ export default class Index extends Component<IProps, any> {
       words,
       selectWords,
       guessDirection,
+      otherAnswers,
       otherGuessDirection,
       updateScores,
+      combo,
     } = round;
 
     const guessDirectionResult = handleGuessDirectionResult(
       otherGuessDirection,
+      round,
+      teams
+    );
+
+    const answerDirectionResult = handleAnswersResult(
+      otherAnswers,
       round,
       teams
     );
@@ -57,18 +68,50 @@ export default class Index extends Component<IProps, any> {
         <View className="row">
           <View className="turnplate-container">
             <View
-              className="scores"
+              className={`scores ${CoMode ? 'co-scores' : ''}`}
               style={{
                 transform: `rotate(${target}deg)`,
               }}
             ></View>
             <View className="turnplate"></View>
+            {answerDirectionResult.map((item) => {
+              const { player, answer } = item;
+              return (
+                <View
+                  className="other-answers"
+                  style={{
+                    transform: `rotate(${answer}deg)`,
+                  }}
+                >
+                  <UserItem
+                    nonick
+                    data={{ id: player._id, ...player.userInfo }}
+                  ></UserItem>
+                  <View className="line"></View>
+                </View>
+              );
+            })}
             <View
               className="pointer"
               style={{
                 transform: `rotate(${answer}deg)`,
               }}
             ></View>
+            <View
+              className="other-answers"
+              style={{
+                transform: `rotate(${answer}deg)`,
+              }}
+            >
+              <UserItem
+                strong
+                nonick
+                data={{
+                  id: answermanUser._id,
+                  ...answermanUser.userInfo,
+                }}
+              ></UserItem>
+            </View>
           </View>
           <View className="row-col round-info">
             <View className="row">
@@ -78,7 +121,9 @@ export default class Index extends Component<IProps, any> {
               </View>
             </View>
             <View className="row">
-              <View className="question">{question}</View>
+              <View className="question">
+                <LongText text={question} />
+              </View>
               <UserItem
                 nonick
                 data={{
@@ -116,6 +161,11 @@ export default class Index extends Component<IProps, any> {
                 </Text>
               </View>
             )}
+            {combo && (
+              <View className="row score-box">
+                <Text className="text bonus">额外的回合！</Text>
+              </View>
+            )}
           </View>
         </View>
         {!CoMode && (
@@ -129,7 +179,7 @@ export default class Index extends Component<IProps, any> {
                   {guessDirection === 1 && (
                     <View className="border">
                       <UserItem
-                        strong={true}
+                        strong
                         nonick
                         data={{
                           id: guessmanUser._id,

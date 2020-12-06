@@ -1,0 +1,14 @@
+long-text {
+  width: 100%;
+}
+.container {
+  width: 100%;
+}
+.text {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

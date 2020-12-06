@@ -18,6 +18,7 @@ interface IProps {
   big: Boolean;
   userDetail: Object;
   strong: boolean;
+  showAchievement?: boolean;
 }
 
 export default class Index extends Component<IProps, any> {
@@ -28,6 +29,7 @@ export default class Index extends Component<IProps, any> {
     big: false,
     userDetail: {},
     strong: false,
+    showAchievement: false,
   };
 
   ifCurrentUser() {
@@ -41,10 +43,11 @@ export default class Index extends Component<IProps, any> {
   }
 
   showUserDetail() {
+    const { data, showAchievement } = this.props;
+    if (!showAchievement) return;
     this.setState({
       isOpened: true,
     });
-    const { data } = this.props;
     const { id } = data;
     request({
       method: 'GET',
@@ -117,7 +120,10 @@ export default class Index extends Component<IProps, any> {
           onClose={this.handleConfirm.bind(this)}
           onConfirm={this.handleConfirm.bind(this)}
         >
-          <AtModalHeader>{data.nickName}</AtModalHeader>
+          <AtModalHeader>
+            <Image className="useritem-avatar" src={data.avatarUrl} />
+            <Text className="block">{data.nickName}</Text>
+          </AtModalHeader>
           <AtModalContent>
             <View className="detail-row">
               <Text className="left win-rate">胜率</Text>

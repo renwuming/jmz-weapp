@@ -65,6 +65,10 @@
 .menu-btn {
   margin-bottom: 30px;
 }
+.error-btn {
+  background-color: #e6504b;
+  border: 1rpx #e6504b solid;
+}
 .invite-btn .at-fab {
   position: fixed;
   right: -4px;
@@ -101,7 +105,7 @@
 .invite-btn.gaming .at-fab {
   right: initial;
   left: -30px;
-  top: 400px;
+  top: 750px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 40px;
@@ -110,7 +114,7 @@
 .home-btn.gaming .at-fab {
   right: initial;
   left: -30px;
-  top: 500px;
+  top: 650px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 40px;
@@ -118,7 +122,7 @@
 }
 .history-btn .at-fab {
   right: -30px;
-  top: 400px;
+  top: 650px;
 }
 
 // 游戏状态
@@ -141,7 +145,7 @@
 }
 .team-list {
   display: flex;
-  width: 100%;
+  width: 750px;
   justify-content: space-between;
   .team-item {
     display: flex;
@@ -201,19 +205,30 @@
   align-items: center;
   font-family: yansong;
   font-size: 36px;
-  .result-box {
+  &.co-result-box {
+    display: flex;
+    flex-direction: column;
     font-size: 44px;
   }
   .success {
     color: #e35654;
   }
+  .m-r {
+    margin-right: 20px;
+  }
   text {
     color: #666;
-    margin-right: 20px;
   }
   .score {
     color: #eb6a4a;
     font-size: 40px;
+  }
+  .co-comment {
+    max-width: 500px;
+    font-size: 30px;
+    margin-top: 20px;
+    color: #996699;
+    text-align: center;
   }
 }
 
@@ -221,10 +236,9 @@
   position: relative;
   width: 600px;
   height: 600px;
-  margin-bottom: 10px;
-  overflow: hidden;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
   .scores {
     position: absolute;
     left: 5%;
@@ -260,6 +274,23 @@
     background-position: center center;
     background-repeat: no-repeat;
   }
+  .other-answers {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-item {
+      margin-top: -28px;
+    }
+    .line {
+      width: 4px;
+      height: 44%;
+      margin-top: -30px;
+      background-color: #996699;
+    }
+  }
 }
 .card {
   display: flex;
@@ -270,12 +301,20 @@
   margin-bottom: 20px;
   font-size: 30px;
   color: #fff;
+  .words-tip {
+    position: absolute;
+    width: 100px;
+    right: 100px;
+    .at-badge__num {
+      line-height: 2;
+    }
+  }
   &.back {
     .left {
-      background-color: #db9f25;
+      background-color: #e55f3f;
     }
     .right {
-      background-color: #e55f3f;
+      background-color: #db9f25;
     }
   }
   .left {
@@ -283,7 +322,7 @@
     flex: 1;
     justify-content: center;
     align-items: center;
-    background-color: #afdaac;
+    background-color: #99cc99;
   }
   .right {
     display: flex;
@@ -292,6 +331,14 @@
     align-items: center;
     background-color: #1e8177;
   }
+}
+.gaming-tip {
+  display: inline-block;
+  width: 500px;
+  text-align: center;
+  font-size: 24px;
+  color: #aaa;
+  margin-bottom: 20px;
 }
 .question-input {
   box-sizing: border-box;
@@ -322,6 +369,8 @@
   font-size: 30px;
   border-radius: 10px;
   margin-bottom: 40px;
+  box-sizing: border-box;
+  padding: 20px;
 }
 .slider-box {
   margin-bottom: 40px;
