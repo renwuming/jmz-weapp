@@ -50,15 +50,7 @@
     "miniprogram": {
       "list": [
         {
-          "id": 1,
-          "name": "pages/game/index",
-          "pathName": "pages/game/index",
-          "query": "id=5e9a72870ed16b01fcf54f86",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "关于",
+          "name": "更多",
           "pathName": "pages/about/index",
           "query": "",
           "scene": null
@@ -84,24 +76,10 @@
           "scene": null
         },
         {
-          "id": 7,
-          "name": "game2",
-          "pathName": "pages/game/index",
-          "query": "id=5e219993fc0c87c90e6412a5",
-          "scene": null
-        },
-        {
           "id": -1,
           "name": "在线组局",
           "pathName": "pages/onlineMatch/index",
           "query": "id=5e1fe931c00059c74b8b9a79",
-          "scene": null
-        },
-        {
-          "id": 8,
-          "name": "pages/teach/index",
-          "pathName": "pages/teach/index",
-          "query": "",
           "scene": null
         },
         {
@@ -119,33 +97,19 @@
           "scene": null
         },
         {
-          "id": -1,
-          "name": "排行榜",
-          "pathName": "pages/ranking/index",
-          "query": "id=5e738ffde35530d2e57c47f1",
-          "scene": null
-        },
-        {
-          "id": 11,
-          "name": "pages/room/index",
-          "pathName": "pages/room/index",
-          "query": "id=5f43aa9a4cb2070da9b0d549",
-          "scene": null
-        },
-        {
-          "name": "电波同步",
+          "name": "电波同步 - 游戏 - local",
           "pathName": "pages/WaveLength/game/index",
           "query": "id=74dc1a7d-c3eb-4b8d-b36f-75763b8281c3",
           "scene": null
         },
         {
-          "name": "波长首页",
+          "name": "电波同步 - 首页",
           "pathName": "pages/WaveLength/home/index",
           "query": "",
           "scene": null
         },
         {
-          "name": "电波同步 - prod",
+          "name": "电波同步 - 游戏 - prod",
           "pathName": "pages/WaveLength/game/index",
           "query": "id=6f3658b1-bc97-4170-8621-a9a0ed9e9a04",
           "scene": null

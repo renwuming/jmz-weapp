@@ -1,4 +1,4 @@
-export const version = 'v3.0.0';
+export const version = 'v3.0.1';
 import { ENV as env } from './index';
 
 const devIP = '10.221.96.144';

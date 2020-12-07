@@ -21,6 +21,7 @@ export default class Index extends Component<any, IState> {
   updateGameDataTimer;
   stopUpdateGameDataFlag: boolean = false;
   rotatingFlag: boolean = false;
+  updateGameDataFailCount: number = 0;
 
   config: Config = {
     navigationBarTitleText: '电波同步',
@@ -79,15 +80,20 @@ export default class Index extends Component<any, IState> {
     // 请求失败
     const { statusCode, message } = gameData;
     if (statusCode >= 400) {
-      Taro.showToast({
-        title: message,
-        icon: 'none',
-        duration: 2000,
-      });
+      this.updateGameDataFailCount++;
+      if (this.updateGameDataFailCount >= 3) {
+        this.stopUpdateGameDataFlag = true;
+        Taro.showToast({
+          title: message,
+          icon: 'none',
+          duration: 2000,
+        });
+      }
       return;
     }
 
     // 根据回合状态重置一些参数
+    this.updateGameDataFailCount = 0;
     const { start, round } = gameData;
     let resetState: any = {};
     if (start) {
@@ -525,6 +531,7 @@ export default class Index extends Component<any, IState> {
                       return (
                         <UserItem
                           nonick
+                          showAchievement
                           data={{ id: _id, ...userInfo }}
                         ></UserItem>
                       );
@@ -543,6 +550,7 @@ export default class Index extends Component<any, IState> {
                     <Text>{stageData.text}</Text>
                     <UserItem
                       nonick
+                      showAchievement
                       data={{
                         id: stageData.player._id,
                         ...stageData.player.userInfo,
@@ -642,6 +650,7 @@ export default class Index extends Component<any, IState> {
                       }}
                     >
                       <UserItem
+                        strong
                         nonick
                         data={{
                           id: answermanUser._id,
@@ -781,7 +790,9 @@ export default class Index extends Component<any, IState> {
               {status === 0 && role === 0 && (
                 <View>
                   <Text className="gaming-tip">
-                    根据表盘上4分的位置，描述卡片上的词语
+                    {CoMode
+                      ? '根据表盘上星星的位置，描述卡片上的词语'
+                      : '根据表盘上4分的位置，描述卡片上的词语'}
                   </Text>
                   <Input
                     className="question-input"
